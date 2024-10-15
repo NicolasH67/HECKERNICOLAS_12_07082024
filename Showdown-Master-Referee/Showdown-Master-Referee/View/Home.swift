@@ -17,6 +17,8 @@ struct Home: View {
                 
                 TextField("Player one name", text: .constant(""))
                     .background(.white)
+                    .padding()
+                    .textFieldStyle(.roundedBorder)
                 
                 Text("Player Two")
                 
@@ -35,6 +37,7 @@ struct Home: View {
                     Text("Custom").tag(5)
                 }
                 .pickerStyle(.segmented)
+                .padding()
             }
         }
     }
