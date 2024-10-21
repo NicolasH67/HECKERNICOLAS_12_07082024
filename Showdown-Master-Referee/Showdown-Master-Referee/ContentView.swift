@@ -19,7 +19,7 @@ struct ContentView: View {
         TabView(selection: $selection) {
             LocalHome()
                 .tabItem{
-                    Label("Local", systemImage: "House")
+                    Label("Local", systemImage: "house")
                 }
                 .tag(Tab.featured)
             NetworkHome()

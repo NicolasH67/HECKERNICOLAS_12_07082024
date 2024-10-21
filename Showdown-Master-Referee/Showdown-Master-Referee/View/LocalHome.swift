@@ -1,5 +1,5 @@
 //
-//  Home.swift
+//  LocalHome.swift
 //  Showdown-Master-Referee
 //
 //  Created by Nicolas Hecker on 11/10/2024.
@@ -10,6 +10,7 @@ import SwiftUI
 struct LocalHome: View {
     @State var playerOneName: String = ""
     @State var playerTwoName: String = ""
+    @State var bestOfSelectedPicker: Int = 0
     
     var body: some View {
         ZStack {
@@ -39,11 +40,10 @@ struct LocalHome: View {
                         .padding(.horizontal)
                 }
 
+                // Sélecteur "Best Of"
                 BestOf()
-
+                
                 Divider()
-
-                CounterView()
 
                 FirstServe()
 

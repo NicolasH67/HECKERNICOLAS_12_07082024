@@ -40,10 +40,8 @@ struct NetworkHome: View {
                 }
 
                 BestOf()
-
+                
                 Divider()
-
-                CounterView()
 
                 FirstServe()
 
