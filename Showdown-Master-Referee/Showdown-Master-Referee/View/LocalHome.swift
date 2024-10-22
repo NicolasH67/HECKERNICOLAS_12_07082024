@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct LocalHome: View {
+    
+    //ajouter le nom du joueurs a la place de player one ou two sur first serve
     @State var playerOneName: String = ""
     @State var playerTwoName: String = ""
     @State var bestOfSelectedPicker: Int = 0

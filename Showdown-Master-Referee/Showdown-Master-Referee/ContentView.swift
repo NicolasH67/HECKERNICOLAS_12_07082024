@@ -22,7 +22,7 @@ struct ContentView: View {
                     Label("Local", systemImage: "house")
                 }
                 .tag(Tab.featured)
-            NetworkHome()
+            NetworkConnexion()
                 .tabItem{
                     Label("Network", systemImage: "network")
                 }

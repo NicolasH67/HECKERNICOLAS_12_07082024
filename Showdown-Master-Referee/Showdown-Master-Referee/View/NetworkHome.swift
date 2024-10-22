@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct NetworkHome: View {
+    //Faire un modal avec un premier ecran que avec tournament id et match id et un bouton find et un mot de passe et un second avec les parametre du match
     @State var tournamentId: String = ""
     @State var matchId: String = ""
     var body: some View {
@@ -19,22 +20,22 @@ struct NetworkHome: View {
             VStack(alignment: .leading, spacing: 15) {
                 // Player One
                 Group {
-                    Text("Tournament ID")
+                    Text("Player One")
                         .font(.headline)
                         .padding(.leading)
                     
-                    TextField("Tournament ID", text: $tournamentId)
+                    TextField("Player one", text: $tournamentId)
                         .textFieldStyle(.roundedBorder)
                         .padding(.horizontal)
                 }
 
                 // Player Two
                 Group {
-                    Text("Match ID")
+                    Text("Player Two")
                         .font(.headline)
                         .padding(.leading)
 
-                    TextField("Match ID", text: $matchId)
+                    TextField("Player two", text: $matchId)
                         .textFieldStyle(.roundedBorder)
                         .padding(.horizontal)
                 }
