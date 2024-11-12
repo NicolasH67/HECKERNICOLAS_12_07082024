@@ -6,20 +6,20 @@
 
 import SwiftUI
 
-struct Match: View {
-    var playerOne: String = "Hecker Nicolas"
-    var playerTwo: String = "FAURE-MAYOL Fidan"
-    var bestOf: String = "Best of 5"
-    @State var numberOfServicePlayerOne: Int = 1
+struct MatchView: View {
+    var matchModel: MatchModel?
+    @State var numberOfServicePlayerOne: Int = 0
     @State var numberOfServicePlayerTwo: Int = 0
-    var totalService: Int = 2
     @State var pointsPlayerOne: Int = 0
     @State var pointsPlayerTwo: Int = 0
     @State var setWinPlayerOne: Int = 0
     @State var setWinPlayerTwo: Int = 0
     @State var isPlayerOneServe: Bool = true
-    var numberOfService: Int = 2
-    
+    @State private var showCountdownPopup = false
+    @State private var countdownTime = 60
+    @State private var countdownTimer: Timer?
+    @State private var matchIsOver: Bool = false
+    @State private var changeSide: Bool = false
     
     var body: some View {
         ZStack {
@@ -30,16 +30,16 @@ struct Match: View {
             VStack(spacing: 20) {
                 // Header with Player Names and Best Of
                 HStack {
-                    Text(playerOne)
+                    Text(matchModel?.playerOne ?? "Player One")
                         .font(.headline)
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity, alignment: .center)
                     
-                    Text(bestOf)
+                    Text(matchModel?.bestOf ?? "Best Of")
                         .font(.headline)
                         .foregroundColor(.gray)
                     
-                    Text(playerTwo)
+                    Text(matchModel?.playerTwo ?? "Player Two")
                         .font(.headline)
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -58,36 +58,50 @@ struct Match: View {
                 // Action Buttons and Services
                 HStack(spacing: 40) {
                     PlayerActionView(
-                        totalService: totalService,
+                        totalService: matchModel?.numberOfService ?? 0,
                         currentService: numberOfServicePlayerOne,
                         onGoal: {
-                            pointsPlayerOne += 2
+                            self.onGoal(isPlayerOneScored: true)
                         },
                         onFault: {
                             pointsPlayerTwo += 1
                         },
                         onServe: {
                             self.onServe(isPlayerOne: true)
-                        }
+                        },
+                        startCountdown: {
+                            self.stopCountdown()
+                        },
+                        initializeFirstServe: {
+                            self.initializeServiceCounts()
+                        },
+                        matchIsOver: matchIsOver
                     )
                     PlayerActionView(
-                        totalService: totalService,
+                        totalService: matchModel?.numberOfService ?? 0,
                         currentService: numberOfServicePlayerTwo,
                         onGoal: {
-                            pointsPlayerTwo += 2
+                            self.onGoal(isPlayerOneScored: false)
                         },
                         onFault: {
                             pointsPlayerOne += 1
                         },
                         onServe: {
                             self.onServe(isPlayerOne: false)
-                        }
+                        },
+                        startCountdown: {
+                            self.stopCountdown()
+                        },
+                        initializeFirstServe: {
+                            self.initializeServiceCounts()
+                        },
+                        matchIsOver: matchIsOver
                     )
                 }
                 
                 // Chrono and Set Management
                 VStack(spacing: 10) {
-                    Button(action: {}) {
+                    Button(action: startCountdown) {
                         Text("Start Chrono")
                             .fontWeight(.bold)
                             .frame(maxWidth: .infinity)
@@ -96,7 +110,7 @@ struct Match: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
-                    Button(action: {}) {
+                    Button(action: startCountdown) {
                         Text("End of Set")
                             .fontWeight(.bold)
                             .frame(maxWidth: .infinity)
@@ -115,14 +129,53 @@ struct Match: View {
                     }
                 }
                 .padding(.horizontal, 30)
-            } // VStack main content
+            }
             .padding()
+        }
+        .sheet(isPresented: $showCountdownPopup, onDismiss: stopCountdown) {
+            CountdownPopup(countdownTime: $countdownTime, onDismiss: stopCountdown)
+        }
+        .onAppear() {
+            initializeServiceCounts()
+        }
+    }
+    
+    func onGoal(isPlayerOneScored: Bool) {
+        print(matchModel)
+        if isPlayerOneScored {
+            pointsPlayerOne += 2
+            if pointsPlayerOne >= matchModel?.numberOfPoints ?? 11 {
+                if pointsPlayerOne - pointsPlayerTwo >= 2 {
+                    setWinPlayerOne += 1
+                    if setWinPlayerOne == (Int((Double(matchModel?.numberOfSet ?? 3) / 2) + 0.5)) {
+                        print("match is over")
+                    } else {
+                        startCountdown()
+                        pointsPlayerOne = 0
+                        pointsPlayerTwo = 0
+                    }
+                }
+            }
+        } else {
+            pointsPlayerTwo += 2
+            if pointsPlayerTwo >= matchModel?.numberOfPoints ?? 11 {
+                if pointsPlayerTwo - pointsPlayerOne >= 2 {
+                    setWinPlayerTwo += 1
+                    if setWinPlayerTwo == (Int((Double(matchModel?.numberOfSet ?? 3) / 2) + 0.5)) {
+                        print("match is over")
+                    } else {
+                        startCountdown()
+                        pointsPlayerOne = 0
+                        pointsPlayerTwo = 0
+                    }
+                }
+            }
         }
     }
 
     func onServe(isPlayerOne: Bool) {
         if isPlayerOneServe {
-            if numberOfServicePlayerOne < numberOfService {
+            if numberOfServicePlayerOne < matchModel?.numberOfService ?? 0 {
                 numberOfServicePlayerOne += 1
             } else {
                 numberOfServicePlayerOne = 0
@@ -130,12 +183,44 @@ struct Match: View {
                 isPlayerOneServe = false
             }
         } else {
-            if numberOfServicePlayerTwo < numberOfService {
+            if numberOfServicePlayerTwo < matchModel?.numberOfService ?? 0 {
                 numberOfServicePlayerTwo += 1
             } else {
                 numberOfServicePlayerTwo = 0
                 numberOfServicePlayerOne = 1
                 isPlayerOneServe = true
+            }
+        }
+    }
+    
+    func startCountdown() {
+        countdownTime = 60
+        showCountdownPopup = true
+        startCountdownTimer()
+    }
+        
+    func stopCountdown() {
+        countdownTimer?.invalidate()
+        countdownTimer = nil
+        showCountdownPopup = false
+    }
+    
+    func initializeServiceCounts() {
+        if let matchModel = matchModel, matchModel.playerOneFirstServe {
+            numberOfServicePlayerOne = 0
+            numberOfServicePlayerTwo = 1
+        } else {
+            numberOfServicePlayerOne = 0
+            numberOfServicePlayerTwo = 1
+        }
+    }
+    
+    func startCountdownTimer() {
+        countdownTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            if countdownTime > 0 {
+                countdownTime -= 1
+            } else {
+                stopCountdown()
             }
         }
     }
@@ -170,7 +255,10 @@ struct PlayerActionView: View {
     var onGoal: () -> Void
     var onFault: () -> Void
     var onServe: () -> Void
+    var startCountdown: () -> Void
+    var initializeFirstServe : () -> Void
     @State var timeOutButtonIsDisabled: Bool = false
+    @State var matchIsOver: Bool
     
     var body: some View {
         VStack(spacing: 10) {
@@ -186,6 +274,7 @@ struct PlayerActionView: View {
                 }
                 
                 Button(action: {
+                    startCountdown()
                     timeOutButtonIsDisabled = true
                 }) {
                     Text("TO")
@@ -209,6 +298,9 @@ struct PlayerActionView: View {
                         .frame(width: 30, height: 30)
                 }
             }
+            .onAppear(
+                perform: initializeFirstServe
+            )
             
             // Boutons Goal et Fault
             Button(action: {
@@ -223,6 +315,7 @@ struct PlayerActionView: View {
                     .cornerRadius(10)
                     .frame(maxWidth: .infinity)
             }
+            .disabled(matchIsOver)
             
             Button(action: {
                 onFault()
@@ -236,11 +329,47 @@ struct PlayerActionView: View {
                     .cornerRadius(10)
                     .frame(maxWidth: .infinity)
             }
+            .disabled(matchIsOver)
         }
         .frame(maxWidth: .infinity)
     }
 }
 
+struct CountdownPopup: View {
+    @Binding var countdownTime: Int
+    var onDismiss: () -> Void
+    
+    var body: some View {
+        ZStack {
+            Color.black.opacity(0.5).ignoresSafeArea()
+            
+            VStack {
+                Text("Countdown")
+                    .font(.title)
+                    .foregroundColor(.white)
+                    .padding(.bottom, 10)
+                
+                Text("\(countdownTime)")
+                    .font(.system(size: 48))
+                    .foregroundColor(.white)
+                    .padding()
+                
+                Button(action: onDismiss) {
+                    Text("Dismiss")
+                        .frame(minWidth: 100, minHeight: 40)
+                        .background(Color.red)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                        .padding(.top, 10)
+                }
+            }
+            .frame(width: 200, height: 200)
+            .background(Color.black.opacity(0.8))
+            .cornerRadius(20)
+        }
+    }
+}
+
 #Preview {
-    Match()
+    MatchView()
 }
