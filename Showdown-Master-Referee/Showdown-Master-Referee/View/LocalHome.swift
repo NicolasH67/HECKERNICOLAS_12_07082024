@@ -61,7 +61,7 @@ struct LocalHome: View {
                     FirstServe()
 
                     // Start Game Button
-                    NavigationLink(destination: Match()) {
+                    NavigationLink(destination: MatchView()) {
                         ZStack {
                             Color.blue.opacity(0.8)
                             Label("Start Game", systemImage: "play.circle")
