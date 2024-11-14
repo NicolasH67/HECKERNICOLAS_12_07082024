@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NetworkConnexion: View {
+struct NetworkConnexionView: View {
     @State var tournamentId: String = ""
     @State var matchId: String = ""
     @State var password: String = ""
@@ -89,5 +89,5 @@ struct NetworkConnexion: View {
 }
 
 #Preview {
-    NetworkConnexion()
+    NetworkConnexionView()
 }

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NetworkHome: View {
+struct NetworkHomeView: View {
     //Faire un modal avec un premier ecran que avec tournament id et match id et un bouton find et un mot de passe et un second avec les parametre du match
     @State var tournamentId: String = ""
     @State var matchId: String = ""
@@ -40,11 +40,11 @@ struct NetworkHome: View {
                         .padding(.horizontal)
                 }
 
-                BestOf()
+                //BestOf()
                 
                 Divider()
 
-                FirstServe()
+                //FirstServe()
 
                 // Start Game Button
                 Button(action: {
@@ -67,5 +67,5 @@ struct NetworkHome: View {
 }
 
 #Preview {
-    NetworkHome()
+    NetworkHomeView()
 }

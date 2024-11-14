@@ -7,8 +7,7 @@
 
 import SwiftUI
 
-struct LocalHome: View {
-    
+struct LocalHomeView: View {
     @State var playerOneName: String = ""
     @State var playerTwoName: String = ""
     @State var bestOfSelectedPicker: Int = 0
@@ -16,6 +15,9 @@ struct LocalHome: View {
     @State var pointsPerSet: Int = 11
     @State var numberOfService: Int = 2
     @State var changeSide: Bool = true
+    @State private var matchModel: MatchModel?
+    @State private var isMatchModelReady = false
+    @State var firstServeSelectedPicker: Int = 0
     let bestOfOptions = ["Best of 1", "Best of 3", "Best of 5", "Team", "Custom"]
 
     var body: some View {
@@ -47,21 +49,38 @@ struct LocalHome: View {
                             .padding(.horizontal)
                     }
 
-                    // Sélecteur "Best Of"
-                    BestOf(
-                        bestOfSelectedPicker: bestOfSelectedPicker,
-                        numberOfSetInt: numberOfSet,
-                        pointsPerSetInt: pointsPerSet,
-                        numberOfServiceInt: numberOfService,
-                        changeSide: changeSide
+                    BestOfView(
+                        bestOfSelectedPicker: $bestOfSelectedPicker,
+                        numberOfSetInt: $numberOfSet,
+                        pointsPerSetInt: $pointsPerSet,
+                        numberOfServiceInt: $numberOfService,
+                        changeSide: $changeSide
                     )
                     
                     Divider()
+                    
+                    FirstServeView(firstServeSelectedPicker: $firstServeSelectedPicker)
 
-                    FirstServe()
-
-                    // Start Game Button
-                    NavigationLink(destination: MatchView()) {
+                    Button(action: {
+                        var playerOneServeChoice: Bool = false
+                        if firstServeSelectedPicker == 0 {
+                            playerOneServeChoice = true
+                        } else {
+                            playerOneServeChoice = false
+                        }
+                        
+                        matchModel = MatchModel(
+                            playerOne: playerOneName,
+                            playerTwo: playerTwoName,
+                            numberOfService: numberOfService,
+                            numberOfPoints: pointsPerSet,
+                            numberOfSet: numberOfSet,
+                            bestOf: bestOfOptions[bestOfSelectedPicker],
+                            playerOneFirstServe: playerOneServeChoice,
+                            changeSide: changeSide
+                        )
+                        isMatchModelReady = true
+                    }) {
                         ZStack {
                             Color.blue.opacity(0.8)
                             Label("Start Game", systemImage: "play.circle")
@@ -73,6 +92,9 @@ struct LocalHome: View {
                         .padding(.horizontal)
                     }
                     .padding(.top)
+                    .navigationDestination(isPresented: $isMatchModelReady) {
+                        MatchView(matchModel: matchModel)
+                    }
                 }
             }
         }
@@ -80,5 +102,5 @@ struct LocalHome: View {
 }
 
 #Preview {
-    LocalHome(playerOneName: "Nicolas", playerTwoName: "Fidan", bestOfSelectedPicker: 2, numberOfSet: 3, pointsPerSet: 11, numberOfService: 2, changeSide: true)
+    LocalHomeView(playerOneName: "Nicolas", playerTwoName: "Fidan", bestOfSelectedPicker: 2, numberOfSet: 3, pointsPerSet: 11, numberOfService: 2, changeSide: true)
 }

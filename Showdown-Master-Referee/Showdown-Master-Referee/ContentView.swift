@@ -17,12 +17,12 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $selection) {
-            LocalHome()
+            LocalHomeView()
                 .tabItem{
                     Label("Local", systemImage: "house")
                 }
                 .tag(Tab.featured)
-            NetworkConnexion()
+            NetworkConnexionView()
                 .tabItem{
                     Label("Network", systemImage: "network")
                 }

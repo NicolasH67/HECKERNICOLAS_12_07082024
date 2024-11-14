@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct FirstServe: View {
+struct FirstServeView: View {
     let pickerFirstServeLabels: [String] = ["Player One", "Player Two"]
-    @State var firstServeSelectedPicker: Int = 0
+    @Binding var firstServeSelectedPicker: Int
     var body: some View {
         Text("First Serve")
             .font(.headline)
@@ -26,5 +26,5 @@ struct FirstServe: View {
 }
 
 #Preview {
-    FirstServe()
+    FirstServeView(firstServeSelectedPicker: .constant(0))
 }

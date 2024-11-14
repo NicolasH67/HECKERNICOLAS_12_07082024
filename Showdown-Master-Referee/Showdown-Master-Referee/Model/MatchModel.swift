@@ -8,7 +8,6 @@
 import Foundation
 
 struct MatchModel: Codable {
-    let id: Int
     let playerOne: String
     let playerTwo: String
     let numberOfService: Int
@@ -16,5 +15,5 @@ struct MatchModel: Codable {
     let numberOfSet: Int
     let bestOf: String
     let playerOneFirstServe: Bool
-    
+    let changeSide: Bool
 }

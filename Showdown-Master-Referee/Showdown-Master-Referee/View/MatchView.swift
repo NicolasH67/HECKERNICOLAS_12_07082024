@@ -1,4 +1,4 @@
-//  Match.swift
+//  MatchView.swift
 //  Showdown-Master-Referee
 //
 //  Created by Nicolas Hecker on 21/10/2024.
@@ -8,13 +8,13 @@ import SwiftUI
 
 struct MatchView: View {
     var matchModel: MatchModel?
-    @State var numberOfServicePlayerOne: Int = 0
-    @State var numberOfServicePlayerTwo: Int = 0
-    @State var pointsPlayerOne: Int = 0
-    @State var pointsPlayerTwo: Int = 0
-    @State var setWinPlayerOne: Int = 0
-    @State var setWinPlayerTwo: Int = 0
-    @State var isPlayerOneServe: Bool = true
+    @State private var numberOfServicePlayerOne: Int = 0
+    @State private var numberOfServicePlayerTwo: Int = 0
+    @State private var pointsPlayerOne: Int = 0
+    @State private var pointsPlayerTwo: Int = 0
+    @State private var setWinPlayerOne: Int = 0
+    @State private var setWinPlayerTwo: Int = 0
+    @State private var isPlayerOneServe: Bool = true
     @State private var showCountdownPopup = false
     @State private var countdownTime = 60
     @State private var countdownTimer: Timer?
@@ -28,7 +28,6 @@ struct MatchView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 20) {
-                // Header with Player Names and Best Of
                 HStack {
                     Text(matchModel?.playerOne ?? "Player One")
                         .font(.headline)
@@ -73,6 +72,7 @@ struct MatchView: View {
                             self.stopCountdown()
                         },
                         initializeFirstServe: {
+                            print(matchModel)
                             self.initializeServiceCounts()
                         },
                         matchIsOver: matchIsOver
@@ -141,7 +141,6 @@ struct MatchView: View {
     }
     
     func onGoal(isPlayerOneScored: Bool) {
-        print(matchModel)
         if isPlayerOneScored {
             pointsPlayerOne += 2
             if pointsPlayerOne >= matchModel?.numberOfPoints ?? 11 {
@@ -206,10 +205,13 @@ struct MatchView: View {
     }
     
     func initializeServiceCounts() {
-        if let matchModel = matchModel, matchModel.playerOneFirstServe {
-            numberOfServicePlayerOne = 0
-            numberOfServicePlayerTwo = 1
+        guard let matchModel = matchModel else { return }
+        if matchModel.playerOneFirstServe {
+            print("player one")
+            numberOfServicePlayerOne = 1
+            numberOfServicePlayerTwo = 0
         } else {
+            print("player two")
             numberOfServicePlayerOne = 0
             numberOfServicePlayerTwo = 1
         }
@@ -298,9 +300,9 @@ struct PlayerActionView: View {
                         .frame(width: 30, height: 30)
                 }
             }
-            .onAppear(
-                perform: initializeFirstServe
-            )
+            .task {
+                await initializeFirstServe()
+            }
             
             // Boutons Goal et Fault
             Button(action: {
