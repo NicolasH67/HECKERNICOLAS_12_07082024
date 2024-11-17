@@ -6,8 +6,15 @@
 
 import SwiftUI
 
+enum MatchAction {
+    case goal(playerOne: Bool)
+    case fault(playerOne: Bool)
+    case serviceSwitch
+}
+
 struct MatchView: View {
     var matchModel: MatchModel?
+    @State private var actionHistory: [MatchAction] = []
     @State private var numberOfServicePlayerOne: Int = 0
     @State private var numberOfServicePlayerTwo: Int = 0
     @State private var pointsPlayerOne: Int = 0
@@ -119,7 +126,10 @@ struct MatchView: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
-                    Button(action: {}) {
+                    Button(action: {
+                        undoLastAction()
+                        undoLastAction()
+                    }) {
                         Text("Back")
                             .frame(maxWidth: .infinity)
                             .padding()
@@ -127,6 +137,7 @@ struct MatchView: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
+
                 }
                 .padding(.horizontal, 30)
             }
@@ -142,6 +153,8 @@ struct MatchView: View {
     
     func onGoal(isPlayerOneScored: Bool) {
         if matchIsOver { return }
+        
+        actionHistory.append(.goal(playerOne: isPlayerOneScored))
         
         if isPlayerOneScored {
             pointsPlayerOne += 2
@@ -186,6 +199,8 @@ struct MatchView: View {
     
     func onFault(isPlayerOneFault: Bool) {
         if matchIsOver { return }
+        
+        actionHistory.append(.fault(playerOne: isPlayerOneFault))
 
         if isPlayerOneFault {
             pointsPlayerTwo += 1
@@ -221,9 +236,11 @@ struct MatchView: View {
         }
     }
 
-
-
     func onServe() {
+        if matchIsOver { return }
+        
+        actionHistory.append(.serviceSwitch)
+        
         if numberOfServicePlayerOne > 0 {
             if numberOfServicePlayerOne == matchModel?.numberOfService ?? 2 {
                 numberOfServicePlayerOne = 0
@@ -259,6 +276,31 @@ struct MatchView: View {
         pointsPlayerTwo = 0
         
         startCountdown()
+    }
+    
+    func undoLastAction() {
+        guard let lastAction = actionHistory.popLast() else { return } // Récupérer la dernière action
+
+        switch lastAction {
+        case .goal(let playerOne):
+            if playerOne {
+                pointsPlayerOne = max(0, pointsPlayerOne - 2) // Retirer les points sans aller en dessous de 0
+            } else {
+                pointsPlayerTwo = max(0, pointsPlayerTwo - 2)
+            }
+        case .fault(let playerOne):
+            if playerOne {
+                pointsPlayerTwo = max(0, pointsPlayerTwo - 1) // Retirer un point au joueur adverse
+            } else {
+                pointsPlayerOne = max(0, pointsPlayerOne - 1)
+            }
+        case .serviceSwitch:
+            if numberOfServicePlayerOne > 0 {
+                numberOfServicePlayerOne -= 1
+            } else if numberOfServicePlayerTwo > 0 {
+                numberOfServicePlayerTwo -= 1
+            }
+        }
     }
     
     func startCountdown() {
