@@ -23,7 +23,7 @@ struct MatchView: View {
     
     var body: some View {
         ZStack {
-            Color(.red)
+            Color(.systemRed)
                 .opacity(0.3)
                 .ignoresSafeArea()
 
@@ -45,7 +45,6 @@ struct MatchView: View {
                 }
                 .padding(.horizontal)
                 
-                // Score display
                 HStack(spacing: 40) {
                     ScoreBox(title: "Points", value: pointsPlayerOne)
                     ScoreBox(title: "Sets", value: setWinPlayerOne)
@@ -54,25 +53,25 @@ struct MatchView: View {
                     ScoreBox(title: "Points", value: pointsPlayerTwo)
                 }
                 
-                // Action Buttons and Services
                 HStack(spacing: 40) {
                     PlayerActionView(
                         totalService: matchModel?.numberOfService ?? 0,
                         currentService: numberOfServicePlayerOne,
                         onGoal: {
                             self.onGoal(isPlayerOneScored: true)
+                            print(numberOfServicePlayerOne)
+                            print(numberOfServicePlayerTwo)
                         },
                         onFault: {
-                            pointsPlayerTwo += 1
+                            self.onFault(isPlayerOneFault: true)
                         },
                         onServe: {
-                            self.onServe(isPlayerOne: true)
+                            self.onServe()
                         },
                         startCountdown: {
                             self.stopCountdown()
                         },
                         initializeFirstServe: {
-                            print(matchModel)
                             self.initializeServiceCounts()
                         },
                         matchIsOver: matchIsOver
@@ -81,13 +80,15 @@ struct MatchView: View {
                         totalService: matchModel?.numberOfService ?? 0,
                         currentService: numberOfServicePlayerTwo,
                         onGoal: {
+                            print(numberOfServicePlayerOne)
+                            print(numberOfServicePlayerTwo)
                             self.onGoal(isPlayerOneScored: false)
                         },
                         onFault: {
-                            pointsPlayerOne += 1
+                            self.onFault(isPlayerOneFault: false)
                         },
                         onServe: {
-                            self.onServe(isPlayerOne: false)
+                            self.onServe()
                         },
                         startCountdown: {
                             self.stopCountdown()
@@ -99,7 +100,6 @@ struct MatchView: View {
                     )
                 }
                 
-                // Chrono and Set Management
                 VStack(spacing: 10) {
                     Button(action: startCountdown) {
                         Text("Start Chrono")
@@ -141,55 +141,124 @@ struct MatchView: View {
     }
     
     func onGoal(isPlayerOneScored: Bool) {
+        if matchIsOver { return }
+        
         if isPlayerOneScored {
             pointsPlayerOne += 2
-            if pointsPlayerOne >= matchModel?.numberOfPoints ?? 11 {
-                if pointsPlayerOne - pointsPlayerTwo >= 2 {
-                    setWinPlayerOne += 1
-                    if setWinPlayerOne == (Int((Double(matchModel?.numberOfSet ?? 3) / 2) + 0.5)) {
-                        print("match is over")
-                    } else {
-                        startCountdown()
-                        pointsPlayerOne = 0
-                        pointsPlayerTwo = 0
-                    }
-                }
-            }
         } else {
             pointsPlayerTwo += 2
-            if pointsPlayerTwo >= matchModel?.numberOfPoints ?? 11 {
-                if pointsPlayerTwo - pointsPlayerOne >= 2 {
-                    setWinPlayerTwo += 1
-                    if setWinPlayerTwo == (Int((Double(matchModel?.numberOfSet ?? 3) / 2) + 0.5)) {
-                        print("match is over")
-                    } else {
-                        startCountdown()
-                        pointsPlayerOne = 0
-                        pointsPlayerTwo = 0
-                    }
-                }
+        }
+        
+        let maxPoints = matchModel?.numberOfPoints ?? 11
+        let pointsDifference = abs(pointsPlayerOne - pointsPlayerTwo)
+        let isLastSet = (setWinPlayerOne + setWinPlayerTwo + 1) == (matchModel?.numberOfSet ?? 3)
+        let requiredSetsToWin = (matchModel?.numberOfSet ?? 3) / 2 + 1
+        
+        if (pointsPlayerOne >= maxPoints || pointsPlayerTwo >= maxPoints) && pointsDifference >= 2 {
+            if pointsPlayerOne > pointsPlayerTwo {
+                setWinPlayerOne += 1
+            } else {
+                setWinPlayerTwo += 1
+            }
+            
+            if setWinPlayerOne == requiredSetsToWin || setWinPlayerTwo == requiredSetsToWin {
+                matchIsOver = true
+                return
+            } else {
+                resetSet()
+            }
+        }
+        
+        if isLastSet {
+            let totalPoints: Int
+            
+            if isPlayerOneScored {
+                totalPoints = pointsPlayerOne
+            } else {
+                totalPoints = pointsPlayerTwo
+            }
+            
+            if totalPoints % (maxPoints / 2) == 0 {
+                changeSide.toggle()
+            }
+        }
+    }
+    
+    func onFault(isPlayerOneFault: Bool) {
+        if matchIsOver { return }
+
+        if isPlayerOneFault {
+            pointsPlayerTwo += 1
+        } else {
+            pointsPlayerOne += 1
+        }
+
+        let maxPoints = matchModel?.numberOfPoints ?? 11
+        let pointsDifference = abs(pointsPlayerOne - pointsPlayerTwo)
+        let isLastSet = (setWinPlayerOne + setWinPlayerTwo + 1) == (matchModel?.numberOfSet ?? 3)
+        let requiredSetsToWin = (matchModel?.numberOfSet ?? 3) / 2 + 1
+
+        if (pointsPlayerOne >= maxPoints || pointsPlayerTwo >= maxPoints) && pointsDifference >= 2 {
+            if pointsPlayerOne > pointsPlayerTwo {
+                setWinPlayerOne += 1
+            } else {
+                setWinPlayerTwo += 1
+            }
+
+            if setWinPlayerOne == requiredSetsToWin || setWinPlayerTwo == requiredSetsToWin {
+                matchIsOver = true
+                return
+            } else {
+                resetSet()
+            }
+        }
+        if isLastSet {
+            let totalPoints = pointsPlayerOne + pointsPlayerTwo
+            
+            if totalPoints % (maxPoints / 2) == 0 {
+                changeSide.toggle()
             }
         }
     }
 
-    func onServe(isPlayerOne: Bool) {
-        if isPlayerOneServe {
-            if numberOfServicePlayerOne < matchModel?.numberOfService ?? 0 {
-                numberOfServicePlayerOne += 1
-            } else {
+
+
+    func onServe() {
+        if numberOfServicePlayerOne > 0 {
+            if numberOfServicePlayerOne == matchModel?.numberOfService ?? 2 {
                 numberOfServicePlayerOne = 0
-                numberOfServicePlayerTwo = 1
-                isPlayerOneServe = false
-            }
-        } else {
-            if numberOfServicePlayerTwo < matchModel?.numberOfService ?? 0 {
                 numberOfServicePlayerTwo += 1
             } else {
+                numberOfServicePlayerOne += 1
+            }
+        } else if numberOfServicePlayerTwo > 0 {
+            if numberOfServicePlayerTwo == matchModel?.numberOfService ?? 2 {
+                numberOfServicePlayerOne += 1
                 numberOfServicePlayerTwo = 0
-                numberOfServicePlayerOne = 1
-                isPlayerOneServe = true
+            } else {
+                numberOfServicePlayerTwo += 1
             }
         }
+    }
+    
+    func initializeServiceCounts() {
+        isPlayerOneServe = matchModel?.playerOneFirstServe ?? true
+        numberOfServicePlayerOne = matchModel?.playerOneFirstServe ?? true ? 1 : 0
+        numberOfServicePlayerTwo = matchModel?.playerOneFirstServe ?? true ? 0 : 1
+    }
+    
+    func resetSet() {
+        print(isPlayerOneServe)
+        isPlayerOneServe.toggle()
+        print(isPlayerOneServe)
+        
+        numberOfServicePlayerOne = isPlayerOneServe ? 1 : 0
+        numberOfServicePlayerTwo = isPlayerOneServe ? 0 : 1
+        
+        pointsPlayerOne = 0
+        pointsPlayerTwo = 0
+        
+        startCountdown()
     }
     
     func startCountdown() {
@@ -202,19 +271,6 @@ struct MatchView: View {
         countdownTimer?.invalidate()
         countdownTimer = nil
         showCountdownPopup = false
-    }
-    
-    func initializeServiceCounts() {
-        guard let matchModel = matchModel else { return }
-        if matchModel.playerOneFirstServe {
-            print("player one")
-            numberOfServicePlayerOne = 1
-            numberOfServicePlayerTwo = 0
-        } else {
-            print("player two")
-            numberOfServicePlayerOne = 0
-            numberOfServicePlayerTwo = 1
-        }
     }
     
     func startCountdownTimer() {
@@ -264,7 +320,6 @@ struct PlayerActionView: View {
     
     var body: some View {
         VStack(spacing: 10) {
-            // Boutons P/W et TO
             HStack(spacing: 2) {
                 Button(action: {}) {
                     Text("P/W")
@@ -301,13 +356,12 @@ struct PlayerActionView: View {
                 }
             }
             .task {
-                await initializeFirstServe()
+                initializeFirstServe()
             }
             
-            // Boutons Goal et Fault
             Button(action: {
-                onGoal()
                 onServe()
+                onGoal()
             }) {
                 Text("Goal")
                     .frame(minWidth: 100, minHeight: 50)
@@ -320,8 +374,8 @@ struct PlayerActionView: View {
             .disabled(matchIsOver)
             
             Button(action: {
-                onFault()
                 onServe()
+                onFault()
             }) {
                 Text("Fault")
                     .frame(minWidth: 100, minHeight: 50)
