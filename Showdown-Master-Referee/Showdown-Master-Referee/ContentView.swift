@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var matchGestion = MatchGestion()
     @State private var selection: Tab = .featured
     
     enum Tab {
@@ -22,11 +23,13 @@ struct ContentView: View {
                     Label("Local", systemImage: "house")
                 }
                 .tag(Tab.featured)
+                .environmentObject(matchGestion)
             NetworkConnexionView()
                 .tabItem{
                     Label("Network", systemImage: "network")
                 }
                 .tag(Tab.list)
+                .environmentObject(matchGestion)
         }
     }
 }

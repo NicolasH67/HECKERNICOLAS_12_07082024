@@ -43,14 +43,14 @@ struct BestOfView: View {
                         .padding(.leading)
                     Toggle("", isOn: $changeSide)
                         .labelsHidden()
-                        .disabled(bestOfSelectedPicker != 4) // Désactiver si pas en "Custom"
+                        .disabled(bestOfSelectedPicker != 4)
                 }
                 .padding(.horizontal)
             }
             .onAppear {
                 updateDefaults(for: bestOfSelectedPicker)
             }
-            .onChange(of: bestOfSelectedPicker) { newValue in
+            .onChange(of: bestOfSelectedPicker) { _,newValue in
                 updateDefaults(for: newValue)
             }
         }

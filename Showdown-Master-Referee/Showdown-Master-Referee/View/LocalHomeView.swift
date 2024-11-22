@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LocalHomeView: View {
+    @EnvironmentObject var matchGestion: MatchGestion
     @State var playerOneName: String = ""
     @State var playerTwoName: String = ""
     @State var bestOfSelectedPicker: Int = 0
@@ -69,7 +70,7 @@ struct LocalHomeView: View {
                             playerOneServeChoice = false
                         }
                         
-                        matchModel = MatchModel(
+                        matchGestion.matchModel = MatchModel(
                             playerOne: playerOneName,
                             playerTwo: playerTwoName,
                             numberOfService: numberOfService,
@@ -93,7 +94,7 @@ struct LocalHomeView: View {
                     }
                     .padding(.top)
                     .navigationDestination(isPresented: $isMatchModelReady) {
-                        MatchView(matchModel: matchModel)
+                        MatchView()
                     }
                 }
             }

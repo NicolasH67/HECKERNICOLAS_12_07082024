@@ -6,27 +6,8 @@
 
 import SwiftUI
 
-enum MatchAction {
-    case goal(playerOne: Bool)
-    case fault(playerOne: Bool)
-    case serviceSwitch
-}
-
 struct MatchView: View {
-    var matchModel: MatchModel?
-    @State private var actionHistory: [MatchAction] = []
-    @State private var numberOfServicePlayerOne: Int = 0
-    @State private var numberOfServicePlayerTwo: Int = 0
-    @State private var pointsPlayerOne: Int = 0
-    @State private var pointsPlayerTwo: Int = 0
-    @State private var setWinPlayerOne: Int = 0
-    @State private var setWinPlayerTwo: Int = 0
-    @State private var isPlayerOneServe: Bool = true
-    @State private var showCountdownPopup = false
-    @State private var countdownTime = 60
-    @State private var countdownTimer: Timer?
-    @State private var matchIsOver: Bool = false
-    @State private var changeSide: Bool = false
+    @EnvironmentObject var matchGestion: MatchGestion
     
     var body: some View {
         ZStack {
@@ -35,80 +16,96 @@ struct MatchView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 20) {
+                // Header avec les noms des joueurs
                 HStack {
-                    Text(matchModel?.playerOne ?? "Player One")
+                    Text(matchGestion.matchModel?.playerOne ?? "Player One")
                         .font(.headline)
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity, alignment: .center)
                     
-                    Text(matchModel?.bestOf ?? "Best Of")
+                    Text(matchGestion.matchModel?.bestOf ?? "Best Of")
                         .font(.headline)
                         .foregroundColor(.gray)
                     
-                    Text(matchModel?.playerTwo ?? "Player Two")
+                    Text(matchGestion.matchModel?.playerTwo ?? "Player Two")
                         .font(.headline)
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
                 .padding(.horizontal)
                 
+                // Scores
                 HStack(spacing: 40) {
-                    ScoreBox(title: "Points", value: pointsPlayerOne)
-                    ScoreBox(title: "Sets", value: setWinPlayerOne)
+                    ScoreBoxView(title: "Points", value: matchGestion.pointsPlayerOne)
+                        .animation(.easeInOut(duration: 0.2), value: matchGestion.pointsPlayerOne)
+                    ScoreBoxView(title: "Sets", value: matchGestion.setWinPlayerOne)
+                        .animation(.easeInOut(duration: 0.2), value: matchGestion.setWinPlayerOne)
                     Spacer()
-                    ScoreBox(title: "Sets", value: setWinPlayerTwo)
-                    ScoreBox(title: "Points", value: pointsPlayerTwo)
+                    ScoreBoxView(title: "Sets", value: matchGestion.setWinPlayerTwo)
+                        .animation(.easeInOut(duration: 0.2), value: matchGestion.setWinPlayerTwo)
+                    ScoreBoxView(title: "Points", value: matchGestion.pointsPlayerTwo)
+                        .animation(.easeInOut(duration: 0.2), value: matchGestion.pointsPlayerTwo)
                 }
                 
+                // Actions des joueurs
                 HStack(spacing: 40) {
                     PlayerActionView(
-                        totalService: matchModel?.numberOfService ?? 0,
-                        currentService: numberOfServicePlayerOne,
+                        totalService: matchGestion.matchModel?.numberOfService ?? 0,
+                        currentService: matchGestion.numberOfServicePlayerOne,
                         onGoal: {
-                            self.onGoal(isPlayerOneScored: true)
-                            print(numberOfServicePlayerOne)
-                            print(numberOfServicePlayerTwo)
+                            matchGestion.onGoal(isPlayerOneScored: true)
                         },
                         onFault: {
-                            self.onFault(isPlayerOneFault: true)
+                            matchGestion.onFault(isPlayerOneFault: true)
                         },
                         onServe: {
-                            self.onServe()
+                            matchGestion.onServe()
                         },
                         startCountdown: {
-                            self.stopCountdown()
+                            matchGestion.stopCountdown()
                         },
                         initializeFirstServe: {
-                            self.initializeServiceCounts()
+                            matchGestion.initializeServiceCounts()
                         },
-                        matchIsOver: matchIsOver
+                        matchIsOver: matchGestion.matchIsOver
                     )
                     PlayerActionView(
-                        totalService: matchModel?.numberOfService ?? 0,
-                        currentService: numberOfServicePlayerTwo,
+                        totalService: matchGestion.matchModel?.numberOfService ?? 0,
+                        currentService: matchGestion.numberOfServicePlayerTwo,
                         onGoal: {
-                            print(numberOfServicePlayerOne)
-                            print(numberOfServicePlayerTwo)
-                            self.onGoal(isPlayerOneScored: false)
+                            matchGestion.onGoal(isPlayerOneScored: false)
                         },
                         onFault: {
-                            self.onFault(isPlayerOneFault: false)
+                            matchGestion.onFault(isPlayerOneFault: false)
                         },
                         onServe: {
-                            self.onServe()
+                            matchGestion.onServe()
                         },
                         startCountdown: {
-                            self.stopCountdown()
+                            matchGestion.stopCountdown()
                         },
                         initializeFirstServe: {
-                            self.initializeServiceCounts()
+                            matchGestion.initializeServiceCounts()
                         },
-                        matchIsOver: matchIsOver
+                        matchIsOver: matchGestion.matchIsOver
                     )
                 }
                 
+                // Boutons d'action
                 VStack(spacing: 10) {
-                    Button(action: startCountdown) {
+                    Button(action: {
+                        matchGestion.undoLastAction()
+                        matchGestion.undoLastAction()
+                    }) {
+                        Text("Cancel last")
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.red)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    Button(action: matchGestion.startCountdown) {
                         Text("Start Chrono")
                             .fontWeight(.bold)
                             .frame(maxWidth: .infinity)
@@ -117,23 +114,12 @@ struct MatchView: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
-                    Button(action: startCountdown) {
+                    Button(action: matchGestion.resetSet) {
                         Text("End of Set")
                             .fontWeight(.bold)
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(Color.orange)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    Button(action: {
-                        undoLastAction()
-                        undoLastAction()
-                    }) {
-                        Text("Back")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.red)
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
@@ -143,327 +129,11 @@ struct MatchView: View {
             }
             .padding()
         }
-        .sheet(isPresented: $showCountdownPopup, onDismiss: stopCountdown) {
-            CountdownPopup(countdownTime: $countdownTime, onDismiss: stopCountdown)
+        .sheet(isPresented: $matchGestion.showCountdownPopup, onDismiss: matchGestion.stopCountdown) {
+            CountdownPopup(countdownTime: $matchGestion.countdownTime, onDismiss: matchGestion.stopCountdown)
         }
-        .onAppear() {
-            initializeServiceCounts()
-        }
-    }
-    
-    func onGoal(isPlayerOneScored: Bool) {
-        if matchIsOver { return }
-        
-        actionHistory.append(.goal(playerOne: isPlayerOneScored))
-        
-        if isPlayerOneScored {
-            pointsPlayerOne += 2
-        } else {
-            pointsPlayerTwo += 2
-        }
-        
-        let maxPoints = matchModel?.numberOfPoints ?? 11
-        let pointsDifference = abs(pointsPlayerOne - pointsPlayerTwo)
-        let isLastSet = (setWinPlayerOne + setWinPlayerTwo + 1) == (matchModel?.numberOfSet ?? 3)
-        let requiredSetsToWin = (matchModel?.numberOfSet ?? 3) / 2 + 1
-        
-        if (pointsPlayerOne >= maxPoints || pointsPlayerTwo >= maxPoints) && pointsDifference >= 2 {
-            if pointsPlayerOne > pointsPlayerTwo {
-                setWinPlayerOne += 1
-            } else {
-                setWinPlayerTwo += 1
-            }
-            
-            if setWinPlayerOne == requiredSetsToWin || setWinPlayerTwo == requiredSetsToWin {
-                matchIsOver = true
-                return
-            } else {
-                resetSet()
-            }
-        }
-        
-        if isLastSet {
-            let totalPoints: Int
-            
-            if isPlayerOneScored {
-                totalPoints = pointsPlayerOne
-            } else {
-                totalPoints = pointsPlayerTwo
-            }
-            
-            if totalPoints % (maxPoints / 2) == 0 {
-                changeSide.toggle()
-            }
-        }
-    }
-    
-    func onFault(isPlayerOneFault: Bool) {
-        if matchIsOver { return }
-        
-        actionHistory.append(.fault(playerOne: isPlayerOneFault))
-
-        if isPlayerOneFault {
-            pointsPlayerTwo += 1
-        } else {
-            pointsPlayerOne += 1
-        }
-
-        let maxPoints = matchModel?.numberOfPoints ?? 11
-        let pointsDifference = abs(pointsPlayerOne - pointsPlayerTwo)
-        let isLastSet = (setWinPlayerOne + setWinPlayerTwo + 1) == (matchModel?.numberOfSet ?? 3)
-        let requiredSetsToWin = (matchModel?.numberOfSet ?? 3) / 2 + 1
-
-        if (pointsPlayerOne >= maxPoints || pointsPlayerTwo >= maxPoints) && pointsDifference >= 2 {
-            if pointsPlayerOne > pointsPlayerTwo {
-                setWinPlayerOne += 1
-            } else {
-                setWinPlayerTwo += 1
-            }
-
-            if setWinPlayerOne == requiredSetsToWin || setWinPlayerTwo == requiredSetsToWin {
-                matchIsOver = true
-                return
-            } else {
-                resetSet()
-            }
-        }
-        if isLastSet {
-            let totalPoints = pointsPlayerOne + pointsPlayerTwo
-            
-            if totalPoints % (maxPoints / 2) == 0 {
-                changeSide.toggle()
-            }
-        }
-    }
-
-    func onServe() {
-        if matchIsOver { return }
-        
-        actionHistory.append(.serviceSwitch)
-        
-        if numberOfServicePlayerOne > 0 {
-            if numberOfServicePlayerOne == matchModel?.numberOfService ?? 2 {
-                numberOfServicePlayerOne = 0
-                numberOfServicePlayerTwo += 1
-            } else {
-                numberOfServicePlayerOne += 1
-            }
-        } else if numberOfServicePlayerTwo > 0 {
-            if numberOfServicePlayerTwo == matchModel?.numberOfService ?? 2 {
-                numberOfServicePlayerOne += 1
-                numberOfServicePlayerTwo = 0
-            } else {
-                numberOfServicePlayerTwo += 1
-            }
-        }
-    }
-    
-    func initializeServiceCounts() {
-        isPlayerOneServe = matchModel?.playerOneFirstServe ?? true
-        numberOfServicePlayerOne = matchModel?.playerOneFirstServe ?? true ? 1 : 0
-        numberOfServicePlayerTwo = matchModel?.playerOneFirstServe ?? true ? 0 : 1
-    }
-    
-    func resetSet() {
-        print(isPlayerOneServe)
-        isPlayerOneServe.toggle()
-        print(isPlayerOneServe)
-        
-        numberOfServicePlayerOne = isPlayerOneServe ? 1 : 0
-        numberOfServicePlayerTwo = isPlayerOneServe ? 0 : 1
-        
-        pointsPlayerOne = 0
-        pointsPlayerTwo = 0
-        
-        startCountdown()
-    }
-    
-    func undoLastAction() {
-        guard let lastAction = actionHistory.popLast() else { return } // Récupérer la dernière action
-
-        switch lastAction {
-        case .goal(let playerOne):
-            if playerOne {
-                pointsPlayerOne = max(0, pointsPlayerOne - 2) // Retirer les points sans aller en dessous de 0
-            } else {
-                pointsPlayerTwo = max(0, pointsPlayerTwo - 2)
-            }
-        case .fault(let playerOne):
-            if playerOne {
-                pointsPlayerTwo = max(0, pointsPlayerTwo - 1) // Retirer un point au joueur adverse
-            } else {
-                pointsPlayerOne = max(0, pointsPlayerOne - 1)
-            }
-        case .serviceSwitch:
-            if numberOfServicePlayerOne > 0 {
-                numberOfServicePlayerOne -= 1
-            } else if numberOfServicePlayerTwo > 0 {
-                numberOfServicePlayerTwo -= 1
-            }
-        }
-    }
-    
-    func startCountdown() {
-        countdownTime = 60
-        showCountdownPopup = true
-        startCountdownTimer()
-    }
-        
-    func stopCountdown() {
-        countdownTimer?.invalidate()
-        countdownTimer = nil
-        showCountdownPopup = false
-    }
-    
-    func startCountdownTimer() {
-        countdownTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-            if countdownTime > 0 {
-                countdownTime -= 1
-            } else {
-                stopCountdown()
-            }
-        }
-    }
-}
-
-struct ScoreBox: View {
-    var title: String
-    var value: Int
-    
-    var body: some View {
-        VStack {
-            Text(title)
-                .font(.caption)
-                .foregroundColor(.gray)
-            
-            Text("\(value)")
-                .font(.system(size: 20))
-                .fontWeight(.bold)
-                .frame(width: 60, height: 60)
-                .background(Color.white)
-                .cornerRadius(10)
-                .shadow(radius: 5)
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
-        }
-    }
-}
-
-struct PlayerActionView: View {
-    var totalService: Int
-    var currentService: Int
-    var onGoal: () -> Void
-    var onFault: () -> Void
-    var onServe: () -> Void
-    var startCountdown: () -> Void
-    var initializeFirstServe : () -> Void
-    @State var timeOutButtonIsDisabled: Bool = false
-    @State var matchIsOver: Bool
-    
-    var body: some View {
-        VStack(spacing: 10) {
-            HStack(spacing: 2) {
-                Button(action: {}) {
-                    Text("P/W")
-                        .frame(minWidth: 40, minHeight: 40)
-                        .padding()
-                        .background(Color.gray)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-                
-                Button(action: {
-                    startCountdown()
-                    timeOutButtonIsDisabled = true
-                }) {
-                    Text("TO")
-                        .frame(minWidth: 40, minHeight: 40)
-                        .padding()
-                        .background(timeOutButtonIsDisabled ? Color.red : Color.gray)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-            }
-            
-            Text("Service")
-                .font(.caption)
-                .foregroundColor(.gray)
-            
-            HStack(spacing: 10) {
-                ForEach(0..<totalService, id: \.self) { index in
-                    Circle()
-                        .strokeBorder(Color.gray, lineWidth: 2)
-                        .background(Circle().fill(index < currentService ? Color.blue : Color.clear))
-                        .frame(width: 30, height: 30)
-                }
-            }
-            .task {
-                initializeFirstServe()
-            }
-            
-            Button(action: {
-                onServe()
-                onGoal()
-            }) {
-                Text("Goal")
-                    .frame(minWidth: 100, minHeight: 50)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .frame(maxWidth: .infinity)
-            }
-            .disabled(matchIsOver)
-            
-            Button(action: {
-                onServe()
-                onFault()
-            }) {
-                Text("Fault")
-                    .frame(minWidth: 100, minHeight: 50)
-                    .padding()
-                    .background(Color.red)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .frame(maxWidth: .infinity)
-            }
-            .disabled(matchIsOver)
-        }
-        .frame(maxWidth: .infinity)
-    }
-}
-
-struct CountdownPopup: View {
-    @Binding var countdownTime: Int
-    var onDismiss: () -> Void
-    
-    var body: some View {
-        ZStack {
-            Color.black.opacity(0.5).ignoresSafeArea()
-            
-            VStack {
-                Text("Countdown")
-                    .font(.title)
-                    .foregroundColor(.white)
-                    .padding(.bottom, 10)
-                
-                Text("\(countdownTime)")
-                    .font(.system(size: 48))
-                    .foregroundColor(.white)
-                    .padding()
-                
-                Button(action: onDismiss) {
-                    Text("Dismiss")
-                        .frame(minWidth: 100, minHeight: 40)
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                        .padding(.top, 10)
-                }
-            }
-            .frame(width: 200, height: 200)
-            .background(Color.black.opacity(0.8))
-            .cornerRadius(20)
+        .onAppear {
+            matchGestion.initializeServiceCounts()
         }
     }
 }

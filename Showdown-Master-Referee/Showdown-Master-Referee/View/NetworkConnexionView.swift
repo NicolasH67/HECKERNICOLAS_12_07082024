@@ -18,7 +18,6 @@ struct NetworkConnexionView: View {
                 .ignoresSafeArea()
 
             VStack(alignment: .leading, spacing: 15) {
-                // Player One
                 Group {
                     Text("Tournament ID")
                         .font(.headline)
@@ -29,7 +28,6 @@ struct NetworkConnexionView: View {
                         .padding(.horizontal)
                 }
                 
-                // Player Two
                 Group {
                     Text("Match ID")
                         .font(.headline)
