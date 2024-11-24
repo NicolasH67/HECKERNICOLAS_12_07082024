@@ -8,84 +8,118 @@
 import SwiftUI
 
 struct NetworkConnexionView: View {
-    @State var tournamentId: String = ""
-    @State var matchId: String = ""
-    @State var password: String = ""
+    @State private var tournamentId: String = ""
+    @State private var matchId: String = ""
+    @State private var password: String = ""
+    @State private var showAlert: Bool = false
+    @State private var alertMessage: String = ""
+    @State private var navigateToGame: Bool = false
+    @State private var playerOne: String = ""
+    @State private var playerTwo: String = ""
+    @State private var showPassword: Bool = false
+    
     var body: some View {
-        
-        ZStack {
-            Color.red.opacity(0.3)
-                .ignoresSafeArea()
-
-            VStack(alignment: .leading, spacing: 15) {
-                Group {
-                    Text("Tournament ID")
-                        .font(.headline)
-                        .padding(.leading)
-                    
-                    TextField("Tournament ID", text: $tournamentId)
-                        .textFieldStyle(.roundedBorder)
-                        .padding(.horizontal)
-                }
+        NavigationView {
+            ZStack {
+                Color.red.opacity(0.3)
+                    .ignoresSafeArea()
                 
-                Group {
-                    Text("Match ID")
-                        .font(.headline)
-                        .padding(.leading)
-                    
-                    TextField("Match ID", text: $matchId)
-                        .textFieldStyle(.roundedBorder)
-                        .padding(.horizontal)
-                }
-                
-                Group {
-                    Text("Password")
-                        .font(.headline)
-                        .padding(.leading)
-                    
-                    TextField("Password", text: $password)
-                        .textFieldStyle(.roundedBorder)
-                        .padding(.horizontal)
-                }
-                
-                Divider()
-                
-//                Button(action: {
-//                    print("")
-//                }) {
-//                    ZStack {
-//                        Color.blue.opacity(0.8)
-//                        Label("Start Game", systemImage: "play.circle")
-//                            .font(.title)
-//                            .foregroundColor(.white)
-//                            .padding()
-//                    }
-//                    .cornerRadius(10)
-//                    .padding(.horizontal)
-//                }
-//                .padding(.top)
-                
-                Button(action: {
-                    
-                }) {
-                    ZStack {
-                        Color.blue.opacity(0.8)
-                        Label("Connect", systemImage: "play.circle")
-                            .font(.title)
-                            .foregroundColor(.white)
-                            .padding()
+                VStack(alignment: .leading, spacing: 15) {
+                    Group {
+                        Text("Tournament ID")
+                            .font(.headline)
+                            .padding(.leading)
+                        
+                        TextField("Tournament ID", text: $tournamentId)
+                            .textFieldStyle(.roundedBorder)
+                            .padding(.horizontal)
                     }
-                    .cornerRadius(10)
-                    .padding(.top)
+                    
+                    Group {
+                        Text("Match ID")
+                            .font(.headline)
+                            .padding(.leading)
+                        
+                        TextField("Match ID", text: $matchId)
+                            .textFieldStyle(.roundedBorder)
+                            .padding(.horizontal)
+                    }
+                    
+                    Group {
+                        Text("Password")
+                            .font(.headline)
+                            .padding(.leading)
+                        
+                        HStack {
+                            if showPassword {
+                                TextField("Password", text: $password)
+                                    .textFieldStyle(.roundedBorder)
+                            } else {
+                                SecureField("Password", text: $password)
+                                    .textFieldStyle(.roundedBorder)
+                            }
+                            
+                            Button(action: {
+                                showPassword.toggle()
+                            }) {
+                                Image(systemName: showPassword ? "eye.slash" : "eye")
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                    
+                    Divider()
+                    
+                    Button(action: fetchMatch) {
+                        ZStack {
+                            Color.blue.opacity(0.8)
+                            Label("Connect", systemImage: "play.circle")
+                                .font(.title)
+                                .foregroundColor(.white)
+                                .padding()
+                        }
+                        .cornerRadius(10)
+                        .padding(.top)
+                    }
+                    .frame(maxHeight: 100)
+                    .padding(.horizontal)
                 }
-                .frame(maxHeight: 100)
-                .padding(.leading)
-                .padding(.trailing)
+                .alert(isPresented: $showAlert) {
+                    Alert(title: Text("Message"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+                }
+                
+                NavigationLink(
+                    destination: NetworkHomeView(tournamentId: playerOne, matchId: playerTwo),
+                    isActive: $navigateToGame
+                ) {
+                    EmptyView()
+                }
             }
         }
     }
-}
-
-#Preview {
-    NetworkConnexionView()
+    
+    private func fetchMatch() {
+        NetworkManager.shared.fetchMatch(
+            tournamentId: tournamentId,
+            matchId: matchId,
+            refereePassword: password
+        ) { match, error in
+            if let error = error {
+                alertMessage = error
+                showAlert = true
+            } else if let match = match {
+                if let result = match.result, !result.isEmpty {
+                    // Si un résultat existe, afficher une alerte avec le résultat
+                    alertMessage = "Ce match a déjà un résultat : \(result)"
+                    showAlert = true
+                } else {
+                    // Si le résultat est vide, préparer les données des joueurs pour la navigation
+                    playerOne = match.player_one
+                    playerTwo = match.player_two
+                    navigateToGame = true
+                }
+            }
+        }
+    }
 }

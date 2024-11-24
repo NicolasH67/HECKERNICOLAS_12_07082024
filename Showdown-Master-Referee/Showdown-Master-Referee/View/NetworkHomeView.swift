@@ -8,45 +8,39 @@
 import SwiftUI
 
 struct NetworkHomeView: View {
-    //Faire un modal avec un premier ecran que avec tournament id et match id et un bouton find et un mot de passe et un second avec les parametre du match
-    @State var tournamentId: String = ""
-    @State var matchId: String = ""
+    var tournamentId: String
+    var matchId: String
+    
     var body: some View {
-        
         ZStack {
             Color.red.opacity(0.3)
                 .ignoresSafeArea()
 
             VStack(alignment: .leading, spacing: 15) {
-                // Player One
                 Group {
                     Text("Player One")
                         .font(.headline)
                         .padding(.leading)
                     
-                    TextField("Player one", text: $tournamentId)
+                    Text(tournamentId)
                         .textFieldStyle(.roundedBorder)
                         .padding(.horizontal)
+                        .disabled(true)
                 }
 
-                // Player Two
                 Group {
                     Text("Player Two")
                         .font(.headline)
                         .padding(.leading)
 
-                    TextField("Player two", text: $matchId)
+                    Text(matchId)
                         .textFieldStyle(.roundedBorder)
                         .padding(.horizontal)
+                        .disabled(true)
                 }
-
-                //BestOf()
                 
                 Divider()
 
-                //FirstServe()
-
-                // Start Game Button
                 Button(action: {
                     print("\(tournamentId) vs \(matchId)")
                 }) {
@@ -64,8 +58,4 @@ struct NetworkHomeView: View {
             }
         }
     }
-}
-
-#Preview {
-    NetworkHomeView()
 }

@@ -11,6 +11,8 @@ struct LocalHomeView: View {
     @EnvironmentObject var matchGestion: MatchGestion
     @State var playerOneName: String = ""
     @State var playerTwoName: String = ""
+    @State var coachPlayerOneName: String = ""
+    @State var coachPlayerTwoName: String = ""
     @State var bestOfSelectedPicker: Int = 0
     @State var numberOfSet: Int = 1
     @State var pointsPerSet: Int = 11
@@ -27,27 +29,29 @@ struct LocalHomeView: View {
                 Color.red.opacity(0.3)
                     .ignoresSafeArea()
 
-                VStack(alignment: .leading, spacing: 15) {
-                    // Player One
-                    Group {
-                        Text("Player One")
-                            .font(.headline)
-                            .padding(.leading)
+                VStack(alignment: .leading, spacing: 5) {
+                    HStack {
+                        Group {
+                            Text("Player One :")
+                                .font(.headline)
+                                .padding(.leading)
 
-                        TextField("Player one name", text: $playerOneName)
-                            .textFieldStyle(.roundedBorder)
-                            .padding(.horizontal)
+                            TextField("Player one name", text: $playerOneName)
+                                .textFieldStyle(.roundedBorder)
+                                .padding(.horizontal)
+                        }
                     }
 
-                    // Player Two
-                    Group {
-                        Text("Player Two")
-                            .font(.headline)
-                            .padding(.leading)
+                    HStack {
+                        Group {
+                            Text("Player Two :")
+                                .font(.headline)
+                                .padding(.leading)
 
-                        TextField("Player two name", text: $playerTwoName)
-                            .textFieldStyle(.roundedBorder)
-                            .padding(.horizontal)
+                            TextField("Player two name", text: $playerTwoName)
+                                .textFieldStyle(.roundedBorder)
+                                .padding(.horizontal)
+                        }
                     }
 
                     BestOfView(
