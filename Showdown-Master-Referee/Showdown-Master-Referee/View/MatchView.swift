@@ -74,40 +74,42 @@ struct MatchView: View {
                         matchIsOver: matchGestion.matchIsOver
                     )
                 }
-
-                VStack(spacing: 10) {
-                    Button(action: {
-                        matchGestion.undoLastAction()
-                        matchGestion.undoLastAction()
-                    }) {
-                        Text("Cancel last")
-                            .fontWeight(.bold)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.red)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
+                
+                ScrollView {
+                    VStack(spacing: 10) {
+                        Button(action: {
+                            matchGestion.undoLastAction()
+                            matchGestion.undoLastAction()
+                        }) {
+                            Text("Cancel last")
+                                .fontWeight(.bold)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.red)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        Button(action: matchGestion.startCountdown) {
+                            Text("Start Chrono")
+                                .fontWeight(.bold)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.green)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        Button(action: matchGestion.resetSet) {
+                            Text("End of Set")
+                                .fontWeight(.bold)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.orange)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
                     }
-                    Button(action: matchGestion.startCountdown) {
-                        Text("Start Chrono")
-                            .fontWeight(.bold)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.green)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    Button(action: matchGestion.resetSet) {
-                        Text("End of Set")
-                            .fontWeight(.bold)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.orange)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
+                    .padding(.horizontal, 30)
                 }
-                .padding(.horizontal, 30)
             }
             .padding()
         }
