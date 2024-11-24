@@ -199,4 +199,15 @@ class MatchGestion: ObservableObject {
             }
         }
     }
+    
+    func resetMatchData() {
+        matchModel = nil
+        pointsPlayerOne = 0
+        pointsPlayerTwo = 0
+        setWinPlayerOne = 0
+        setWinPlayerTwo = 0
+        numberOfServicePlayerOne = 0
+        numberOfServicePlayerTwo = 0
+        matchIsOver = false
+    }
 }

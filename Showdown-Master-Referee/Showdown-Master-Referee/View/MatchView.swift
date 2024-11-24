@@ -125,6 +125,9 @@ struct MatchView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .onDisappear {
+            matchGestion.resetMatchData() // Méthode pour remettre les données à zéro
+        }
         .onAppear {
             matchGestion.initializeServiceCounts()
         }
