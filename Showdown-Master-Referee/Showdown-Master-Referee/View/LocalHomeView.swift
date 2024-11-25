@@ -30,25 +30,47 @@ struct LocalHomeView: View {
                     .ignoresSafeArea()
 
                 VStack(alignment: .leading, spacing: 5) {
-                    HStack {
-                        Group {
+                    VStack {
+                        HStack {
                             Text("Player One :")
                                 .font(.headline)
                                 .padding(.leading)
-
+                                
                             TextField("Player one name", text: $playerOneName)
+                                .textFieldStyle(.roundedBorder)
+                                .padding(.horizontal)
+                        }
+                            
+                        HStack {
+                            Spacer(minLength: 40)
+                            Text("Coach :")
+                                .font(.headline)
+                                .padding(.leading)
+
+                            TextField("Coach name", text: $coachPlayerOneName)
                                 .textFieldStyle(.roundedBorder)
                                 .padding(.horizontal)
                         }
                     }
 
-                    HStack {
-                        Group {
+                    VStack {
+                        HStack {
                             Text("Player Two :")
                                 .font(.headline)
                                 .padding(.leading)
-
+                            
                             TextField("Player two name", text: $playerTwoName)
+                                .textFieldStyle(.roundedBorder)
+                                .padding(.horizontal)
+                        }
+                            
+                        HStack {
+                            Spacer(minLength: 40)
+                            Text("Coach :")
+                                .font(.headline)
+                                .padding(.leading)
+                            
+                            TextField("Coach name", text: $coachPlayerTwoName)
                                 .textFieldStyle(.roundedBorder)
                                 .padding(.horizontal)
                         }
@@ -77,6 +99,8 @@ struct LocalHomeView: View {
                         matchGestion.matchModel = MatchModel(
                             playerOne: playerOneName,
                             playerTwo: playerTwoName,
+                            coachPlayerOne: coachPlayerOneName,
+                            coachPlayerTwo: coachPlayerTwoName,
                             numberOfService: numberOfService,
                             numberOfPoints: pointsPerSet,
                             numberOfSet: numberOfSet,

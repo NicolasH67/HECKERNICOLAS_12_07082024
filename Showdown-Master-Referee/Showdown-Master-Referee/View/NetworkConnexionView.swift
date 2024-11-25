@@ -84,16 +84,12 @@ struct NetworkConnexionView: View {
                     }
                     .frame(maxHeight: 100)
                     .padding(.horizontal)
+                    .navigationDestination(isPresented: $navigateToGame) {
+                        NetworkHomeView(tournamentId: tournamentId, matchId: matchId)
+                    }
                 }
                 .alert(isPresented: $showAlert) {
                     Alert(title: Text("Message"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
-                }
-                
-                NavigationLink(
-                    destination: NetworkHomeView(tournamentId: playerOne, matchId: playerTwo),
-                    isActive: $navigateToGame
-                ) {
-                    EmptyView()
                 }
             }
         }

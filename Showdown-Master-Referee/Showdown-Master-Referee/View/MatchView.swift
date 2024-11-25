@@ -9,6 +9,9 @@ struct MatchView: View {
     @EnvironmentObject var matchGestion: MatchGestion
     @Environment(\.presentationMode) var presentationMode
     @State private var showAlert = false
+    @State private var coachShowAlert = false
+    @State private var playerNameToShow: String = ""
+    @State private var coachNameToShow: String = ""
 
     var body: some View {
         ZStack {
@@ -25,6 +28,11 @@ struct MatchView: View {
                         .multilineTextAlignment(.center)
                         .lineLimit(nil)
                         .fixedSize(horizontal: false, vertical: true)
+                        .onTapGesture {
+                            playerNameToShow = matchGestion.matchModel?.playerOne ?? "Player One"
+                            coachNameToShow = matchGestion.matchModel?.coachPlayerOne ?? ""
+                            coachShowAlert = true
+                        }
 
                     Text(matchGestion.matchModel?.bestOf ?? "Best Of")
                         .font(.headline)
@@ -37,6 +45,11 @@ struct MatchView: View {
                         .multilineTextAlignment(.center)
                         .lineLimit(nil)
                         .fixedSize(horizontal: false, vertical: true)
+                        .onTapGesture {
+                            playerNameToShow = matchGestion.matchModel?.playerTwo ?? "Player Two"
+                            coachNameToShow = matchGestion.matchModel?.coachPlayerTwo ?? ""
+                            coachShowAlert = true
+                        }
                 }
                 .padding(.horizontal)
 
@@ -139,16 +152,23 @@ struct MatchView: View {
         .onAppear {
             matchGestion.initializeServiceCounts()
         }
+        .alert("Coach \(playerNameToShow)", isPresented: $coachShowAlert) {
+            Button("Ok", role: .cancel) {
+                coachShowAlert = false
+            }
+        } message: {
+            Text("\(coachNameToShow)")
+        }
         .alert("Match in Progress", isPresented: $showAlert) {
-                    Button("Quit", role: .destructive) {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                    Button("Cancel", role: .cancel) {
-                        showAlert = false
-                    }
-                } message: {
-                    Text("Are you sure you want to leave? The match is not over yet.")
-                }
+            Button("Quit", role: .destructive) {
+                presentationMode.wrappedValue.dismiss()
+            }
+            Button("Cancel", role: .cancel) {
+                showAlert = false
+            }
+        } message: {
+            Text("Are you sure you want to leave? The match is not over yet.")
+        }
     }
 }
 
