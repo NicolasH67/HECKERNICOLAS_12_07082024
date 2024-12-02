@@ -9,127 +9,133 @@ import SwiftUI
 
 struct LocalHomeView: View {
     @EnvironmentObject var matchGestion: MatchGestion
-    @State var playerOneName: String = ""
-    @State var playerTwoName: String = ""
-    @State var coachPlayerOneName: String = ""
-    @State var coachPlayerTwoName: String = ""
-    @State var bestOfSelectedPicker: Int = 0
-    @State var numberOfSet: Int = 1
-    @State var pointsPerSet: Int = 11
-    @State var numberOfService: Int = 2
-    @State var changeSide: Bool = true
-    @State private var matchModel: MatchModel?
+    @State private var playerOneName = ""
+    @State private var playerTwoName = ""
+    @State private var coachPlayerOneName = ""
+    @State private var coachPlayerTwoName = ""
+    @State private var bestOfSelectedPicker = 0
+    @State private var numberOfSet = 1
+    @State private var pointsPerSet = 11
+    @State private var numberOfService = 2
+    @State private var changeSide = true
+    @State private var firstServeSelectedPicker = 0
     @State private var isMatchModelReady = false
-    @State var firstServeSelectedPicker: Int = 0
-    let bestOfOptions = ["Best of 1", "Best of 3", "Best of 5", "Team", "Custom"]
+
+    private let bestOfOptions = ["Best of 1", "Best of 3", "Best of 5", "Team", "Custom"]
 
     var body: some View {
         NavigationStack {
             ZStack {
-                Color.red.opacity(0.3)
+                Color(.red)
+                    .opacity(0.3)
                     .ignoresSafeArea()
+                
+                
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 20) {
+                        SectionHeader(title: "Players and Coaches")
 
-                VStack(alignment: .leading, spacing: 5) {
-                    VStack {
-                        HStack {
-                            Text("Player One :")
-                                .font(.headline)
-                                .padding(.leading)
-                                
-                            TextField("Player one name", text: $playerOneName)
-                                .textFieldStyle(.roundedBorder)
-                                .padding(.horizontal)
-                        }
-                            
-                        HStack {
-                            Spacer(minLength: 40)
-                            Text("Coach :")
-                                .font(.headline)
-                                .padding(.leading)
+                        PlayerEntryView(playerTitle: "Player One", name: $playerOneName, coachName: $coachPlayerOneName)
+                        PlayerEntryView(playerTitle: "Player Two", name: $playerTwoName, coachName: $coachPlayerTwoName)
 
-                            TextField("Coach name", text: $coachPlayerOneName)
-                                .textFieldStyle(.roundedBorder)
-                                .padding(.horizontal)
-                        }
-                    }
+                        SectionHeader(title: "Match Settings")
 
-                    VStack {
-                        HStack {
-                            Text("Player Two :")
-                                .font(.headline)
-                                .padding(.leading)
-                            
-                            TextField("Player two name", text: $playerTwoName)
-                                .textFieldStyle(.roundedBorder)
-                                .padding(.horizontal)
-                        }
-                            
-                        HStack {
-                            Spacer(minLength: 40)
-                            Text("Coach :")
-                                .font(.headline)
-                                .padding(.leading)
-                            
-                            TextField("Coach name", text: $coachPlayerTwoName)
-                                .textFieldStyle(.roundedBorder)
-                                .padding(.horizontal)
-                        }
-                    }
-
-                    BestOfView(
-                        bestOfSelectedPicker: $bestOfSelectedPicker,
-                        numberOfSetInt: $numberOfSet,
-                        pointsPerSetInt: $pointsPerSet,
-                        numberOfServiceInt: $numberOfService,
-                        changeSide: $changeSide
-                    )
-                    
-                    Divider()
-                    
-                    FirstServeView(firstServeSelectedPicker: $firstServeSelectedPicker)
-
-                    Button(action: {
-                        var playerOneServeChoice: Bool = false
-                        if firstServeSelectedPicker == 0 {
-                            playerOneServeChoice = true
-                        } else {
-                            playerOneServeChoice = false
-                        }
-                        
-                        matchGestion.matchModel = MatchModel(
-                            playerOne: playerOneName,
-                            playerTwo: playerTwoName,
-                            coachPlayerOne: coachPlayerOneName,
-                            coachPlayerTwo: coachPlayerTwoName,
-                            numberOfService: numberOfService,
-                            numberOfPoints: pointsPerSet,
-                            numberOfSet: numberOfSet,
-                            bestOf: bestOfOptions[bestOfSelectedPicker],
-                            playerOneFirstServe: playerOneServeChoice,
-                            changeSide: changeSide
+                        BestOfView(
+                            bestOfSelectedPicker: $bestOfSelectedPicker,
+                            numberOfSetInt: $numberOfSet,
+                            pointsPerSetInt: $pointsPerSet,
+                            numberOfServiceInt: $numberOfService,
+                            changeSide: $changeSide
                         )
-                        isMatchModelReady = true
-                    }) {
-                        ZStack {
-                            Color.blue.opacity(0.8)
-                            Label("Start Game", systemImage: "play.circle")
-                                .font(.title)
-                                .foregroundColor(.white)
-                                .padding()
+
+                        FirstServeView(firstServeSelectedPicker: $firstServeSelectedPicker)
+
+                        StartGameButton {
+                            startMatch()
                         }
-                        .cornerRadius(10)
-                        .padding(.horizontal)
                     }
-                    .padding(.top)
-                    .navigationDestination(isPresented: $isMatchModelReady) {
-                        MatchView()
-                    }
+                    .padding()
                 }
             }
+            .navigationTitle("Setup Match")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(isPresented: $isMatchModelReady) {
+                MatchView()
+            }
+        }
+    }
+
+    private func startMatch() {
+        let playerOneServeChoice = (firstServeSelectedPicker == 0)
+
+        matchGestion.matchModel = MatchModel(
+            playerOne: playerOneName,
+            playerTwo: playerTwoName,
+            coachPlayerOne: coachPlayerOneName,
+            coachPlayerTwo: coachPlayerTwoName,
+            numberOfService: numberOfService,
+            numberOfPoints: pointsPerSet,
+            numberOfSet: numberOfSet,
+            bestOf: bestOfOptions[bestOfSelectedPicker],
+            playerOneFirstServe: playerOneServeChoice,
+            changeSide: changeSide
+        )
+        isMatchModelReady = true
+    }
+}
+
+struct SectionHeader: View {
+    let title: String
+
+    var body: some View {
+        Text(title)
+            .font(.title2.bold())
+            .padding(.vertical, 5)
+            .padding(.leading)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color.gray.opacity(0.2))
+    }
+}
+
+struct PlayerEntryView: View {
+    let playerTitle: String
+    @Binding var name: String
+    @Binding var coachName: String
+
+    var body: some View {
+        VStack(spacing: 10) {
+            TextField("\(playerTitle) Name", text: $name)
+                .textFieldStyle(.roundedBorder)
+                .padding(.horizontal)
+
+            TextField("\(playerTitle) Coach Name", text: $coachName)
+                .textFieldStyle(.roundedBorder)
+                .padding(.horizontal)
         }
     }
 }
 
+struct StartGameButton: View {
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                Image(systemName: "play.circle.fill")
+                    .font(.title)
+                Text("Start Game")
+                    .font(.title2.bold())
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .cornerRadius(12)
+        }
+        .padding(.horizontal)
+    }
+}
+
 #Preview {
-    LocalHomeView(playerOneName: "Nicolas", playerTwoName: "Fidan", bestOfSelectedPicker: 2, numberOfSet: 3, pointsPerSet: 11, numberOfService: 2, changeSide: true)
+    LocalHomeView()
 }

@@ -13,8 +13,10 @@ struct CountdownPopup: View {
     
     var body: some View {
         ZStack {
-            Color.black.opacity(0.5).ignoresSafeArea()
+            // Fond totalement transparent pour le ZStack principal
+            Color.clear.ignoresSafeArea()
             
+            // Contenu de la popup
             VStack {
                 Text("Countdown")
                     .font(.title)
@@ -38,6 +40,7 @@ struct CountdownPopup: View {
             .frame(width: 200, height: 200)
             .background(Color.black.opacity(0.8))
             .cornerRadius(20)
+            .shadow(color: .black.opacity(0.5), radius: 10, x: 0, y: 5) // Ombre pour plus de visibilité
         }
     }
 }
