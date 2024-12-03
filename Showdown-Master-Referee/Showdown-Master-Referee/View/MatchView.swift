@@ -3,6 +3,7 @@
 //
 //  Created by Nicolas Hecker on 21/10/2024.
 //
+
 import SwiftUI
 
 struct MatchView: View {
@@ -15,7 +16,7 @@ struct MatchView: View {
 
     var body: some View {
         ZStack {
-            Color(.systemRed)
+            Color(.red)
                 .opacity(0.3)
                 .ignoresSafeArea()
 
@@ -53,7 +54,7 @@ struct MatchView: View {
                 }
                 .padding(.horizontal)
 
-                HStack(spacing: 40) {
+                HStack(spacing: 35) {
                     ScoreBoxView(title: "Points", value: matchGestion.pointsPlayerOne)
                         .animation(.easeInOut(duration: 0.2), value: matchGestion.pointsPlayerOne)
                     ScoreBoxView(title: "Sets", value: matchGestion.setWinPlayerOne)
@@ -94,7 +95,7 @@ struct MatchView: View {
                             matchGestion.undoLastAction()
                             matchGestion.undoLastAction()
                         }) {
-                            Text("Cancel last")
+                            Text("Cancel Last")
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity)
                                 .padding()
@@ -120,6 +121,17 @@ struct MatchView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
+                        Button(action: {
+                            showAlert = true
+                        }) {
+                            Text("Quit Match")
+                                .fontWeight(.bold)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.red)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
                     }
                     .padding(.horizontal, 30)
                 }
@@ -128,22 +140,6 @@ struct MatchView: View {
         }
         .sheet(isPresented: $matchGestion.showCountdownPopup, onDismiss: matchGestion.stopCountdown) {
             CountdownPopup(countdownTime: $matchGestion.countdownTime, onDismiss: matchGestion.stopCountdown)
-        }
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    if matchGestion.matchIsOver {
-                        presentationMode.wrappedValue.dismiss()
-                    } else {
-                        showAlert = true
-                    }
-                }) {
-                    HStack {
-                        Image(systemName: "chevron.left")
-                        Text("End of Match")
-                    }
-                }
-            }
         }
         .navigationBarBackButtonHidden(true)
         .onDisappear {

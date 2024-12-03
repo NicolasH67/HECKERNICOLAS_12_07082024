@@ -59,7 +59,7 @@ struct LocalHomeView: View {
             }
             .navigationTitle("Setup Match")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationDestination(isPresented: $isMatchModelReady) {
+            .fullScreenCover(isPresented: $isMatchModelReady) {
                 MatchView()
             }
         }
