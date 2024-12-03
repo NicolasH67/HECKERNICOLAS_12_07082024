@@ -19,7 +19,7 @@ struct NetworkConnexionView: View {
     @State private var showPassword: Bool = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 Color.red.opacity(0.3)
                     .ignoresSafeArea()
@@ -84,13 +84,18 @@ struct NetworkConnexionView: View {
                     }
                     .frame(maxHeight: 100)
                     .padding(.horizontal)
-                    .navigationDestination(isPresented: $navigateToGame) {
-                        NetworkHomeView(tournamentId: tournamentId, matchId: matchId)
-                    }
                 }
                 .alert(isPresented: $showAlert) {
                     Alert(title: Text("Message"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
                 }
+            }
+            .navigationDestination(isPresented: $navigateToGame) {
+                NetworkHomeView(
+                    tournamentId: tournamentId,
+                    matchId: matchId,
+                    playerOneName: playerOne,
+                    playerTwoName: playerTwo
+                )
             }
         }
     }
@@ -106,13 +111,12 @@ struct NetworkConnexionView: View {
                 showAlert = true
             } else if let match = match {
                 if let result = match.result, !result.isEmpty {
-                    // Si un résultat existe, afficher une alerte avec le résultat
                     alertMessage = "Ce match a déjà un résultat : \(result)"
                     showAlert = true
                 } else {
-                    // Si le résultat est vide, préparer les données des joueurs pour la navigation
                     playerOne = match.player_one
                     playerTwo = match.player_two
+                    print("Player One is : \(playerOne), Player Two is : \(playerTwo)")
                     navigateToGame = true
                 }
             }

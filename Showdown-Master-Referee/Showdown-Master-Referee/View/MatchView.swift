@@ -139,7 +139,14 @@ struct MatchView: View {
             .padding()
         }
         .sheet(isPresented: $matchGestion.showCountdownPopup, onDismiss: matchGestion.stopCountdown) {
-            CountdownPopup(countdownTime: $matchGestion.countdownTime, onDismiss: matchGestion.stopCountdown)
+            CountdownPopup(
+                countdownTime: $matchGestion.countdownTime,
+                playerOneName: matchGestion.matchModel?.playerOne ?? "Player One",
+                playerTwoName: matchGestion.matchModel?.playerTwo ?? "Player Two",
+                coachPlayerOneName: matchGestion.matchModel?.coachPlayerOne ?? "",
+                coachPlayerTwoName: matchGestion.matchModel?.coachPlayerTwo ?? "",
+                onDismiss: matchGestion.stopCountdown
+            )
         }
         .navigationBarBackButtonHidden(true)
         .onDisappear {
