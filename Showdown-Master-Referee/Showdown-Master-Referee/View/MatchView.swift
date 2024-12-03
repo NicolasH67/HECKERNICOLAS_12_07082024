@@ -145,6 +145,10 @@ struct MatchView: View {
                 playerTwoName: matchGestion.matchModel?.playerTwo ?? "Player Two",
                 coachPlayerOneName: matchGestion.matchModel?.coachPlayerOne ?? "",
                 coachPlayerTwoName: matchGestion.matchModel?.coachPlayerTwo ?? "",
+                playerOneScore: matchGestion.pointsPlayerOne,
+                playerTwoScore: matchGestion.pointsPlayerTwo,
+                playerOneSets: matchGestion.setWinPlayerOne,
+                playerTwoSets: matchGestion.setWinPlayerTwo,
                 onDismiss: matchGestion.stopCountdown
             )
         }
