@@ -39,8 +39,8 @@ struct NetworkHomeView: View {
                         SectionHeader(title: "Players and Coaches")
                         
                         // Champs préremplis avec les noms des joueurs récupérés
-                        PlayerEntryView(playerTitle: "Player One", name: .constant(playerOneName), coachName: $coachPlayerOneName)
-                        PlayerEntryView(playerTitle: "Player Two", name: .constant(playerTwoName), coachName: $coachPlayerTwoName)
+                        PlayerEntryView(playerTitle: "Player One", name: .constant(playerOneName), coachName: $coachPlayerOneName, isEditable: false)
+                        PlayerEntryView(playerTitle: "Player Two", name: .constant(playerTwoName), coachName: $coachPlayerTwoName, isEditable: false)
 
                         SectionHeader(title: "Match Settings")
 

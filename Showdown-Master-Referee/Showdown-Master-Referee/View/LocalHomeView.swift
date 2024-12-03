@@ -35,8 +35,8 @@ struct LocalHomeView: View {
                     VStack(alignment: .leading, spacing: 20) {
                         SectionHeader(title: "Players and Coaches")
 
-                        PlayerEntryView(playerTitle: "Player One", name: $playerOneName, coachName: $coachPlayerOneName)
-                        PlayerEntryView(playerTitle: "Player Two", name: $playerTwoName, coachName: $coachPlayerTwoName)
+                        PlayerEntryView(playerTitle: "Player One", name: $playerOneName, coachName: $coachPlayerOneName, isEditable: true)
+                        PlayerEntryView(playerTitle: "Player Two", name: $playerTwoName, coachName: $coachPlayerTwoName, isEditable: true)
 
                         SectionHeader(title: "Match Settings")
 
