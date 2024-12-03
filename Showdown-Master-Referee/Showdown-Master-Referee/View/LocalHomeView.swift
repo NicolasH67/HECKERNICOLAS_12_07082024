@@ -84,37 +84,6 @@ struct LocalHomeView: View {
     }
 }
 
-struct SectionHeader: View {
-    let title: String
-
-    var body: some View {
-        Text(title)
-            .font(.title2.bold())
-            .padding(.vertical, 5)
-            .padding(.leading)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color.gray.opacity(0.2))
-    }
-}
-
-struct PlayerEntryView: View {
-    let playerTitle: String
-    @Binding var name: String
-    @Binding var coachName: String
-
-    var body: some View {
-        VStack(spacing: 10) {
-            TextField("\(playerTitle) Name", text: $name)
-                .textFieldStyle(.roundedBorder)
-                .padding(.horizontal)
-
-            TextField("\(playerTitle) Coach Name", text: $coachName)
-                .textFieldStyle(.roundedBorder)
-                .padding(.horizontal)
-        }
-    }
-}
-
 struct StartGameButton: View {
     let action: () -> Void
 
