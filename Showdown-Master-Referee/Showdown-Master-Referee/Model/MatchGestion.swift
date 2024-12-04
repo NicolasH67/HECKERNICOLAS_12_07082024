@@ -215,7 +215,7 @@ class MatchGestion: ObservableObject {
         numberOfServicePlayerOne = 0
         numberOfServicePlayerTwo = 0
         timeOutButtonIsDisabledPlayerOne = false
-        timeOutButtonIsDisabledPlayerOne = false
+        timeOutButtonIsDisabledPlayerTwo = false
         matchIsOver = false
     }
 }
