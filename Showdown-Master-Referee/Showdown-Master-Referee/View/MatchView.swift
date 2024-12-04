@@ -73,7 +73,7 @@ struct MatchView: View {
                         onGoal: { matchGestion.onGoal(isPlayerOneScored: true) },
                         onFault: { matchGestion.onFault(isPlayerOneFault: true) },
                         onServe: { matchGestion.onServe() },
-                        startCountdown: { matchGestion.stopCountdown() },
+                        startCountdown: { matchGestion.startCountdown() },
                         initializeFirstServe: { matchGestion.initializeServiceCounts() },
                         timeOutButtonIsDisabled: $matchGestion.timeOutButtonIsDisabledPlayerOne,
                         matchIsOver: matchGestion.matchIsOver
@@ -84,7 +84,7 @@ struct MatchView: View {
                         onGoal: { matchGestion.onGoal(isPlayerOneScored: false) },
                         onFault: { matchGestion.onFault(isPlayerOneFault: false) },
                         onServe: { matchGestion.onServe() },
-                        startCountdown: { matchGestion.stopCountdown() },
+                        startCountdown: { matchGestion.startCountdown() },
                         initializeFirstServe: { matchGestion.initializeServiceCounts() },
                         timeOutButtonIsDisabled: $matchGestion.timeOutButtonIsDisabledPlayerTwo,
                         matchIsOver: matchGestion.matchIsOver

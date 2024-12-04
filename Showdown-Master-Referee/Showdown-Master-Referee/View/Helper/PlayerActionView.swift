@@ -41,6 +41,7 @@ struct PlayerActionView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
+                .disabled(timeOutButtonIsDisabled)
             }
             
             Text("Service")
