@@ -75,6 +75,7 @@ struct MatchView: View {
                         onServe: { matchGestion.onServe() },
                         startCountdown: { matchGestion.stopCountdown() },
                         initializeFirstServe: { matchGestion.initializeServiceCounts() },
+                        timeOutButtonIsDisabled: $matchGestion.timeOutButtonIsDisabledPlayerOne,
                         matchIsOver: matchGestion.matchIsOver
                     )
                     PlayerActionView(
@@ -85,6 +86,7 @@ struct MatchView: View {
                         onServe: { matchGestion.onServe() },
                         startCountdown: { matchGestion.stopCountdown() },
                         initializeFirstServe: { matchGestion.initializeServiceCounts() },
+                        timeOutButtonIsDisabled: $matchGestion.timeOutButtonIsDisabledPlayerTwo,
                         matchIsOver: matchGestion.matchIsOver
                     )
                 }

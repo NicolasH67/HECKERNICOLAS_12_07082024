@@ -11,6 +11,8 @@ import SwiftUI
 class MatchGestion: ObservableObject {
     @Published var matchModel: MatchModel?
     @Published var matchStates: [MatchState] = []
+    @Published var timeOutButtonIsDisabledPlayerOne: Bool = false
+    @Published var timeOutButtonIsDisabledPlayerTwo: Bool = false
     @Published var numberOfServicePlayerOne: Int = 0
     @Published var numberOfServicePlayerTwo: Int = 0
     @Published var pointsPlayerOne: Int = 0
@@ -147,6 +149,9 @@ class MatchGestion: ObservableObject {
         pointsPlayerOne = 0
         pointsPlayerTwo = 0
         
+        timeOutButtonIsDisabledPlayerOne = false
+        timeOutButtonIsDisabledPlayerTwo = false
+        
         startCountdown()
     }
     
@@ -209,6 +214,8 @@ class MatchGestion: ObservableObject {
         setWinPlayerTwo = 0
         numberOfServicePlayerOne = 0
         numberOfServicePlayerTwo = 0
+        timeOutButtonIsDisabledPlayerOne = false
+        timeOutButtonIsDisabledPlayerOne = false
         matchIsOver = false
     }
 }

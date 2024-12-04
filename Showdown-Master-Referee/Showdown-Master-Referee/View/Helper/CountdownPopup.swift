@@ -44,8 +44,8 @@ struct CountdownPopup: View {
                         .spring(response: 0.4, dampingFraction: 0.5, blendDuration: 0.2), // Animation fluide avec effet ressort
                         value: countdownTime
                     )
-                    .scaleEffect(1) // Retour à l'échelle normale
-                    .opacity(1)     // Opacité normale
+                    .scaleEffect(1)
+                    .opacity(1)
                 
                 HStack(spacing: 20) {
                     PlayerStatsView(

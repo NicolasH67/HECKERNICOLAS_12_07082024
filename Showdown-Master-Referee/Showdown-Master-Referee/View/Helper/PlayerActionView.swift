@@ -15,7 +15,7 @@ struct PlayerActionView: View {
     var onServe: () -> Void
     var startCountdown: () -> Void
     var initializeFirstServe : () -> Void
-    @State var timeOutButtonIsDisabled: Bool = false
+    @Binding var timeOutButtonIsDisabled: Bool
     @State var matchIsOver: Bool
     
     var body: some View {
