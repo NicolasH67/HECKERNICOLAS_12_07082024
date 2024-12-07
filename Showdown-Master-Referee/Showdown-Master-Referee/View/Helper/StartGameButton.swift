@@ -8,11 +8,22 @@
 import SwiftUI
 
 struct StartGameButton: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+    let action: () -> Void
 
-#Preview {
-    StartGameButton()
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                Image(systemName: "play.circle.fill")
+                    .font(.title)
+                Text("Start Game")
+                    .font(.title2.bold())
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .cornerRadius(12)
+        }
+        .padding(.horizontal)
+    }
 }

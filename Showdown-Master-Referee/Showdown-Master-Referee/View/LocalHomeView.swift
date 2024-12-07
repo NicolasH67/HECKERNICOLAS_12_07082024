@@ -84,27 +84,6 @@ struct LocalHomeView: View {
     }
 }
 
-struct StartGameButton: View {
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            HStack {
-                Image(systemName: "play.circle.fill")
-                    .font(.title)
-                Text("Start Game")
-                    .font(.title2.bold())
-            }
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(12)
-        }
-        .padding(.horizontal)
-    }
-}
-
 #Preview {
     LocalHomeView()
 }
