@@ -17,6 +17,8 @@ struct CountdownPopup: View {
     var playerTwoScore: Int
     var playerOneSets: Int
     var playerTwoSets: Int
+    var playerOneService: Int
+    var playerTwoService: Int
     var onDismiss: () -> Void
 
     var body: some View {
@@ -38,10 +40,10 @@ struct CountdownPopup: View {
                     .background(Color.white.opacity(0.2))
                     .cornerRadius(12)
                     .shadow(color: .yellow.opacity(0.7), radius: 8, x: 0, y: 0)
-                    .scaleEffect(1.2) // Effet de zoom initial
-                    .opacity(0.8)     // Opacité initiale pour l'animation
+                    .scaleEffect(1.2)
+                    .opacity(0.8)
                     .animation(
-                        .spring(response: 0.4, dampingFraction: 0.5, blendDuration: 0.2), // Animation fluide avec effet ressort
+                        .spring(response: 0.4, dampingFraction: 0.5, blendDuration: 0.2),
                         value: countdownTime
                     )
                     .scaleEffect(1)
@@ -52,6 +54,7 @@ struct CountdownPopup: View {
                         playerName: playerOneName,
                         score: playerOneScore,
                         sets: playerOneSets,
+                        serviceNumber: playerOneService,
                         alignment: .leading
                     )
                     
@@ -63,6 +66,7 @@ struct CountdownPopup: View {
                         playerName: playerTwoName,
                         score: playerTwoScore,
                         sets: playerTwoSets,
+                        serviceNumber: playerTwoService,
                         alignment: .trailing
                     )
                 }
@@ -125,6 +129,7 @@ struct PlayerStatsView: View {
     var playerName: String
     var score: Int
     var sets: Int
+    var serviceNumber: Int // Ajout
     var alignment: HorizontalAlignment
 
     var body: some View {
@@ -134,6 +139,11 @@ struct PlayerStatsView: View {
                 .foregroundColor(.white)
                 .lineLimit(1)
                 .truncationMode(.tail)
+            
+            Text("Service: \(serviceNumber)") // Ajout
+                .font(.subheadline)
+                .foregroundColor(.cyan)
+                .padding(.top, 5)
             
             HStack(spacing: 10) {
                 VStack {

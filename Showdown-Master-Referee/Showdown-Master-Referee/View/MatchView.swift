@@ -151,6 +151,8 @@ struct MatchView: View {
                 playerTwoScore: matchGestion.pointsPlayerTwo,
                 playerOneSets: matchGestion.setWinPlayerOne,
                 playerTwoSets: matchGestion.setWinPlayerTwo,
+                playerOneService: matchGestion.numberOfServicePlayerOne,
+                playerTwoService: matchGestion.numberOfServicePlayerTwo,
                 onDismiss: matchGestion.stopCountdown
             )
         }
