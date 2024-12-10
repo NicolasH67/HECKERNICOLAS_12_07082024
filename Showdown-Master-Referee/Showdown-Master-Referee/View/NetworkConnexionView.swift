@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct NetworkConnexionView: View {
+    @EnvironmentObject var matchGestion: MatchGestion
     @State private var tournamentId: String = ""
     @State private var matchId: String = ""
     @State private var password: String = ""
@@ -17,6 +18,7 @@ struct NetworkConnexionView: View {
     @State private var playerOne: String = ""
     @State private var playerTwo: String = ""
     @State private var showPassword: Bool = false
+    @State private var matchResult: [Int] = []
     
     var body: some View {
         NavigationStack {
@@ -73,21 +75,42 @@ struct NetworkConnexionView: View {
                     
                     Button(action: fetchMatch) {
                         ZStack {
-                            Color.blue.opacity(0.8)
-                            Label("Connect", systemImage: "play.circle")
-                                .font(.title)
-                                .foregroundColor(.white)
-                                .padding()
+                            LinearGradient(
+                                colors: [Color.blue, Color.red],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                            .opacity(0.9)
+                            .cornerRadius(10)
+                            .shadow(color: Color.blue.opacity(0.5), radius: 10, x: 0, y: 5)
+                            
+                            HStack(spacing: 10) {
+                                Image(systemName: "play.circle.fill")
+                                    .font(.title)
+                                    .foregroundColor(.white)
+                                Text("Connect")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.white)
+                            }
+                            .padding()
                         }
-                        .cornerRadius(10)
-                        .padding(.top)
                     }
                     .frame(maxHeight: 100)
                     .padding(.horizontal)
+
                 }
                 .alert(isPresented: $showAlert) {
                     Alert(title: Text("Message"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
                 }
+            }
+            .sheet(isPresented: $matchGestion.showMatchResultPopup, onDismiss: matchGestion.dismissMatchResult) {
+                MatchResultPopup(
+                    playerOneName: playerOne,
+                    playerTwoName: playerTwo,
+                    matchResults: matchResult,
+                    onDismiss: matchGestion.dismissMatchResult
+                )
             }
             .navigationDestination(isPresented: $navigateToGame) {
                 NetworkHomeView(
@@ -111,14 +134,21 @@ struct NetworkConnexionView: View {
                 showAlert = true
             } else if let match = match {
                 if let result = match.result, !result.isEmpty {
-                    alertMessage = "Ce match a déjà un résultat : \(result)"
-                    showAlert = true
+                    playerOne = match.player_one
+                    playerTwo = match.player_two
+                    matchResult = match.result ?? []
+                    print(playerOne)
+                    print(playerTwo)
+                    print(matchResult)
+                    matchGestion.showMatchResultPopup = true
                 } else {
                     playerOne = match.player_one
                     playerTwo = match.player_two
                     print("Player One is : \(playerOne), Player Two is : \(playerTwo)")
                     navigateToGame = true
                 }
+            } else {
+                
             }
         }
     }

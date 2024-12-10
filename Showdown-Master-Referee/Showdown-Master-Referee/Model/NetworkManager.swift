@@ -49,16 +49,15 @@ class NetworkManager {
                 }
                 
                 if match.referee_password == refereePassword {
-                    if let result = match.result, !result.isEmpty {
-                        completion(match, "Résultat trouvé : \(result)")
-                    } else {
-                        completion(match, nil)
-                    }
+                    completion(match, nil)
+                    return
                 } else {
                     completion(nil, "Wrong password")
+                    return
                 }
             case .failure(let error):
                 completion(nil, "Network Error: \(error.localizedDescription)")
+                return
             }
         }
     }

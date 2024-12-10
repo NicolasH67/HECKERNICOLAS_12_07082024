@@ -26,6 +26,7 @@ class MatchGestion: ObservableObject {
     @Published var countdownTime = 60
     @Published var countdownTimer: Timer?
     @Published var showCountdownPupup: Bool = false
+    @Published var showMatchResultPopup = false
     
     func onGoal(isPlayerOneScored: Bool) {
         if matchIsOver { return }
@@ -217,5 +218,9 @@ class MatchGestion: ObservableObject {
         timeOutButtonIsDisabledPlayerOne = false
         timeOutButtonIsDisabledPlayerTwo = false
         matchIsOver = false
+    }
+    
+    func dismissMatchResult() {
+        showMatchResultPopup = false
     }
 }

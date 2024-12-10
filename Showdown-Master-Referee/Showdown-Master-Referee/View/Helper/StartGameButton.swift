@@ -12,17 +12,27 @@ struct StartGameButton: View {
 
     var body: some View {
         Button(action: action) {
-            HStack {
-                Image(systemName: "play.circle.fill")
-                    .font(.title)
-                Text("Start Game")
-                    .font(.title2.bold())
+            ZStack {
+                LinearGradient(
+                    colors: [Color.blue, Color.red],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+                .opacity(0.9)
+                .cornerRadius(10)
+                .shadow(color: Color.blue.opacity(0.5), radius: 10, x: 0, y: 5)
+                
+                HStack(spacing: 10) {
+                    Image(systemName: "play.circle.fill")
+                        .font(.title)
+                        .foregroundColor(.white)
+                    Text("Connect")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                }
+                .padding()
             }
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(12)
         }
         .padding(.horizontal)
     }
