@@ -101,7 +101,7 @@ struct MatchView: View {
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.red)
+                                .background(Color("Deep Purple"))
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
@@ -110,7 +110,7 @@ struct MatchView: View {
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.green)
+                                .background(Color("Raspberry Pink"))
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
@@ -119,8 +119,8 @@ struct MatchView: View {
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.orange)
-                                .foregroundColor(.white)
+                                .background(Color("Raspberry Pink"))
+                                .foregroundColor(Color.white)
                                 .cornerRadius(10)
                         }
                         Button(action: {
@@ -130,7 +130,7 @@ struct MatchView: View {
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.red)
+                                .background(Color("Deep Purple"))
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }

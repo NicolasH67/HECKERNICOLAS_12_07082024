@@ -14,7 +14,7 @@ struct StartGameButton: View {
         Button(action: action) {
             ZStack {
                 LinearGradient(
-                    colors: [Color.blue, Color.red],
+                    colors: [Color("Deep Purple"), Color("Raspberry Pink")],
                     startPoint: .leading,
                     endPoint: .trailing
                 )
@@ -26,7 +26,7 @@ struct StartGameButton: View {
                     Image(systemName: "play.circle.fill")
                         .font(.title)
                         .foregroundColor(.white)
-                    Text("Connect")
+                    Text("Start Game")
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(.white)

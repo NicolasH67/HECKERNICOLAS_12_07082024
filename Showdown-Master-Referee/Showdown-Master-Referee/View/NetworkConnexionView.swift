@@ -65,18 +65,24 @@ struct NetworkConnexionView: View {
                                 showPassword.toggle()
                             }) {
                                 Image(systemName: showPassword ? "eye.slash" : "eye")
-                                    .foregroundColor(.gray)
+                                    .foregroundColor(Color("Deep Purple"))
+                                    .padding(8)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .stroke(Color("Deep Purple"), lineWidth: 1)
+                                            .background(Color.white.cornerRadius(8))
+                                    )
                             }
                         }
                         .padding(.horizontal)
                     }
-                    
+
                     Divider()
                     
                     Button(action: fetchMatch) {
                         ZStack {
                             LinearGradient(
-                                colors: [Color.blue, Color.red],
+                                colors: [Color("Deep Purple"), Color("Raspberry Pink")],
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )

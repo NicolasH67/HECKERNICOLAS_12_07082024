@@ -25,7 +25,7 @@ struct PlayerActionView: View {
                     Text("P/W")
                         .frame(minWidth: 40, minHeight: 40)
                         .padding()
-                        .background(Color.gray)
+                        .background(Color("Raspberry Pink"))
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
@@ -37,7 +37,7 @@ struct PlayerActionView: View {
                     Text("TO")
                         .frame(minWidth: 40, minHeight: 40)
                         .padding()
-                        .background(timeOutButtonIsDisabled ? Color.red : Color.gray)
+                        .background(timeOutButtonIsDisabled ? Color.gray : Color("Raspberry Pink"))
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
@@ -51,8 +51,8 @@ struct PlayerActionView: View {
             HStack(spacing: 10) {
                 ForEach(0..<totalService, id: \.self) { index in
                     Circle()
-                        .strokeBorder(Color.gray, lineWidth: 2)
-                        .background(Circle().fill(index < currentService ? Color.blue : Color.clear))
+                        .strokeBorder(Color("Deep Purple"), lineWidth: 2)
+                        .background(Circle().fill(index < currentService ? Color("Deep Purple") : Color.clear))
                         .frame(width: 30, height: 30)
                 }
             }
@@ -67,7 +67,7 @@ struct PlayerActionView: View {
                 Text("Goal")
                     .frame(minWidth: 100, minHeight: 50)
                     .padding()
-                    .background(Color.blue)
+                    .background(Color("Deep Purple"))
                     .foregroundColor(.white)
                     .cornerRadius(10)
                     .frame(maxWidth: .infinity)
@@ -81,7 +81,7 @@ struct PlayerActionView: View {
                 Text("Fault")
                     .frame(minWidth: 100, minHeight: 50)
                     .padding()
-                    .background(Color.red)
+                    .background(Color("Deep Purple"))
                     .foregroundColor(.white)
                     .cornerRadius(10)
                     .frame(maxWidth: .infinity)
