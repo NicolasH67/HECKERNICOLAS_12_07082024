@@ -81,7 +81,7 @@ struct PlayerActionView: View {
                 Text("Fault")
                     .frame(minWidth: 100, minHeight: 50)
                     .padding()
-                    .background(Color("Deep Purple"))
+                    .background(Color("Raspberry Pink"))
                     .foregroundColor(.white)
                     .cornerRadius(10)
                     .frame(maxWidth: .infinity)
