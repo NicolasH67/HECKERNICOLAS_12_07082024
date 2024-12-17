@@ -5,6 +5,7 @@
 //  Created by Nicolas Hecker on 15/12/2024.
 //
 
+import Foundation
 import SwiftUI
 
 class MatchViewModel: ObservableObject {
@@ -26,6 +27,8 @@ class MatchViewModel: ObservableObject {
     @Published var changeSide = false
     @Published var isPlayerOneServe = true
     
+    var timer: Timer?
+    
     init(matchModel: MatchModel) {
         self.matchModel = matchModel
         initializeServiceCounts()
@@ -39,11 +42,33 @@ class MatchViewModel: ObservableObject {
 
     // MARK: - Match Management Methods
     func startCountdown() {
+        countdownTime = 60
         self.showCountdownPopup = true
+        startTimer()
     }
     
     func stopCountdown() {
         self.showCountdownPopup = false
+        stopTimer()
+    }
+    
+    private func startTimer() {
+        timer?.invalidate()
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            if self.countdownTime > 0 {
+                self.countdownTime -= 1
+            } else {
+                self.timer?.invalidate()
+                self.showCountdownPopup = false
+            }
+        }
+    }
+    
+    func stopTimer() {
+        timer?.invalidate()
+        timer = nil
     }
 
     func initializeServiceCounts() {

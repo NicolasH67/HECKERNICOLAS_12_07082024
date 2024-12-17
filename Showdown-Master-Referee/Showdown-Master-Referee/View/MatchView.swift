@@ -126,6 +126,22 @@ struct MatchView: View {
         .onAppear {
             viewModel.initializeServiceCounts()
         }
+        .sheet(isPresented: $viewModel.showCountdownPopup, onDismiss: viewModel.stopCountdown) {
+                    CountdownPopup(
+                        countdownTime: $viewModel.countdownTime,
+                        playerOneName: viewModel.matchModel?.playerOne ?? "Player One",
+                        playerTwoName: viewModel.matchModel?.playerTwo ?? "Player Two",
+                        coachPlayerOneName: viewModel.matchModel?.coachPlayerOne ?? "",
+                        coachPlayerTwoName: viewModel.matchModel?.coachPlayerTwo ?? "",
+                        playerOneScore: viewModel.pointsPlayerOne,
+                        playerTwoScore: viewModel.pointsPlayerTwo,
+                        playerOneSets: viewModel.setWinPlayerOne,
+                        playerTwoSets: viewModel.setWinPlayerTwo,
+                        playerOneService: viewModel.numberOfServicePlayerOne,
+                        playerTwoService: viewModel.numberOfServicePlayerTwo,
+                        onDismiss: viewModel.stopCountdown
+                    )
+                }
         .alert("Match in Progress", isPresented: $viewModel.showAlert) {
                     Button("Quit", role: .destructive) {
                         presentationMode.wrappedValue.dismiss()
