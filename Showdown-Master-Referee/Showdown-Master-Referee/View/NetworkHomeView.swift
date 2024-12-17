@@ -8,25 +8,11 @@
 import SwiftUI
 
 struct NetworkHomeView: View {
-    @EnvironmentObject var matchGestion: MatchGestion
-    
-    // Informations transmises depuis NetworkConnexionView
-    var tournamentId: String
-    var matchId: String
-    var playerOneName: String
-    var playerTwoName: String
-    
-    @State private var coachPlayerOneName = ""
-    @State private var coachPlayerTwoName = ""
-    @State private var bestOfSelectedPicker = 0
-    @State private var numberOfSet = 1
-    @State private var pointsPerSet = 11
-    @State private var numberOfService = 2
-    @State private var changeSide = true
-    @State private var firstServeSelectedPicker = 0
-    @State private var isMatchModelReady = false
+    @StateObject private var viewModel: NetworkHomeViewModel
 
-    private let bestOfOptions = ["Best of 1", "Best of 3", "Best of 5", "Team", "Custom"]
+    init(playerOneName: String, playerTwoName: String) {
+        _viewModel = StateObject(wrappedValue: NetworkHomeViewModel(playerOneName: playerOneName, playerTwoName: playerTwoName))
+    }
 
     var body: some View {
         NavigationStack {
@@ -37,25 +23,25 @@ struct NetworkHomeView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
                         SectionHeader(title: "Players and Coaches")
-                        
+
                         // Champs préremplis avec les noms des joueurs récupérés
-                        PlayerEntryView(playerTitle: "Player One", name: .constant(playerOneName), coachName: $coachPlayerOneName, isEditable: false)
-                        PlayerEntryView(playerTitle: "Player Two", name: .constant(playerTwoName), coachName: $coachPlayerTwoName, isEditable: false)
+                        PlayerEntryView(playerTitle: "Player One", name: .constant(viewModel.playerOneName), coachName: $viewModel.coachPlayerOneName, isEditable: false)
+                        PlayerEntryView(playerTitle: "Player Two", name: .constant(viewModel.playerTwoName), coachName: $viewModel.coachPlayerTwoName, isEditable: false)
 
                         SectionHeader(title: "Match Settings")
 
                         BestOfView(
-                            bestOfSelectedPicker: $bestOfSelectedPicker,
-                            numberOfSetInt: $numberOfSet,
-                            pointsPerSetInt: $pointsPerSet,
-                            numberOfServiceInt: $numberOfService,
-                            changeSide: $changeSide
+                            bestOfSelectedPicker: $viewModel.bestOfSelectedPicker,
+                            numberOfSetInt: $viewModel.numberOfSet,
+                            pointsPerSetInt: $viewModel.pointsPerSet,
+                            numberOfServiceInt: $viewModel.numberOfService,
+                            changeSide: $viewModel.changeSide
                         )
 
-                        FirstServeView(firstServeSelectedPicker: $firstServeSelectedPicker)
+                        FirstServeView(firstServeSelectedPicker: $viewModel.firstServeSelectedPicker)
 
                         StartGameButton {
-                            startMatch()
+                            viewModel.startMatch()
                         }
                     }
                     .padding()
@@ -63,37 +49,20 @@ struct NetworkHomeView: View {
             }
             .navigationTitle("Setup Match")
             .navigationBarTitleDisplayMode(.inline)
-            .fullScreenCover(isPresented: $isMatchModelReady) {
-                MatchView()
+            .fullScreenCover(isPresented: $viewModel.isMatchModelReady) {
+                if let matchModel = viewModel.matchModel {
+                    MatchView(matchModel: matchModel)
+                } else {
+                    Text("Match model is not readu.")
+                }
             }
         }
-    }
-
-    private func startMatch() {
-        let playerOneServeChoice = (firstServeSelectedPicker == 0)
-
-        matchGestion.matchModel = MatchModel(
-            playerOne: playerOneName,
-            playerTwo: playerTwoName,
-            coachPlayerOne: coachPlayerOneName,
-            coachPlayerTwo: coachPlayerTwoName,
-            numberOfService: numberOfService,
-            numberOfPoints: pointsPerSet,
-            numberOfSet: numberOfSet,
-            bestOf: bestOfOptions[bestOfSelectedPicker],
-            playerOneFirstServe: playerOneServeChoice,
-            changeSide: changeSide
-        )
-        isMatchModelReady = true
     }
 }
 
 #Preview {
     NetworkHomeView(
-        tournamentId: "Tournament123",
-        matchId: "Match456",
         playerOneName: "Player 1",
         playerTwoName: "Player 2"
     )
-    .environmentObject(MatchGestion())
 }

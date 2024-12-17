@@ -7,12 +7,12 @@
 import SwiftUI
 
 struct MatchView: View {
-    @EnvironmentObject var matchGestion: MatchGestion
+    @StateObject private var viewModel: MatchViewModel
     @Environment(\.presentationMode) var presentationMode
-    @State private var showAlert = false
-    @State private var coachShowAlert = false
-    @State private var playerNameToShow: String = ""
-    @State private var coachNameToShow: String = ""
+
+    init(matchModel: MatchModel) {
+        _viewModel = StateObject(wrappedValue: MatchViewModel(matchModel: matchModel))
+    }
 
     var body: some View {
         ZStack {
@@ -22,167 +22,124 @@ struct MatchView: View {
 
             VStack(spacing: 20) {
                 HStack {
-                    Text(matchGestion.matchModel?.playerOne ?? "Player One")
+                    Text(viewModel.matchModel?.playerOne ?? "Player One")
                         .font(.headline)
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity, alignment: .center)
-                        .multilineTextAlignment(.center)
-                        .lineLimit(nil)
-                        .fixedSize(horizontal: false, vertical: true)
                         .onTapGesture {
-                            playerNameToShow = matchGestion.matchModel?.playerOne ?? "Player One"
-                            coachNameToShow = matchGestion.matchModel?.coachPlayerOne ?? ""
-                            coachShowAlert = true
+                            viewModel.onPlayerTap(player: viewModel.matchModel?.playerOne ?? "",
+                                                  coach: viewModel.matchModel?.coachPlayerOne ?? "")
                         }
 
-                    Text(matchGestion.matchModel?.bestOf ?? "Best Of")
+                    Text(viewModel.matchModel?.bestOf ?? "Best Of")
                         .font(.headline)
                         .foregroundColor(.gray)
 
-                    Text(matchGestion.matchModel?.playerTwo ?? "Player Two")
+                    Text(viewModel.matchModel?.playerTwo ?? "Player Two")
                         .font(.headline)
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity, alignment: .center)
-                        .multilineTextAlignment(.center)
-                        .lineLimit(nil)
-                        .fixedSize(horizontal: false, vertical: true)
                         .onTapGesture {
-                            playerNameToShow = matchGestion.matchModel?.playerTwo ?? "Player Two"
-                            coachNameToShow = matchGestion.matchModel?.coachPlayerTwo ?? ""
-                            coachShowAlert = true
+                            viewModel.onPlayerTap(player: viewModel.matchModel?.playerTwo ?? "",
+                                                  coach: viewModel.matchModel?.coachPlayerTwo ?? "")
                         }
                 }
                 .padding(.horizontal)
 
+                // Scores
                 HStack(spacing: 35) {
-                    ScoreBoxView(title: "Points", value: matchGestion.pointsPlayerOne)
-                        .animation(.easeInOut(duration: 0.2), value: matchGestion.pointsPlayerOne)
-                    ScoreBoxView(title: "Sets", value: matchGestion.setWinPlayerOne)
-                        .animation(.easeInOut(duration: 0.2), value: matchGestion.setWinPlayerOne)
+                    ScoreBoxView(title: "Points", value: viewModel.pointsPlayerOne)
+                    ScoreBoxView(title: "Sets", value: viewModel.setWinPlayerOne)
                     Spacer()
-                    ScoreBoxView(title: "Sets", value: matchGestion.setWinPlayerTwo)
-                        .animation(.easeInOut(duration: 0.2), value: matchGestion.setWinPlayerTwo)
-                    ScoreBoxView(title: "Points", value: matchGestion.pointsPlayerTwo)
-                        .animation(.easeInOut(duration: 0.2), value: matchGestion.pointsPlayerTwo)
+                    ScoreBoxView(title: "Sets", value: viewModel.setWinPlayerTwo)
+                    ScoreBoxView(title: "Points", value: viewModel.pointsPlayerTwo)
                 }
 
+                // Actions des joueurs
                 HStack(spacing: 40) {
                     PlayerActionView(
-                        totalService: matchGestion.matchModel?.numberOfService ?? 0,
-                        currentService: matchGestion.numberOfServicePlayerOne,
-                        onGoal: { matchGestion.onGoal(isPlayerOneScored: true) },
-                        onFault: { matchGestion.onFault(isPlayerOneFault: true) },
-                        onServe: { matchGestion.onServe() },
-                        startCountdown: { matchGestion.startCountdown() },
-                        initializeFirstServe: { matchGestion.initializeServiceCounts() },
-                        timeOutButtonIsDisabled: $matchGestion.timeOutButtonIsDisabledPlayerOne,
-                        matchIsOver: matchGestion.matchIsOver
+                        totalService: viewModel.matchModel?.numberOfService ?? 0,
+                        currentService: viewModel.numberOfServicePlayerOne,
+                        onGoal: { viewModel.onGoal(isPlayerOneScored: true) },
+                        onFault: { viewModel.onFault(isPlayerOneFault: true) },
+                        onServe: { viewModel.onServe() },
+                        startCountdown: { viewModel.onStartChrono() },
+                        initializeFirstServe: { viewModel.initializeServiceCounts() },
+                        timeOutButtonIsDisabled: $viewModel.timeOutButtonIsDisabledPlayerOne,
+                        matchIsOver: viewModel.matchIsOver
                     )
                     PlayerActionView(
-                        totalService: matchGestion.matchModel?.numberOfService ?? 0,
-                        currentService: matchGestion.numberOfServicePlayerTwo,
-                        onGoal: { matchGestion.onGoal(isPlayerOneScored: false) },
-                        onFault: { matchGestion.onFault(isPlayerOneFault: false) },
-                        onServe: { matchGestion.onServe() },
-                        startCountdown: { matchGestion.startCountdown() },
-                        initializeFirstServe: { matchGestion.initializeServiceCounts() },
-                        timeOutButtonIsDisabled: $matchGestion.timeOutButtonIsDisabledPlayerTwo,
-                        matchIsOver: matchGestion.matchIsOver
+                        totalService: viewModel.matchModel?.numberOfService ?? 0,
+                        currentService: viewModel.numberOfServicePlayerTwo,
+                        onGoal: { viewModel.onGoal(isPlayerOneScored: false) },
+                        onFault: { viewModel.onFault(isPlayerOneFault: false) },
+                        onServe: { viewModel.onServe() },
+                        startCountdown: { viewModel.onStartChrono() },
+                        initializeFirstServe: { viewModel.initializeServiceCounts() },
+                        timeOutButtonIsDisabled: $viewModel.timeOutButtonIsDisabledPlayerTwo,
+                        matchIsOver: viewModel.matchIsOver
                     )
                 }
-                
-                ScrollView {
-                    VStack(spacing: 10) {
-                        Button(action: {
-                            matchGestion.undoLastAction()
-                            matchGestion.undoLastAction()
-                        }) {
-                            Text("Cancel Last")
-                                .fontWeight(.bold)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color("Deep Purple"))
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
-                        Button(action: matchGestion.startCountdown) {
-                            Text("Start Chrono")
-                                .fontWeight(.bold)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color("Raspberry Pink"))
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
-                        Button(action: matchGestion.resetSet) {
-                            Text("End of Set")
-                                .fontWeight(.bold)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color("Raspberry Pink"))
-                                .foregroundColor(Color.white)
-                                .cornerRadius(10)
-                        }
-                        Button(action: {
-                            showAlert = true
-                        }) {
-                            Text("Quit Match")
-                                .fontWeight(.bold)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color("Deep Purple"))
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
+
+                // Boutons d'action
+                VStack(spacing: 10) {
+                    Button(action: viewModel.onCancelLastAction) {
+                        Text("Cancel Last")
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color("Deep Purple"))
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
                     }
-                    .padding(.horizontal, 30)
+                    Button(action: viewModel.onStartChrono) {
+                        Text("Start Chrono")
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color("Raspberry Pink"))
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    Button(action: viewModel.onEndOfSet) {
+                        Text("End of Set")
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color("Raspberry Pink"))
+                            .foregroundColor(Color.white)
+                            .cornerRadius(10)
+                    }
+                    Button(action: viewModel.onQuitMatch) {
+                        Text("Quit Match")
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color("Deep Purple"))
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
                 }
+                .padding(.horizontal, 30)
             }
-            .padding()
-        }
-        .sheet(isPresented: $matchGestion.showCountdownPopup, onDismiss: matchGestion.stopCountdown) {
-            CountdownPopup(
-                countdownTime: $matchGestion.countdownTime,
-                playerOneName: matchGestion.matchModel?.playerOne ?? "Player One",
-                playerTwoName: matchGestion.matchModel?.playerTwo ?? "Player Two",
-                coachPlayerOneName: matchGestion.matchModel?.coachPlayerOne ?? "",
-                coachPlayerTwoName: matchGestion.matchModel?.coachPlayerTwo ?? "",
-                playerOneScore: matchGestion.pointsPlayerOne,
-                playerTwoScore: matchGestion.pointsPlayerTwo,
-                playerOneSets: matchGestion.setWinPlayerOne,
-                playerTwoSets: matchGestion.setWinPlayerTwo,
-                playerOneService: matchGestion.numberOfServicePlayerOne,
-                playerTwoService: matchGestion.numberOfServicePlayerTwo,
-                onDismiss: matchGestion.stopCountdown
-            )
-        }
-        .navigationBarBackButtonHidden(true)
-        .onDisappear {
-            matchGestion.resetMatchData()
         }
         .onAppear {
-            matchGestion.initializeServiceCounts()
+            viewModel.initializeServiceCounts()
         }
-        .alert("Coach \(playerNameToShow)", isPresented: $coachShowAlert) {
-            Button("Ok", role: .cancel) {
-                coachShowAlert = false
-            }
+        .alert("Match in Progress", isPresented: $viewModel.showAlert) {
+                    Button("Quit", role: .destructive) {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                    Button("Cancel", role: .cancel) {
+                        viewModel.showAlert = false
+                    }
+                } message: {
+                    Text("Are you sure you want to leave? The match is not over yet.")
+                }
+        .alert("Coach \(viewModel.playerNameToShow)", isPresented: $viewModel.coachShowAlert) {
+            Button("Ok", role: .cancel) { viewModel.coachShowAlert = false }
         } message: {
-            Text("\(coachNameToShow)")
-        }
-        .alert("Match in Progress", isPresented: $showAlert) {
-            Button("Quit", role: .destructive) {
-                presentationMode.wrappedValue.dismiss()
-            }
-            Button("Cancel", role: .cancel) {
-                showAlert = false
-            }
-        } message: {
-            Text("Are you sure you want to leave? The match is not over yet.")
+            Text("\(viewModel.coachNameToShow)")
         }
     }
-}
-
-#Preview {
-    MatchView()
 }

@@ -8,21 +8,8 @@
 import SwiftUI
 
 struct LocalHomeView: View {
-    @EnvironmentObject var matchGestion: MatchGestion
-    @State private var playerOneName = ""
-    @State private var playerTwoName = ""
-    @State private var coachPlayerOneName = ""
-    @State private var coachPlayerTwoName = ""
-    @State private var bestOfSelectedPicker = 0
-    @State private var numberOfSet = 1
-    @State private var pointsPerSet = 11
-    @State private var numberOfService = 2
-    @State private var changeSide = true
-    @State private var firstServeSelectedPicker = 0
-    @State private var isMatchModelReady = false
-
-    private let bestOfOptions = ["Best of 1", "Best of 3", "Best of 5", "Team", "Custom"]
-
+    @StateObject private var viewModel = LocalHomeViewModel()
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -30,28 +17,38 @@ struct LocalHomeView: View {
                     .opacity(0.3)
                     .ignoresSafeArea()
                 
-                
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
                         SectionHeader(title: "Players and Coaches")
-
-                        PlayerEntryView(playerTitle: "Player One", name: $playerOneName, coachName: $coachPlayerOneName, isEditable: true)
-                        PlayerEntryView(playerTitle: "Player Two", name: $playerTwoName, coachName: $coachPlayerTwoName, isEditable: true)
-
-                        SectionHeader(title: "Match Settings")
-
-                        BestOfView(
-                            bestOfSelectedPicker: $bestOfSelectedPicker,
-                            numberOfSetInt: $numberOfSet,
-                            pointsPerSetInt: $pointsPerSet,
-                            numberOfServiceInt: $numberOfService,
-                            changeSide: $changeSide
+                        
+                        PlayerEntryView(
+                            playerTitle: "Player One",
+                            name: $viewModel.playerOneName,
+                            coachName: $viewModel.coachPlayerOneName,
+                            isEditable: true
                         )
-
-                        FirstServeView(firstServeSelectedPicker: $firstServeSelectedPicker)
-
+                        
+                        PlayerEntryView(
+                            playerTitle: "Player Two",
+                            name: $viewModel.playerTwoName,
+                            coachName: $viewModel.coachPlayerTwoName,
+                            isEditable: true
+                        )
+                        
+                        SectionHeader(title: "Match Settings")
+                        
+                        BestOfView(
+                            bestOfSelectedPicker: $viewModel.bestOfSelectedPicker,
+                            numberOfSetInt: $viewModel.numberOfSet,
+                            pointsPerSetInt: $viewModel.pointsPerSet,
+                            numberOfServiceInt: $viewModel.numberOfService,
+                            changeSide: $viewModel.changeSide
+                        )
+                        
+                        FirstServeView(firstServeSelectedPicker: $viewModel.firstServeSelectedPicker)
+                        
                         StartGameButton {
-                            startMatch()
+                            viewModel.startMatch()
                         }
                     }
                     .padding()
@@ -59,28 +56,14 @@ struct LocalHomeView: View {
             }
             .navigationTitle("Setup Match")
             .navigationBarTitleDisplayMode(.inline)
-            .fullScreenCover(isPresented: $isMatchModelReady) {
-                MatchView()
+            .fullScreenCover(isPresented: $viewModel.isMatchModelReady) {
+                if let matchModel = viewModel.matchModel {
+                    MatchView(matchModel: matchModel)
+                } else {
+                    Text("Match model is not readu.")
+                }
             }
         }
-    }
-
-    private func startMatch() {
-        let playerOneServeChoice = (firstServeSelectedPicker == 0)
-
-        matchGestion.matchModel = MatchModel(
-            playerOne: playerOneName,
-            playerTwo: playerTwoName,
-            coachPlayerOne: coachPlayerOneName,
-            coachPlayerTwo: coachPlayerTwoName,
-            numberOfService: numberOfService,
-            numberOfPoints: pointsPerSet,
-            numberOfSet: numberOfSet,
-            bestOf: bestOfOptions[bestOfSelectedPicker],
-            playerOneFirstServe: playerOneServeChoice,
-            changeSide: changeSide
-        )
-        isMatchModelReady = true
     }
 }
 

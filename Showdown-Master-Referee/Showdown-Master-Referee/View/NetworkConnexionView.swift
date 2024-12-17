@@ -8,63 +8,55 @@
 import SwiftUI
 
 struct NetworkConnexionView: View {
-    @EnvironmentObject var matchGestion: MatchGestion
-    @State private var tournamentId: String = ""
-    @State private var matchId: String = ""
-    @State private var password: String = ""
-    @State private var showAlert: Bool = false
-    @State private var alertMessage: String = ""
-    @State private var navigateToGame: Bool = false
-    @State private var playerOne: String = ""
-    @State private var playerTwo: String = ""
-    @State private var showPassword: Bool = false
-    @State private var matchResult: [Int] = []
-    
+    @StateObject private var viewModel: NetworkConnexionViewModel
+
+    init() {
+        _viewModel = StateObject(wrappedValue: NetworkConnexionViewModel())
+    }
+
     var body: some View {
         NavigationStack {
             ZStack {
                 Color.red.opacity(0.3)
                     .ignoresSafeArea()
-                
+
                 VStack(alignment: .leading, spacing: 15) {
                     Group {
                         Text("Tournament ID")
                             .font(.headline)
                             .padding(.leading)
-                        
-                        TextField("Tournament ID", text: $tournamentId)
+
+                        TextField("Tournament ID", text: $viewModel.tournamentId)
                             .textFieldStyle(.roundedBorder)
                             .padding(.horizontal)
                     }
-                    
+
                     Group {
                         Text("Match ID")
                             .font(.headline)
                             .padding(.leading)
-                        
-                        TextField("Match ID", text: $matchId)
+
+                        TextField("Match ID", text: $viewModel.matchId)
                             .textFieldStyle(.roundedBorder)
                             .padding(.horizontal)
                     }
-                    
+
                     Group {
                         Text("Password")
                             .font(.headline)
                             .padding(.leading)
-                        
+
                         HStack {
-                            if showPassword {
-                                TextField("Password", text: $password)
+                            if viewModel.showPassword {
+                                TextField("Password", text: $viewModel.password)
                                     .textFieldStyle(.roundedBorder)
                             } else {
-                                SecureField("Password", text: $password)
+                                SecureField("Password", text: $viewModel.password)
                                     .textFieldStyle(.roundedBorder)
                             }
-                            
-                            Button(action: {
-                                showPassword.toggle()
-                            }) {
-                                Image(systemName: showPassword ? "eye.slash" : "eye")
+
+                            Button(action: viewModel.togglePasswordVisibility) {
+                                Image(systemName: viewModel.showPassword ? "eye.slash" : "eye")
                                     .foregroundColor(Color("Deep Purple"))
                                     .padding(8)
                                     .background(
@@ -78,8 +70,8 @@ struct NetworkConnexionView: View {
                     }
 
                     Divider()
-                    
-                    Button(action: fetchMatch) {
+
+                    Button(action: viewModel.fetchMatch) {
                         ZStack {
                             LinearGradient(
                                 colors: [Color("Deep Purple"), Color("Raspberry Pink")],
@@ -89,7 +81,7 @@ struct NetworkConnexionView: View {
                             .opacity(0.9)
                             .cornerRadius(10)
                             .shadow(color: Color.blue.opacity(0.5), radius: 10, x: 0, y: 5)
-                            
+
                             HStack(spacing: 10) {
                                 Image(systemName: "play.circle.fill")
                                     .font(.title)
@@ -104,58 +96,29 @@ struct NetworkConnexionView: View {
                     }
                     .frame(maxHeight: 100)
                     .padding(.horizontal)
-
                 }
-                .alert(isPresented: $showAlert) {
-                    Alert(title: Text("Message"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+                .alert(isPresented: $viewModel.showAlert) {
+                    Alert(title: Text("Message"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
                 }
             }
-            .sheet(isPresented: $matchGestion.showMatchResultPopup, onDismiss: matchGestion.dismissMatchResult) {
+            .sheet(isPresented: $viewModel.showMatchResultPopup, onDismiss: viewModel.dismissMatchResult) {
                 MatchResultPopup(
-                    playerOneName: playerOne,
-                    playerTwoName: playerTwo,
-                    matchResults: matchResult,
-                    onDismiss: matchGestion.dismissMatchResult
+                    playerOneName: viewModel.playerOne,
+                    playerTwoName: viewModel.playerTwo,
+                    matchResults: viewModel.matchResult,
+                    onDismiss: viewModel.dismissMatchResult
                 )
             }
-            .navigationDestination(isPresented: $navigateToGame) {
+            .navigationDestination(isPresented: $viewModel.navigateToGame) {
                 NetworkHomeView(
-                    tournamentId: tournamentId,
-                    matchId: matchId,
-                    playerOneName: playerOne,
-                    playerTwoName: playerTwo
+                    playerOneName: viewModel.playerOne,
+                    playerTwoName: viewModel.playerTwo
                 )
             }
         }
     }
-    
-    private func fetchMatch() {
-        NetworkManager.shared.fetchMatch(
-            tournamentId: tournamentId,
-            matchId: matchId,
-            refereePassword: password
-        ) { match, error in
-            if let error = error {
-                alertMessage = error
-                showAlert = true
-            } else if let match = match {
-                if let result = match.result, !result.isEmpty {
-                    playerOne = match.player_one
-                    playerTwo = match.player_two
-                    matchResult = match.result ?? []
-                    print(playerOne)
-                    print(playerTwo)
-                    print(matchResult)
-                    matchGestion.showMatchResultPopup = true
-                } else {
-                    playerOne = match.player_one
-                    playerTwo = match.player_two
-                    print("Player One is : \(playerOne), Player Two is : \(playerTwo)")
-                    navigateToGame = true
-                }
-            } else {
-                
-            }
-        }
-    }
+}
+
+#Preview {
+    NetworkConnexionView()
 }

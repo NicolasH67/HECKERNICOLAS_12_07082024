@@ -1,32 +1,55 @@
 //
-//  MatchGestion.swift
+//  MatchViewModel.swift
 //  Showdown-Master-Referee
 //
-//  Created by Nicolas Hecker on 21/11/2024.
+//  Created by Nicolas Hecker on 15/12/2024.
 //
 
-import Foundation
 import SwiftUI
 
-class MatchGestion: ObservableObject {
+class MatchViewModel: ObservableObject {
+    // MARK: - Match Model State
     @Published var matchModel: MatchModel?
     @Published var matchStates: [MatchState] = []
-    @Published var timeOutButtonIsDisabledPlayerOne: Bool = false
-    @Published var timeOutButtonIsDisabledPlayerTwo: Bool = false
-    @Published var numberOfServicePlayerOne: Int = 0
-    @Published var numberOfServicePlayerTwo: Int = 0
-    @Published var pointsPlayerOne: Int = 0
-    @Published var pointsPlayerTwo: Int = 0
-    @Published var setWinPlayerOne: Int = 0
-    @Published var setWinPlayerTwo: Int = 0
-    @Published var isPlayerOneServe: Bool = true
-    @Published var matchIsOver: Bool = false
-    @Published var changeSide: Bool = false
+    @Published var pointsPlayerOne = 0
+    @Published var pointsPlayerTwo = 0
+    @Published var setWinPlayerOne = 0
+    @Published var setWinPlayerTwo = 0
+    @Published var numberOfServicePlayerOne = 0
+    @Published var numberOfServicePlayerTwo = 0
+    @Published var timeOutButtonIsDisabledPlayerOne = false
+    @Published var timeOutButtonIsDisabledPlayerTwo = false
+    @Published var matchIsOver = false
     @Published var showCountdownPopup = false
-    @Published var countdownTime = 60
-    @Published var countdownTimer: Timer?
-    @Published var showCountdownPupup: Bool = false
+    @Published var countdownTime = 0
     @Published var showMatchResultPopup = false
+    @Published var changeSide = false
+    @Published var isPlayerOneServe = true
+    
+    init(matchModel: MatchModel) {
+        self.matchModel = matchModel
+        initializeServiceCounts()
+    }
+    
+    // MARK: - ViewModel State
+    @Published var showAlert = false
+    @Published var coachShowAlert = false
+    @Published var playerNameToShow: String = ""
+    @Published var coachNameToShow: String = ""
+
+    // MARK: - Match Management Methods
+    func startCountdown() {
+        self.showCountdownPopup = true
+    }
+    
+    func stopCountdown() {
+        self.showCountdownPopup = false
+    }
+
+    func initializeServiceCounts() {
+        self.numberOfServicePlayerOne = matchModel?.playerOneFirstServe ?? true ? 1 : 0
+        self.numberOfServicePlayerTwo = matchModel?.playerOneFirstServe ?? true ? 0 : 1
+    }
     
     func onGoal(isPlayerOneScored: Bool) {
         if matchIsOver { return }
@@ -78,25 +101,25 @@ class MatchGestion: ObservableObject {
         if matchIsOver { return }
         
         saveCurrentState()
-
+        
         if isPlayerOneFault {
             pointsPlayerTwo += 1
         } else {
             pointsPlayerOne += 1
         }
-
+        
         let maxPoints = matchModel?.numberOfPoints ?? 11
         let pointsDifference = abs(pointsPlayerOne - pointsPlayerTwo)
         let isLastSet = (setWinPlayerOne + setWinPlayerTwo + 1) == (matchModel?.numberOfSet ?? 3)
         let requiredSetsToWin = (matchModel?.numberOfSet ?? 3) / 2 + 1
-
+        
         if (pointsPlayerOne >= maxPoints || pointsPlayerTwo >= maxPoints) && pointsDifference >= 2 {
             if pointsPlayerOne > pointsPlayerTwo {
                 setWinPlayerOne += 1
             } else {
                 setWinPlayerTwo += 1
             }
-
+            
             if setWinPlayerOne == requiredSetsToWin || setWinPlayerTwo == requiredSetsToWin {
                 matchIsOver = true
                 return
@@ -112,7 +135,7 @@ class MatchGestion: ObservableObject {
             }
         }
     }
-
+    
     func onServe() {
         if matchIsOver { return }
         
@@ -133,27 +156,6 @@ class MatchGestion: ObservableObject {
                 numberOfServicePlayerTwo += 1
             }
         }
-    }
-    
-    func initializeServiceCounts() {
-        isPlayerOneServe = matchModel?.playerOneFirstServe ?? true
-        numberOfServicePlayerOne = matchModel?.playerOneFirstServe ?? true ? 1 : 0
-        numberOfServicePlayerTwo = matchModel?.playerOneFirstServe ?? true ? 0 : 1
-    }
-    
-    func resetSet() {
-        isPlayerOneServe.toggle()
-        
-        numberOfServicePlayerOne = isPlayerOneServe ? 1 : 0
-        numberOfServicePlayerTwo = isPlayerOneServe ? 0 : 1
-        
-        pointsPlayerOne = 0
-        pointsPlayerTwo = 0
-        
-        timeOutButtonIsDisabledPlayerOne = false
-        timeOutButtonIsDisabledPlayerTwo = false
-        
-        startCountdown()
     }
     
     func undoLastAction() {
@@ -185,30 +187,7 @@ class MatchGestion: ObservableObject {
         matchStates.append(currentState)
     }
     
-    func startCountdown() {
-        countdownTime = 60
-        showCountdownPopup = true
-        startCountdownTimer()
-    }
-        
-    func stopCountdown() {
-        countdownTimer?.invalidate()
-        countdownTimer = nil
-        showCountdownPopup = false
-    }
-    
-    func startCountdownTimer() {
-        countdownTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-            if self.countdownTime > 0 {
-                self.countdownTime -= 1
-            } else {
-                self.stopCountdown()
-            }
-        }
-    }
-    
     func resetMatchData() {
-        matchModel = nil
         pointsPlayerOne = 0
         pointsPlayerTwo = 0
         setWinPlayerOne = 0
@@ -218,9 +197,50 @@ class MatchGestion: ObservableObject {
         timeOutButtonIsDisabledPlayerOne = false
         timeOutButtonIsDisabledPlayerTwo = false
         matchIsOver = false
+        showCountdownPopup = false
+        countdownTime = 0
+    }
+    
+    func resetSet() {
+        pointsPlayerOne = 0
+        pointsPlayerTwo = 0
+        numberOfServicePlayerOne = 0
+        numberOfServicePlayerTwo = 0
     }
     
     func dismissMatchResult() {
-        showMatchResultPopup = false
+        resetMatchData()
+    }
+    
+    // MARK: - ViewModel Actions
+    func onPlayerTap(player: String, coach: String) {
+        playerNameToShow = player
+        coachNameToShow = coach
+        coachShowAlert = true
+    }
+
+    func onCancelLastAction() {
+        undoLastAction()
+        undoLastAction()
+    }
+
+    func onStartChrono() {
+        startCountdown()
+    }
+
+    func onEndOfSet() {
+        resetSet()
+    }
+
+    func onQuitMatch() {
+        showAlert = true
+    }
+
+    func onConfirmQuit() {
+        resetMatchData()
+    }
+
+    func onDismissCountdown() {
+        stopCountdown()
     }
 }
