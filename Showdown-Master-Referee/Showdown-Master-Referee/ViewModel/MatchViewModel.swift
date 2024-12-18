@@ -21,6 +21,7 @@ class MatchViewModel: ObservableObject {
     @Published var timeOutButtonIsDisabledPlayerOne = false
     @Published var timeOutButtonIsDisabledPlayerTwo = false
     @Published var matchIsOver = false
+    @Published var setIsOver = false
     @Published var showCountdownPopup = false
     @Published var countdownTime = 0
     @Published var showMatchResultPopup = false
@@ -78,6 +79,7 @@ class MatchViewModel: ObservableObject {
     
     func onGoal(isPlayerOneScored: Bool) {
         if matchIsOver { return }
+        if setIsOver { return }
         
         saveCurrentState()
         
@@ -103,7 +105,8 @@ class MatchViewModel: ObservableObject {
                 matchIsOver = true
                 return
             } else {
-                resetSet()
+                setIsOver.toggle()
+                startCountdown()
             }
         }
         
@@ -124,6 +127,7 @@ class MatchViewModel: ObservableObject {
     
     func onFault(isPlayerOneFault: Bool) {
         if matchIsOver { return }
+        if setIsOver { return }
         
         saveCurrentState()
         
@@ -149,7 +153,8 @@ class MatchViewModel: ObservableObject {
                 matchIsOver = true
                 return
             } else {
-                resetSet()
+                setIsOver.toggle()
+                startCountdown()
             }
         }
         if isLastSet {
@@ -227,11 +232,14 @@ class MatchViewModel: ObservableObject {
     }
     
     func resetSet() {
+        if !setIsOver { return }
+        
         pointsPlayerOne = 0
         pointsPlayerTwo = 0
         matchModel?.playerOneFirstServe.toggle()
         self.numberOfServicePlayerOne = matchModel?.playerOneFirstServe ?? true ? 1 : 0
         self.numberOfServicePlayerTwo = matchModel?.playerOneFirstServe ?? true ? 0 : 1
+        setIsOver.toggle()
     }
     
     func dismissMatchResult() {
