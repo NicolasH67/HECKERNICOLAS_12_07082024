@@ -16,6 +16,6 @@ struct MatchModel: Codable {
     let numberOfPoints: Int
     let numberOfSet: Int
     let bestOf: String
-    let playerOneFirstServe: Bool
+    var playerOneFirstServe: Bool
     let changeSide: Bool
 }

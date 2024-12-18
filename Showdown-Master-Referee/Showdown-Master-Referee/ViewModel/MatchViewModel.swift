@@ -229,8 +229,9 @@ class MatchViewModel: ObservableObject {
     func resetSet() {
         pointsPlayerOne = 0
         pointsPlayerTwo = 0
-        numberOfServicePlayerOne = 0
-        numberOfServicePlayerTwo = 0
+        matchModel?.playerOneFirstServe.toggle()
+        self.numberOfServicePlayerOne = matchModel?.playerOneFirstServe ?? true ? 1 : 0
+        self.numberOfServicePlayerTwo = matchModel?.playerOneFirstServe ?? true ? 0 : 1
     }
     
     func dismissMatchResult() {
