@@ -119,7 +119,8 @@ class MatchViewModel: ObservableObject {
                 totalPoints = pointsPlayerTwo
             }
             
-            if totalPoints % (maxPoints / 2) == 0 {
+            if totalPoints >= ((maxPoints / 2) + 1) {
+                startCountdown()
                 changeSide.toggle()
             }
         }
@@ -157,10 +158,18 @@ class MatchViewModel: ObservableObject {
                 startCountdown()
             }
         }
+        
         if isLastSet {
-            let totalPoints = pointsPlayerOne + pointsPlayerTwo
+            let totalPoints: Int
             
-            if totalPoints % (maxPoints / 2) == 0 {
+            if isPlayerOneFault {
+                totalPoints = pointsPlayerTwo
+            } else {
+                totalPoints = pointsPlayerOne
+            }
+            
+            if totalPoints >= ((maxPoints / 2) + 1) {
+                startCountdown()
                 changeSide.toggle()
             }
         }
