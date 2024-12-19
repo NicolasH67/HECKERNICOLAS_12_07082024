@@ -27,6 +27,7 @@ class MatchViewModel: ObservableObject {
     @Published var showMatchResultPopup = false
     @Published var changeSide = false
     @Published var isPlayerOneServe = true
+    var onQuitCallback: (() -> Void)?
     
     var timer: Timer?
     
@@ -119,9 +120,13 @@ class MatchViewModel: ObservableObject {
                 totalPoints = pointsPlayerTwo
             }
             
-            if totalPoints >= ((maxPoints / 2) + 1) {
-                startCountdown()
-                changeSide.toggle()
+            if !changeSide {
+                if totalPoints >= ((maxPoints / 2) + 1) {
+                    startCountdown()
+                    changeSide.toggle()
+                }
+            } else {
+                return
             }
         }
     }
@@ -276,7 +281,13 @@ class MatchViewModel: ObservableObject {
     }
 
     func onQuitMatch() {
-        showAlert = true
+        if matchIsOver {
+            if let onQuit = onQuitCallback {
+                onQuit()
+            }
+        } else {
+            showAlert = true
+        }
     }
 
     func onConfirmQuit() {

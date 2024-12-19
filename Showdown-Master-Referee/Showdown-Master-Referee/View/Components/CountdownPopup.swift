@@ -30,7 +30,7 @@ struct CountdownPopup: View {
                 Text("Match Timer")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .foregroundColor(.white)
+                    .foregroundColor(Color("Raspberry Pink"))
                     .padding(.bottom, 10)
                 
                 Text("\(countdownTime)")

@@ -8,7 +8,7 @@ import SwiftUI
 
 struct MatchView: View {
     @StateObject private var viewModel: MatchViewModel
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
 
     init(matchModel: MatchModel) {
         _viewModel = StateObject(wrappedValue: MatchViewModel(matchModel: matchModel))
@@ -124,7 +124,11 @@ struct MatchView: View {
             }
         }
         .onAppear {
+            print("ok")
             viewModel.initializeServiceCounts()
+            viewModel.onQuitCallback = {
+                dismiss()
+            }
         }
         .sheet(isPresented: $viewModel.showCountdownPopup, onDismiss: viewModel.stopCountdown) {
                     CountdownPopup(
@@ -144,7 +148,7 @@ struct MatchView: View {
                 }
         .alert("Match in Progress", isPresented: $viewModel.showAlert) {
                     Button("Quit", role: .destructive) {
-                        presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     }
                     Button("Cancel", role: .cancel) {
                         viewModel.showAlert = false
