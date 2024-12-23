@@ -23,32 +23,23 @@ struct CountdownPopup: View {
 
     var body: some View {
         ZStack {
-            Color.black.opacity(0.7)
+            Color.red.opacity(0.3)
                 .ignoresSafeArea()
-            
+
             VStack(spacing: 20) {
                 Text("Match Timer")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(Color("Raspberry Pink"))
-                    .padding(.bottom, 10)
-                
+
                 Text("\(countdownTime)")
                     .font(.system(size: 72, weight: .bold, design: .monospaced))
-                    .foregroundColor(.yellow)
+                    .foregroundColor(Color("Deep Purple"))
                     .padding()
-                    .background(Color.white.opacity(0.2))
-                    .cornerRadius(12)
-                    .shadow(color: .yellow.opacity(0.7), radius: 8, x: 0, y: 0)
-                    .scaleEffect(1.2)
-                    .opacity(0.8)
-                    .animation(
-                        .spring(response: 0.4, dampingFraction: 0.5, blendDuration: 0.2),
-                        value: countdownTime
-                    )
-                    .scaleEffect(1)
-                    .opacity(1)
-                
+                    .background(Color.white.opacity(0.15))
+                    .cornerRadius(15)
+                    .shadow(color: Color("Deep Purple").opacity(0.5), radius: 10, x: 0, y: 5)
+
                 HStack(spacing: 20) {
                     PlayerStatsView(
                         playerName: playerOneName,
@@ -57,11 +48,11 @@ struct CountdownPopup: View {
                         serviceNumber: playerOneService,
                         alignment: .leading
                     )
-                    
+
                     Divider()
-                        .frame(height: 100)
+                        .frame(height: 120)
                         .background(Color.white.opacity(0.5))
-                    
+
                     PlayerStatsView(
                         playerName: playerTwoName,
                         score: playerTwoScore,
@@ -71,33 +62,31 @@ struct CountdownPopup: View {
                     )
                 }
                 .padding(.horizontal, 20)
-                
+
                 VStack(alignment: .leading, spacing: 15) {
                     HStack {
                         Text("Coach (Player 1):")
                             .fontWeight(.bold)
-                            .foregroundColor(.white)
+                            .foregroundColor(Color("Deep Purple"))
                         Spacer()
                         Text(coachPlayerOneName)
-                            .foregroundColor(.white.opacity(0.9))
+                            .foregroundColor(Color("Raspberry Pink"))
                     }
-                    
+
                     HStack {
                         Text("Coach (Player 2):")
                             .fontWeight(.bold)
-                            .foregroundColor(.white)
+                            .foregroundColor(Color("Deep Purple"))
                         Spacer()
                         Text(coachPlayerTwoName)
-                            .foregroundColor(.white.opacity(0.9))
+                            .foregroundColor(Color("Raspberry Pink"))
                     }
                 }
                 .font(.body)
                 .padding()
-                .background(Color.white.opacity(0.1))
-                .cornerRadius(10)
-                .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 5)
-                .padding(.horizontal, 20)
-                
+                .background(Color.white.opacity(0.2))
+                .cornerRadius(12)
+
                 Button(action: onDismiss) {
                     Text("Dismiss")
                         .font(.headline)
@@ -105,21 +94,21 @@ struct CountdownPopup: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(LinearGradient(
-                            colors: [Color.red.opacity(0.8), Color.red],
+                            colors: [Color("Deep Purple"), Color("Raspberry Pink")],
                             startPoint: .leading,
                             endPoint: .trailing
                         ))
                         .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .shadow(color: .red.opacity(0.7), radius: 8, x: 0, y: 4)
+                        .cornerRadius(12)
+                        .shadow(color: Color("Deep Purple").opacity(0.5), radius: 8, x: 0, y: 4)
                 }
                 .padding(.horizontal, 50)
                 .padding(.top, 10)
             }
             .padding()
-            .background(Color.black.opacity(0.9))
+            .background(Color.white.opacity(0.1))
             .cornerRadius(20)
-            .shadow(color: .black.opacity(0.5), radius: 20, x: 0, y: 10)
+            .shadow(color: Color.black.opacity(0.4), radius: 20, x: 0, y: 10)
             .padding(.horizontal, 20)
         }
     }
@@ -129,40 +118,39 @@ struct PlayerStatsView: View {
     var playerName: String
     var score: Int
     var sets: Int
-    var serviceNumber: Int // Ajout
+    var serviceNumber: Int
     var alignment: HorizontalAlignment
 
     var body: some View {
         VStack(alignment: alignment, spacing: 8) {
             Text(playerName)
                 .font(.headline)
-                .foregroundColor(.white)
+                .foregroundColor(Color("Deep Purple"))
                 .lineLimit(1)
                 .truncationMode(.tail)
-            
-            Text("Service: \(serviceNumber)") // Ajout
+
+            Text("Service: \(serviceNumber)")
                 .font(.subheadline)
-                .foregroundColor(.cyan)
-                .padding(.top, 5)
-            
+                .foregroundColor(Color("Raspberry Pink"))
+
             HStack(spacing: 10) {
                 VStack {
                     Text("Score")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.black.opacity(0.7))
                     Text("\(score)")
                         .font(.title)
                         .fontWeight(.bold)
-                        .foregroundColor(.green)
+                        .foregroundColor(Color("Raspberry Pink"))
                 }
                 VStack {
                     Text("Sets")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.black.opacity(0.7))
                     Text("\(sets)")
                         .font(.title)
                         .fontWeight(.bold)
-                        .foregroundColor(.orange)
+                        .foregroundColor(Color("Deep Purple"))
                 }
             }
         }
