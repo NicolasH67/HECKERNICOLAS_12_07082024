@@ -36,7 +36,7 @@ struct CountdownPopup: View {
                     .font(.system(size: 72, weight: .bold, design: .monospaced))
                     .foregroundColor(Color("Deep Purple"))
                     .padding()
-                    .background(Color.white.opacity(0.15))
+                    .background(Color.white.opacity(0.4))
                     .cornerRadius(15)
                     .shadow(color: Color("Deep Purple").opacity(0.5), radius: 10, x: 0, y: 5)
 
