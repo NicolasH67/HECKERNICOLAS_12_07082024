@@ -86,6 +86,35 @@ struct CountdownPopup: View {
                 .padding()
                 .background(Color.white.opacity(0.2))
                 .cornerRadius(12)
+                
+                HStack {
+                    Button(action: {
+                        countdownTime += 5
+                    }) {
+                        Text("+5")
+                            .font(.headline)
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color("Deep Purple"))
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    
+                    Button(action: {
+                        countdownTime += 10
+                    }) {
+                        Text("+10")
+                            .font(.headline)
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color("Raspberry Pink"))
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                }
+                .padding(.horizontal, 50)
 
                 Button(action: onDismiss) {
                     Text("Dismiss")
@@ -141,7 +170,7 @@ struct PlayerStatsView: View {
                     Text("\(score)")
                         .font(.title)
                         .fontWeight(.bold)
-                        .foregroundColor(Color("Raspberry Pink"))
+                        .foregroundColor(Color("Deep Purple"))
                 }
                 VStack {
                     Text("Sets")
@@ -150,7 +179,7 @@ struct PlayerStatsView: View {
                     Text("\(sets)")
                         .font(.title)
                         .fontWeight(.bold)
-                        .foregroundColor(Color("Deep Purple"))
+                        .foregroundColor(Color("Raspberry Pink"))
                 }
             }
         }
