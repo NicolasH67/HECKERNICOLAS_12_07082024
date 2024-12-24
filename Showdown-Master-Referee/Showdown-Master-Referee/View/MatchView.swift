@@ -46,7 +46,6 @@ struct MatchView: View {
                 }
                 .padding(.horizontal)
 
-                // Scores
                 HStack(spacing: 35) {
                     ScoreBoxView(title: "Points", value: viewModel.pointsPlayerOne)
                     ScoreBoxView(title: "Sets", value: viewModel.setWinPlayerOne)
@@ -54,8 +53,8 @@ struct MatchView: View {
                     ScoreBoxView(title: "Sets", value: viewModel.setWinPlayerTwo)
                     ScoreBoxView(title: "Points", value: viewModel.pointsPlayerTwo)
                 }
+                .padding()
 
-                // Actions des joueurs
                 HStack(spacing: 40) {
                     PlayerActionView(
                         totalService: viewModel.matchModel?.numberOfService ?? 0,
@@ -64,6 +63,7 @@ struct MatchView: View {
                         onFault: { viewModel.onFault(isPlayerOneFault: true) },
                         onServe: { viewModel.onServe() },
                         startCountdown: { viewModel.onStartChrono() },
+                        showWarning: { viewModel.showWarning(isPlayerOne: true)},
                         initializeFirstServe: { viewModel.initializeServiceCounts() },
                         timeOutButtonIsDisabled: $viewModel.timeOutButtonIsDisabledPlayerOne,
                         matchIsOver: viewModel.matchIsOver
@@ -75,6 +75,7 @@ struct MatchView: View {
                         onFault: { viewModel.onFault(isPlayerOneFault: false) },
                         onServe: { viewModel.onServe() },
                         startCountdown: { viewModel.onStartChrono() },
+                        showWarning: { viewModel.showWarning(isPlayerOne: false)},
                         initializeFirstServe: { viewModel.initializeServiceCounts() },
                         timeOutButtonIsDisabled: $viewModel.timeOutButtonIsDisabledPlayerTwo,
                         matchIsOver: viewModel.matchIsOver
@@ -124,11 +125,20 @@ struct MatchView: View {
             }
         }
         .onAppear {
-            print("ok")
             viewModel.initializeServiceCounts()
             viewModel.onQuitCallback = {
                 dismiss()
             }
+        }
+        .sheet(isPresented: $viewModel.showWarningPopup, onDismiss: viewModel.dismissWarning) {
+            WarningPopup(
+                selectedOption: $viewModel.selectedWarning,
+                playerName: viewModel.warningShowName,
+                onWarning: {
+                    guard viewModel.selectedWarning != nil else { return }
+                    viewModel.onWarning(isPlayerOneWarning: viewModel.isPlayerOneWarning)
+                }
+            )
         }
         .sheet(isPresented: $viewModel.showCountdownPopup, onDismiss: viewModel.stopCountdown) {
                     CountdownPopup(

@@ -17,4 +17,5 @@ struct MatchState {
     let isPlayerOneServe: Bool
     let matchIsOver: Bool
     let changeSide: Bool
+    var warningMessage: String?
 }

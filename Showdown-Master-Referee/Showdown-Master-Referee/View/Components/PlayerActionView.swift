@@ -14,6 +14,7 @@ struct PlayerActionView: View {
     var onFault: () -> Void
     var onServe: () -> Void
     var startCountdown: () -> Void
+    var showWarning: () -> Void
     var initializeFirstServe : () -> Void
     @Binding var timeOutButtonIsDisabled: Bool
     @State var matchIsOver: Bool
@@ -21,7 +22,9 @@ struct PlayerActionView: View {
     var body: some View {
         VStack(spacing: 10) {
             HStack(spacing: 2) {
-                Button(action: {}) {
+                Button(action: {
+                    showWarning()
+                }) {
                     Text("P/W")
                         .frame(minWidth: 40, minHeight: 40)
                         .padding()
@@ -46,7 +49,7 @@ struct PlayerActionView: View {
             
             Text("Service")
                 .font(.caption)
-                .foregroundColor(.gray)
+                .foregroundColor(.black)
             
             HStack(spacing: 10) {
                 ForEach(0..<totalService, id: \.self) { index in

@@ -23,10 +23,14 @@ class MatchViewModel: ObservableObject {
     @Published var matchIsOver = false
     @Published var setIsOver = false
     @Published var showCountdownPopup = false
+    @Published var showWarningPopup = false
     @Published var countdownTime = 0
     @Published var showMatchResultPopup = false
     @Published var changeSide = false
     @Published var isPlayerOneServe = true
+    @Published var isPlayerOneWarning = false
+    @Published var selectedWarning: String? = nil
+    @Published var warningShowName: String = ""
     var onQuitCallback: (() -> Void)?
     
     var timer: Timer?
@@ -82,7 +86,7 @@ class MatchViewModel: ObservableObject {
         if matchIsOver { return }
         if setIsOver { return }
         
-        saveCurrentState()
+        saveCurrentState(isWarning: false)
         
         if isPlayerOneScored {
             pointsPlayerOne += 2
@@ -135,7 +139,7 @@ class MatchViewModel: ObservableObject {
         if matchIsOver { return }
         if setIsOver { return }
         
-        saveCurrentState()
+        saveCurrentState(isWarning: false)
         
         if isPlayerOneFault {
             pointsPlayerTwo += 1
@@ -183,7 +187,7 @@ class MatchViewModel: ObservableObject {
     func onServe() {
         if matchIsOver { return }
         
-        saveCurrentState()
+        saveCurrentState(isWarning: false)
         
         if numberOfServicePlayerOne > 0 {
             if numberOfServicePlayerOne == matchModel?.numberOfService ?? 2 {
@@ -216,19 +220,35 @@ class MatchViewModel: ObservableObject {
         changeSide = lastState.changeSide
     }
     
-    func saveCurrentState() {
-        let currentState = MatchState(
-            pointsPlayerOne: pointsPlayerOne,
-            pointsPlayerTwo: pointsPlayerTwo,
-            setWinPlayerOne: setWinPlayerOne,
-            setWinPlayerTwo: setWinPlayerTwo,
-            numberOfServicePlayerOne: numberOfServicePlayerOne,
-            numberOfServicePlayerTwo: numberOfServicePlayerTwo,
-            isPlayerOneServe: isPlayerOneServe,
-            matchIsOver: matchIsOver,
-            changeSide: changeSide
-        )
-        matchStates.append(currentState)
+    func saveCurrentState(isWarning: Bool) {
+        if !isWarning {
+            let currentState = MatchState(
+                pointsPlayerOne: pointsPlayerOne,
+                pointsPlayerTwo: pointsPlayerTwo,
+                setWinPlayerOne: setWinPlayerOne,
+                setWinPlayerTwo: setWinPlayerTwo,
+                numberOfServicePlayerOne: numberOfServicePlayerOne,
+                numberOfServicePlayerTwo: numberOfServicePlayerTwo,
+                isPlayerOneServe: isPlayerOneServe,
+                matchIsOver: matchIsOver,
+                changeSide: changeSide
+            )
+            matchStates.append(currentState)
+        } else {
+            let currentState = MatchState(
+                pointsPlayerOne: pointsPlayerOne,
+                pointsPlayerTwo: pointsPlayerTwo,
+                setWinPlayerOne: setWinPlayerOne,
+                setWinPlayerTwo: setWinPlayerTwo,
+                numberOfServicePlayerOne: numberOfServicePlayerOne,
+                numberOfServicePlayerTwo: numberOfServicePlayerTwo,
+                isPlayerOneServe: isPlayerOneServe,
+                matchIsOver: matchIsOver,
+                changeSide: changeSide,
+                warningMessage: nil
+            )
+            matchStates.append(currentState)
+        }
     }
     
     func resetMatchData() {
@@ -258,6 +278,33 @@ class MatchViewModel: ObservableObject {
     
     func dismissMatchResult() {
         resetMatchData()
+    }
+    
+    func showWarning(isPlayerOne: Bool) {
+        if isPlayerOne {
+            saveCurrentState(isWarning: true)
+            isPlayerOneWarning = true
+            warningShowName = matchModel?.playerOne ?? "Player One"
+        } else {
+            saveCurrentState(isWarning: true)
+            isPlayerOneWarning = false
+            warningShowName = matchModel?.playerTwo ?? "Player Two"
+        }
+        showWarningPopup = true
+    }
+    
+    func dismissWarning() {
+        showWarningPopup = false
+    }
+    
+    func onWarning(isPlayerOneWarning: Bool) {
+        if selectedWarning == "Warning" {
+            showWarningPopup = false
+            return
+        } else if  selectedWarning == "Penalty" || selectedWarning == "Penalty (Glasses)" {
+            onGoal(isPlayerOneScored: !isPlayerOneWarning)
+            showWarningPopup = false
+        }
     }
     
     // MARK: - ViewModel Actions
