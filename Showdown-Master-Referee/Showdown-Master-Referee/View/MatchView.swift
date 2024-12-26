@@ -137,7 +137,7 @@ struct MatchView: View {
                 onWarning: {
                     guard viewModel.selectedWarning != nil else { return }
                     viewModel.onWarning(isPlayerOneWarning: viewModel.isPlayerOneWarning)
-                }
+                }, onDismiss: viewModel.dismissWarning
             )
         }
         .sheet(isPresented: $viewModel.showCountdownPopup, onDismiss: viewModel.stopCountdown) {

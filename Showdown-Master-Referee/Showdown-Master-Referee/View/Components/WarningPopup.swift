@@ -11,6 +11,7 @@ struct WarningPopup: View {
     @State private var reasonText: String = ""
     var playerName: String
     var onWarning: () -> Void
+    var onDismiss: () -> Void
 
     var body: some View {
         ZStack {
@@ -68,7 +69,26 @@ struct WarningPopup: View {
                         .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 5)
                 }
                 .padding(.top, 20)
-
+                
+                Button(action: {
+                    onDismiss()
+                }) {
+                    Text("Cancel")
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(LinearGradient(
+                            colors: [Color("Deep Purple"), Color("Raspberry Pink")],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        ))
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 5)
+                }
+                .padding(.top, 20)
+                
                 Spacer()
             }
             .padding()
