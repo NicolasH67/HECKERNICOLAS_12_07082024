@@ -190,9 +190,13 @@ class MatchViewModel: ObservableObject {
                 totalPoints = pointsPlayerOne
             }
             
-            if totalPoints >= ((maxPoints / 2) + 1) {
-                startCountdown()
-                changeSide.toggle()
+            if !changeSide {
+                if totalPoints >= ((maxPoints / 2) + 1) {
+                    startCountdown()
+                    changeSide.toggle()
+                }
+            } else {
+                return
             }
         }
     }
