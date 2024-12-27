@@ -21,12 +21,18 @@ class NetworkHomeViewModel: ObservableObject {
 
     var playerOneName: String
     var playerTwoName: String
+    var matchId: String
+    var tournamentId: String
+    var refereePassword: String
 
     private let bestOfOptions = ["Best of 1", "Best of 3", "Best of 5", "Team", "Custom"]
 
-    init( playerOneName: String, playerTwoName: String) {
+    init( playerOneName: String, playerTwoName: String, matchId: String, tournamentId: String, refereePassword: String) {
         self.playerOneName = playerOneName
         self.playerTwoName = playerTwoName
+        self.matchId = matchId
+        self.tournamentId = tournamentId
+        self.refereePassword = refereePassword
     }
 
     func startMatch() {
@@ -42,7 +48,10 @@ class NetworkHomeViewModel: ObservableObject {
             numberOfSet: numberOfSet,
             bestOf: bestOfOptions[bestOfSelectedPicker],
             playerOneFirstServe: playerOneServeChoice,
-            changeSide: changeSide
+            changeSide: changeSide,
+            matchId: matchId,
+            tournamentId: tournamentId,
+            refereePassword: refereePassword
         )
         isMatchModelReady = true
     }

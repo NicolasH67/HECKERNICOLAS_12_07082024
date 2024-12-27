@@ -112,7 +112,10 @@ struct NetworkConnexionView: View {
             .navigationDestination(isPresented: $viewModel.navigateToGame) {
                 NetworkHomeView(
                     playerOneName: viewModel.playerOne,
-                    playerTwoName: viewModel.playerTwo
+                    playerTwoName: viewModel.playerTwo,
+                    matchId: viewModel.matchId,
+                    tournamentId: viewModel.tournamentId,
+                    refereePassword: viewModel.password
                 )
             }
         }

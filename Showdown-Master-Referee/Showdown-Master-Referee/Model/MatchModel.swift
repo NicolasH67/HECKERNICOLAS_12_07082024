@@ -18,4 +18,7 @@ struct MatchModel: Codable {
     let bestOf: String
     var playerOneFirstServe: Bool
     let changeSide: Bool
+    let matchId: String?
+    let tournamentId: String?
+    let refereePassword: String?
 }

@@ -10,8 +10,15 @@ import SwiftUI
 struct NetworkHomeView: View {
     @StateObject private var viewModel: NetworkHomeViewModel
 
-    init(playerOneName: String, playerTwoName: String) {
-        _viewModel = StateObject(wrappedValue: NetworkHomeViewModel(playerOneName: playerOneName, playerTwoName: playerTwoName))
+    init(playerOneName: String, playerTwoName: String, matchId: String, tournamentId: String, refereePassword: String) {
+        _viewModel = StateObject(wrappedValue:
+                                    NetworkHomeViewModel(
+                                        playerOneName: playerOneName,
+                                        playerTwoName: playerTwoName,
+                                        matchId: matchId,
+                                        tournamentId: tournamentId,
+                                        refereePassword: refereePassword
+                                    ))
     }
 
     var body: some View {
@@ -63,6 +70,9 @@ struct NetworkHomeView: View {
 #Preview {
     NetworkHomeView(
         playerOneName: "Player 1",
-        playerTwoName: "Player 2"
+        playerTwoName: "Player 2",
+        matchId: "1",
+        tournamentId: "1",
+        refereePassword: "pass"
     )
 }

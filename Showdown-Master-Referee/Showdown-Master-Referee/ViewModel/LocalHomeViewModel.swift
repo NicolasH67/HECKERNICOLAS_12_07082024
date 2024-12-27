@@ -37,7 +37,10 @@ class LocalHomeViewModel: ObservableObject {
             numberOfSet: numberOfSet,
             bestOf: bestOfOptions[bestOfSelectedPicker],
             playerOneFirstServe: playerOneServeChoice,
-            changeSide: changeSide
+            changeSide: changeSide,
+            matchId: nil,
+            tournamentId: nil,
+            refereePassword: nil
         )
         
         isMatchModelReady = true
