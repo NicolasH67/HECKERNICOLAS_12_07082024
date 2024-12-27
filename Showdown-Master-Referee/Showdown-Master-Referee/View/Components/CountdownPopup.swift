@@ -20,6 +20,8 @@ struct CountdownPopup: View {
     var playerOneService: Int
     var playerTwoService: Int
     var onDismiss: () -> Void
+    var onMore5: () -> Void
+    var onMore10: () -> Void
 
     var body: some View {
         ZStack {
@@ -89,7 +91,7 @@ struct CountdownPopup: View {
                 
                 HStack {
                     Button(action: {
-                        countdownTime += 5
+                        onMore5()
                     }) {
                         Text("+5")
                             .font(.headline)
@@ -102,7 +104,7 @@ struct CountdownPopup: View {
                     }
                     
                     Button(action: {
-                        countdownTime += 10
+                        onMore10()
                     }) {
                         Text("+10")
                             .font(.headline)

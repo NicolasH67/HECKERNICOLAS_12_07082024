@@ -153,7 +153,9 @@ struct MatchView: View {
                         playerTwoSets: viewModel.setWinPlayerTwo,
                         playerOneService: viewModel.numberOfServicePlayerOne,
                         playerTwoService: viewModel.numberOfServicePlayerTwo,
-                        onDismiss: viewModel.stopCountdown
+                        onDismiss: viewModel.stopCountdown,
+                        onMore5: viewModel.onMore5,
+                        onMore10: viewModel.onMore10
                     )
                 }
         .alert("Match in Progress", isPresented: $viewModel.showAlert) {

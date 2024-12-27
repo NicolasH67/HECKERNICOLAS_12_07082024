@@ -344,4 +344,12 @@ class MatchViewModel: ObservableObject {
     func onDismissCountdown() {
         stopCountdown()
     }
+    
+    func onMore5() {
+        countdownTime += 5
+    }
+    
+    func onMore10() {
+        countdownTime += 10
+    }
 }
