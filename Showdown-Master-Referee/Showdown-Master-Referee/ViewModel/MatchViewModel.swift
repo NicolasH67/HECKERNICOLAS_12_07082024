@@ -168,8 +168,13 @@ class MatchViewModel: ObservableObject {
             }
             
             if setWinPlayerOne == requiredSetsToWin || setWinPlayerTwo == requiredSetsToWin {
-                matchIsOver = true
-                return
+                matchIsOver.toggle()
+                matchResult.append(pointsPlayerOne)
+                matchResult.append(pointsPlayerTwo)
+                guard let matchModel else { return }
+                if matchModel.isNetworkMatch {
+                    updateMatchResult()
+                }
             } else {
                 setIsOver.toggle()
                 startCountdown()
