@@ -29,6 +29,7 @@ struct NetworkConnexionView: View {
                         TextField("Tournament ID", text: $viewModel.tournamentId)
                             .textFieldStyle(.roundedBorder)
                             .padding(.horizontal)
+                            .keyboardType(.numberPad)
                     }
 
                     Group {
@@ -39,6 +40,7 @@ struct NetworkConnexionView: View {
                         TextField("Match ID", text: $viewModel.matchId)
                             .textFieldStyle(.roundedBorder)
                             .padding(.horizontal)
+                            .keyboardType(.numberPad)
                     }
 
                     Group {
