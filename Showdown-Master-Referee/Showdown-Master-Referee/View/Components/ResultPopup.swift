@@ -63,7 +63,11 @@ struct MatchResultPopup: View {
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(.red)
+                        .background(LinearGradient(
+                            colors: [Color("Deep Purple"), Color("Raspberry Pink")],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        ))
                         .foregroundColor(.white)
                         .cornerRadius(10)
                         .shadow(color: .red.opacity(0.3), radius: 8, x: 0, y: 4)
@@ -73,7 +77,6 @@ struct MatchResultPopup: View {
             }
             .padding()
             .cornerRadius(20)
-            //.shadow(color: .black.opacity(0.5), radius: 20, x: 0, y: 10)
             .padding(.horizontal, 20)
         }
     }
