@@ -15,44 +15,44 @@ struct MatchResultPopup: View {
 
     var body: some View {
         ZStack {
-            Color.black.opacity(0.7)
+            Color.red.opacity(0.3)
                 .ignoresSafeArea()
 
             VStack(spacing: 20) {
-                Text("Résultats du Match")
+                Text("Match Result")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .foregroundColor(.white)
+                    .foregroundColor(Color("Raspberry Pink"))
                     .padding(.bottom, 10)
 
                 VStack(spacing: 10) {
                     HStack {
                         Text(playerOneName)
                             .font(.headline)
-                            .foregroundColor(.cyan)
+                            .foregroundColor(Color("Deep Purple"))
                         Spacer()
                         Text(playerResults(for: 1))
                             .font(.body)
-                            .foregroundColor(.white)
+                            .foregroundColor(Color("Deep Purple"))
                     }
 
                     HStack {
                         Text(playerTwoName)
                             .font(.headline)
-                            .foregroundColor(.orange)
+                            .foregroundColor(Color("Raspberry Pink"))
                         Spacer()
                         Text(playerResults(for: 2))
                             .font(.body)
-                            .foregroundColor(.white)
+                            .foregroundColor(Color("Raspberry Pink"))
                     }
                     Text("If there is an error in this result, please contact the score table manager or the tournament director.")
                         .font(.footnote)
                         .multilineTextAlignment(.center)
-                        .foregroundColor(.white.opacity(0.8))
+                        .foregroundColor(Color("Deep Purple"))
                         .padding(.horizontal, 10)
                 }
                 .padding()
-                .background(Color.white.opacity(0.2))
+                .background(Color.white.opacity(0.3))
                 .cornerRadius(10)
                 .shadow(color: .black.opacity(0.5), radius: 8, x: 0, y: 4)
                 .padding(.horizontal, 20)
@@ -72,9 +72,8 @@ struct MatchResultPopup: View {
                 .padding(.top, 10)
             }
             .padding()
-            .background(Color.black.opacity(0.9))
             .cornerRadius(20)
-            .shadow(color: .black.opacity(0.5), radius: 20, x: 0, y: 10)
+            //.shadow(color: .black.opacity(0.5), radius: 20, x: 0, y: 10)
             .padding(.horizontal, 20)
         }
     }
