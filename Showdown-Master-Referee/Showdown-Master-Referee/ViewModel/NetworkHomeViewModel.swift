@@ -49,6 +49,7 @@ class NetworkHomeViewModel: ObservableObject {
             bestOf: bestOfOptions[bestOfSelectedPicker],
             playerOneFirstServe: playerOneServeChoice,
             changeSide: changeSide,
+            isNetworkMatch: true,
             matchId: matchId,
             tournamentId: tournamentId,
             refereePassword: refereePassword

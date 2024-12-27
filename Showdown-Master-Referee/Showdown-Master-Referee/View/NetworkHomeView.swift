@@ -31,7 +31,6 @@ struct NetworkHomeView: View {
                     VStack(alignment: .leading, spacing: 20) {
                         SectionHeader(title: "Players and Coaches")
 
-                        // Champs préremplis avec les noms des joueurs récupérés
                         PlayerEntryView(playerTitle: "Player One", name: .constant(viewModel.playerOneName), coachName: $viewModel.coachPlayerOneName, isEditable: false)
                         PlayerEntryView(playerTitle: "Player Two", name: .constant(viewModel.playerTwoName), coachName: $viewModel.coachPlayerTwoName, isEditable: false)
 

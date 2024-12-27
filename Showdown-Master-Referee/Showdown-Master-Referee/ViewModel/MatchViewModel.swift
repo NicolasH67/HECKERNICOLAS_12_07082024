@@ -31,7 +31,10 @@ class MatchViewModel: ObservableObject {
     @Published var isPlayerOneWarning = false
     @Published var selectedWarning: String? = nil
     @Published var warningShowName: String = ""
+    @Published var alertMessageNetwork: String = ""
+    @Published var showAlertNetwork: Bool = false
     var onQuitCallback: (() -> Void)?
+    var matchResult: [Int] = []
     
     var timer: Timer?
     
@@ -107,8 +110,13 @@ class MatchViewModel: ObservableObject {
             }
             
             if setWinPlayerOne == requiredSetsToWin || setWinPlayerTwo == requiredSetsToWin {
-                matchIsOver = true
-                return
+                matchIsOver.toggle()
+                matchResult.append(pointsPlayerOne)
+                matchResult.append(pointsPlayerTwo)
+                guard let matchModel else { return }
+                if matchModel.isNetworkMatch {
+                    updateMatchResult()
+                }
             } else {
                 setIsOver.toggle()
                 startCountdown()
@@ -268,6 +276,9 @@ class MatchViewModel: ObservableObject {
     func resetSet() {
         if !setIsOver { return }
         
+        matchResult.append(pointsPlayerOne)
+        matchResult.append(pointsPlayerTwo)
+        
         pointsPlayerOne = 0
         pointsPlayerTwo = 0
         matchModel?.playerOneFirstServe.toggle()
@@ -351,5 +362,33 @@ class MatchViewModel: ObservableObject {
     
     func onMore10() {
         countdownTime += 10
+    }
+    
+    private func updateMatchResult() {
+        guard let matchModel = matchModel,
+              let tournamentId = matchModel.tournamentId,
+              let matchId = matchModel.matchId,
+              let refereePassword = matchModel.refereePassword else {
+            alertMessageNetwork = "Missing required data for network match."
+            showAlertNetwork = true
+            return
+        }
+        
+        NetworkManager.shared.updateMatchResult(
+            tournamentId: tournamentId,
+            matchId: matchId,
+            results: matchResult,
+            refereePassword: refereePassword
+        ) { [weak self] error in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                if let error = error {
+                    self.alertMessageNetwork = "Failed to update match result: \(error)"
+                } else {
+                    self.alertMessageNetwork = "Match results updated successfully!"
+                }
+                self.showAlertNetwork = true
+            }
+        }
     }
 }

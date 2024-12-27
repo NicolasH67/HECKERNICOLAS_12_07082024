@@ -38,6 +38,7 @@ class LocalHomeViewModel: ObservableObject {
             bestOf: bestOfOptions[bestOfSelectedPicker],
             playerOneFirstServe: playerOneServeChoice,
             changeSide: changeSide,
+            isNetworkMatch: false,
             matchId: nil,
             tournamentId: nil,
             refereePassword: nil

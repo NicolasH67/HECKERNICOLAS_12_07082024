@@ -61,4 +61,52 @@ class NetworkManager {
             }
         }
     }
+    
+    func updateMatchResult(tournamentId: String, matchId: String, results: [Int], refereePassword: String, completion: @escaping (String?) -> Void) {
+            guard !tournamentId.isEmpty else {
+                completion("Tournament ID cannot be empty.")
+                return
+            }
+
+            guard !matchId.isEmpty else {
+                completion("Match ID cannot be empty.")
+                return
+            }
+
+            guard !results.isEmpty else {
+                completion("Results cannot be empty.")
+                return
+            }
+
+            guard !refereePassword.isEmpty else {
+                completion("Referee Password cannot be empty.")
+                return
+            }
+
+            let url = "\(baseUrl)/matchs?match_id=eq.\(matchId)&tournament_id=eq.\(tournamentId)"
+
+            let headers: HTTPHeaders = [
+                "Authorization": "Bearer \(apiKey)",
+                "apikey": apiKey,
+                "Content-Type": "application/json"
+            ]
+
+            let parameters: [String: Any] = [
+                "result": results,
+                "referee_password": refereePassword
+            ]
+
+            AF.request(url, method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: headers).response { response in
+                switch response.result {
+                case .success:
+                    if let statusCode = response.response?.statusCode, statusCode == 204 {
+                        completion(nil) // Success, no content returned
+                    } else {
+                        completion("Unexpected response from server.")
+                    }
+                case .failure(let error):
+                    completion("Network Error: \(error.localizedDescription)")
+                }
+            }
+        }
 }

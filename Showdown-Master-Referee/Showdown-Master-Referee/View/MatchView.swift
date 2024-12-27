@@ -173,5 +173,12 @@ struct MatchView: View {
         } message: {
             Text("\(viewModel.coachNameToShow)")
         }
+        .alert(isPresented: $viewModel.showAlertNetwork) {
+            Alert(
+                title: Text("Match Update"),
+                message: Text(viewModel.alertMessageNetwork),
+                dismissButton: .default(Text("OK"))
+            )
+        }
     }
 }
