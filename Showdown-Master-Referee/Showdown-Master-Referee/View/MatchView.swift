@@ -22,26 +22,26 @@ struct MatchView: View {
 
             VStack(spacing: 20) {
                 HStack {
-                    Text(viewModel.matchModel?.playerOne ?? "Player One")
+                    Text(viewModel.matchModel.playerOne)
                         .font(.headline)
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity, alignment: .center)
                         .onTapGesture {
-                            viewModel.onPlayerTap(player: viewModel.matchModel?.playerOne ?? "",
-                                                  coach: viewModel.matchModel?.coachPlayerOne ?? "")
+                            viewModel.onPlayerTap(player: viewModel.matchModel.playerOne,
+                                                  coach: viewModel.matchModel.coachPlayerOne)
                         }
 
-                    Text(viewModel.matchModel?.bestOf ?? "Best Of")
+                    Text(viewModel.matchModel.bestOf)
                         .font(.headline)
                         .foregroundColor(.gray)
 
-                    Text(viewModel.matchModel?.playerTwo ?? "Player Two")
+                    Text(viewModel.matchModel.playerTwo)
                         .font(.headline)
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity, alignment: .center)
                         .onTapGesture {
-                            viewModel.onPlayerTap(player: viewModel.matchModel?.playerTwo ?? "",
-                                                  coach: viewModel.matchModel?.coachPlayerTwo ?? "")
+                            viewModel.onPlayerTap(player: viewModel.matchModel.playerTwo,
+                                                  coach: viewModel.matchModel.coachPlayerTwo)
                         }
                 }
                 .padding(.horizontal)
@@ -57,7 +57,7 @@ struct MatchView: View {
 
                 HStack(spacing: 40) {
                     PlayerActionView(
-                        totalService: viewModel.matchModel?.numberOfService ?? 0,
+                        totalService: viewModel.matchModel.numberOfService,
                         currentService: viewModel.numberOfServicePlayerOne,
                         onGoal: { viewModel.onGoal(isPlayerOneScored: true) },
                         onFault: { viewModel.onFault(isPlayerOneFault: true) },
@@ -69,7 +69,7 @@ struct MatchView: View {
                         matchIsOver: viewModel.matchIsOver
                     )
                     PlayerActionView(
-                        totalService: viewModel.matchModel?.numberOfService ?? 0,
+                        totalService: viewModel.matchModel.numberOfService,
                         currentService: viewModel.numberOfServicePlayerTwo,
                         onGoal: { viewModel.onGoal(isPlayerOneScored: false) },
                         onFault: { viewModel.onFault(isPlayerOneFault: false) },
@@ -143,10 +143,10 @@ struct MatchView: View {
         .sheet(isPresented: $viewModel.showCountdownPopup, onDismiss: viewModel.stopCountdown) {
                     CountdownPopup(
                         countdownTime: $viewModel.countdownTime,
-                        playerOneName: viewModel.matchModel?.playerOne ?? "Player One",
-                        playerTwoName: viewModel.matchModel?.playerTwo ?? "Player Two",
-                        coachPlayerOneName: viewModel.matchModel?.coachPlayerOne ?? "",
-                        coachPlayerTwoName: viewModel.matchModel?.coachPlayerTwo ?? "",
+                        playerOneName: viewModel.matchModel.playerOne,
+                        playerTwoName: viewModel.matchModel.playerTwo,
+                        coachPlayerOneName: viewModel.matchModel.coachPlayerOne,
+                        coachPlayerTwoName: viewModel.matchModel.coachPlayerTwo,
                         playerOneScore: viewModel.pointsPlayerOne,
                         playerTwoScore: viewModel.pointsPlayerTwo,
                         playerOneSets: viewModel.setWinPlayerOne,

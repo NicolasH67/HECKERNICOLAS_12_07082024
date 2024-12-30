@@ -9,8 +9,8 @@ import Foundation
 import SwiftUI
 
 class MatchViewModel: ObservableObject {
-    // MARK: - Match Model State
-    @Published var matchModel: MatchModel?
+    // MARK: - Published Properties
+    @Published var matchModel: MatchModel
     @Published var matchStates: [MatchState] = []
     @Published var pointsPlayerOne = 0
     @Published var pointsPlayerTwo = 0
@@ -33,188 +33,122 @@ class MatchViewModel: ObservableObject {
     @Published var warningShowName: String = ""
     @Published var alertMessageNetwork: String = ""
     @Published var showAlertNetwork: Bool = false
-    var onQuitCallback: (() -> Void)?
-    var matchResult: [Int] = []
-    
-    var timer: Timer?
-    
-    init(matchModel: MatchModel) {
-        self.matchModel = matchModel
-        initializeServiceCounts()
-    }
-    
-    // MARK: - ViewModel State
     @Published var showAlert = false
     @Published var coachShowAlert = false
     @Published var playerNameToShow: String = ""
     @Published var coachNameToShow: String = ""
 
-    // MARK: - Match Management Methods
-    func startCountdown() {
+    // MARK: - Internal Properties
+    var onQuitCallback: (() -> Void)?
+    var matchResult: [Int] = []
+    var timer: Timer?
+
+    // MARK: - Initializer
+    init(matchModel: MatchModel) {
+        self.matchModel = matchModel
+        initializeServiceCounts()
+    }
+
+    // MARK: - Private Methods
+    private func startCountdown() {
         countdownTime = 60
         self.showCountdownPopup = true
         startTimer()
     }
-    
-    func stopCountdown() {
-        self.showCountdownPopup = false
-        stopTimer()
-    }
-    
-    private func startTimer() {
-        timer?.invalidate()
-        
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
-            if self.countdownTime > 0 {
-                self.countdownTime -= 1
-            } else {
-                self.timer?.invalidate()
-                self.showCountdownPopup = false
-            }
-        }
-    }
-    
-    func stopTimer() {
+
+    private func stopTimer() {
         timer?.invalidate()
         timer = nil
     }
 
-    func initializeServiceCounts() {
-        self.numberOfServicePlayerOne = matchModel?.playerOneFirstServe ?? true ? 1 : 0
-        self.numberOfServicePlayerTwo = matchModel?.playerOneFirstServe ?? true ? 0 : 1
+    private func startTimer() {
+        guard timer == nil else { return }
+
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+
+            if self.countdownTime > 0 {
+                self.countdownTime -= 1
+            } else {
+                self.stopTimer()
+                self.showCountdownPopup = false
+            }
+        }
     }
-    
-    func onGoal(isPlayerOneScored: Bool) {
-        if matchIsOver { return }
-        if setIsOver { return }
-        
-        saveCurrentState(isWarning: false)
-        
-        if isPlayerOneScored {
-            pointsPlayerOne += 2
+
+    private func updateScore(isPlayerOne: Bool, points: Int) {
+        if isPlayerOne {
+            pointsPlayerOne += points
         } else {
-            pointsPlayerTwo += 2
-        }
-        
-        let maxPoints = matchModel?.numberOfPoints ?? 11
-        let pointsDifference = abs(pointsPlayerOne - pointsPlayerTwo)
-        let isLastSet = (setWinPlayerOne + setWinPlayerTwo + 1) == (matchModel?.numberOfSet ?? 3)
-        let requiredSetsToWin = (matchModel?.numberOfSet ?? 3) / 2 + 1
-        
-        if (pointsPlayerOne >= maxPoints || pointsPlayerTwo >= maxPoints) && pointsDifference >= 2 {
-            if pointsPlayerOne > pointsPlayerTwo {
-                setWinPlayerOne += 1
-            } else {
-                setWinPlayerTwo += 1
-            }
-            
-            if setWinPlayerOne == requiredSetsToWin || setWinPlayerTwo == requiredSetsToWin {
-                matchIsOver.toggle()
-                matchResult.append(pointsPlayerOne)
-                matchResult.append(pointsPlayerTwo)
-                guard let matchModel else { return }
-                if matchModel.isNetworkMatch {
-                    updateMatchResult()
-                }
-            } else {
-                setIsOver.toggle()
-                startCountdown()
-            }
-        }
-        
-        if isLastSet {
-            let totalPoints: Int
-            
-            if isPlayerOneScored {
-                totalPoints = pointsPlayerOne
-            } else {
-                totalPoints = pointsPlayerTwo
-            }
-            
-            if !changeSide {
-                if totalPoints >= ((maxPoints / 2) + 1) {
-                    startCountdown()
-                    changeSide.toggle()
-                }
-            } else {
-                return
-            }
+            pointsPlayerTwo += points
         }
     }
-    
-    func onFault(isPlayerOneFault: Bool) {
-        if matchIsOver { return }
-        if setIsOver { return }
-        
-        saveCurrentState(isWarning: false)
-        
-        if isPlayerOneFault {
-            pointsPlayerTwo += 1
+
+    private func isSetOver() -> Bool {
+        let maxPoints = matchModel.numberOfPoints
+        let pointsDifference = abs(pointsPlayerOne - pointsPlayerTwo)
+        return (pointsPlayerOne >= maxPoints || pointsPlayerTwo >= maxPoints) && pointsDifference >= 2
+    }
+
+    private func updateSetState() {
+        if pointsPlayerOne > pointsPlayerTwo {
+            setWinPlayerOne += 1
         } else {
-            pointsPlayerOne += 1
+            setWinPlayerTwo += 1
         }
-        
-        let maxPoints = matchModel?.numberOfPoints ?? 11
-        let pointsDifference = abs(pointsPlayerOne - pointsPlayerTwo)
-        let isLastSet = (setWinPlayerOne + setWinPlayerTwo + 1) == (matchModel?.numberOfSet ?? 3)
-        let requiredSetsToWin = (matchModel?.numberOfSet ?? 3) / 2 + 1
-        
-        if (pointsPlayerOne >= maxPoints || pointsPlayerTwo >= maxPoints) && pointsDifference >= 2 {
-            if pointsPlayerOne > pointsPlayerTwo {
-                setWinPlayerOne += 1
-            } else {
-                setWinPlayerTwo += 1
+
+        let requiredSetsToWin = (matchModel.numberOfSet) / 2 + 1
+
+        if setWinPlayerOne == requiredSetsToWin || setWinPlayerTwo == requiredSetsToWin {
+            matchIsOver = true
+            matchResult.append(pointsPlayerOne)
+            matchResult.append(pointsPlayerTwo)
+
+            if matchModel.isNetworkMatch {
+                updateMatchResult()
             }
-            
-            if setWinPlayerOne == requiredSetsToWin || setWinPlayerTwo == requiredSetsToWin {
-                matchIsOver.toggle()
-                matchResult.append(pointsPlayerOne)
-                matchResult.append(pointsPlayerTwo)
-                guard let matchModel else { return }
-                if matchModel.isNetworkMatch {
-                    updateMatchResult()
-                }
-            } else {
-                setIsOver.toggle()
-                startCountdown()
-            }
-        }
-        
-        if isLastSet {
-            let totalPoints: Int
-            
-            if isPlayerOneFault {
-                totalPoints = pointsPlayerTwo
-            } else {
-                totalPoints = pointsPlayerOne
-            }
-            
-            if !changeSide {
-                if totalPoints >= ((maxPoints / 2) + 1) {
-                    startCountdown()
-                    changeSide.toggle()
-                }
-            } else {
-                return
-            }
+        } else {
+            setIsOver = true
+            startCountdown()
         }
     }
-    
-    func onServe() {
-        if matchIsOver { return }
-        
-        saveCurrentState(isWarning: false)
-        
-        if numberOfServicePlayerOne > 0 {
-            if numberOfServicePlayerOne == matchModel?.numberOfService ?? 2 {
+
+    private func handleChangeSide(totalPoints: Int) {
+        let maxPoints = matchModel.numberOfPoints
+        if changeSide == false && totalPoints >= ((maxPoints / 2) + 1) {
+            changeSide = true
+            startCountdown()
+        }
+    }
+
+    private func checkSetEndCondition(isPlayerOneScored: Bool) {
+        if (setWinPlayerOne + setWinPlayerTwo + 1) == matchModel.numberOfSet {
+            let totalPoints = isPlayerOneScored ? pointsPlayerOne : pointsPlayerTwo
+            handleChangeSide(totalPoints: totalPoints)
+        }
+
+        if isSetOver() {
+            updateSetState()
+        }
+    }
+
+    private func updateMatchState(isPlayerOne: Bool, points: Int) {
+        if matchIsOver || setIsOver { return }
+        saveCurrentState()
+        updateScore(isPlayerOne: isPlayerOne, points: points)
+        checkSetEndCondition(isPlayerOneScored: isPlayerOne)
+    }
+
+    private func updateServiceCounts(isPlayerOne: Bool) {
+        if isPlayerOne {
+            if numberOfServicePlayerOne == matchModel.numberOfService {
                 numberOfServicePlayerOne = 0
                 numberOfServicePlayerTwo += 1
             } else {
                 numberOfServicePlayerOne += 1
             }
-        } else if numberOfServicePlayerTwo > 0 {
-            if numberOfServicePlayerTwo == matchModel?.numberOfService ?? 2 {
+        } else {
+            if numberOfServicePlayerTwo == matchModel.numberOfService {
                 numberOfServicePlayerOne += 1
                 numberOfServicePlayerTwo = 0
             } else {
@@ -222,7 +156,99 @@ class MatchViewModel: ObservableObject {
             }
         }
     }
+
+    private func saveCurrentState(warningMessage: String? = nil) {
+        let currentState = MatchState(
+            pointsPlayerOne: pointsPlayerOne,
+            pointsPlayerTwo: pointsPlayerTwo,
+            setWinPlayerOne: setWinPlayerOne,
+            setWinPlayerTwo: setWinPlayerTwo,
+            numberOfServicePlayerOne: numberOfServicePlayerOne,
+            numberOfServicePlayerTwo: numberOfServicePlayerTwo,
+            isPlayerOneServe: isPlayerOneServe,
+            matchIsOver: matchIsOver,
+            changeSide: changeSide,
+            warningMessage: warningMessage
+        )
+        matchStates.append(currentState)
+    }
+
+    private func resetMatchData() {
+        pointsPlayerOne = 0
+        pointsPlayerTwo = 0
+        setWinPlayerOne = 0
+        setWinPlayerTwo = 0
+        numberOfServicePlayerOne = 0
+        numberOfServicePlayerTwo = 0
+        timeOutButtonIsDisabledPlayerOne = false
+        timeOutButtonIsDisabledPlayerTwo = false
+        matchIsOver = false
+        showCountdownPopup = false
+        countdownTime = 0
+    }
+
+    private func resetSet() {
+        if !setIsOver { return }
+
+        matchResult.append(pointsPlayerOne)
+        matchResult.append(pointsPlayerTwo)
+
+        pointsPlayerOne = 0
+        pointsPlayerTwo = 0
+        matchModel.playerOneFirstServe.toggle()
+        self.numberOfServicePlayerOne = matchModel.playerOneFirstServe ? 1 : 0
+        self.numberOfServicePlayerTwo = matchModel.playerOneFirstServe ? 0 : 1
+        setIsOver.toggle()
+    }
+
+    private func updateMatchResult() {
+        guard let tournamentId = matchModel.tournamentId,
+              let matchId = matchModel.matchId,
+              let refereePassword = matchModel.refereePassword else {
+            alertMessageNetwork = "Missing required data for network match."
+            showAlertNetwork = true
+            return
+        }
+
+        NetworkManager.shared.updateMatchResult(
+            tournamentId: tournamentId,
+            matchId: matchId,
+            results: matchResult,
+            refereePassword: refereePassword
+        ) { [weak self] error in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                if let error = error {
+                    self.alertMessageNetwork = "Failed to update match result: \(error)"
+                } else {
+                    self.alertMessageNetwork = "Match results updated successfully!"
+                }
+                self.showAlertNetwork = true
+            }
+        }
+    }
     
+    // MARK: - Public Methods
+    
+    func initializeServiceCounts() {
+        self.numberOfServicePlayerOne = matchModel.playerOneFirstServe ? 1 : 0
+        self.numberOfServicePlayerTwo = matchModel.playerOneFirstServe ? 0 : 1
+    }
+    
+    func onGoal(isPlayerOneScored: Bool) {
+        updateMatchState(isPlayerOne: isPlayerOneScored, points: 2)
+    }
+
+    func onFault(isPlayerOneFault: Bool) {
+        updateMatchState(isPlayerOne: !isPlayerOneFault, points: 1)
+    }
+
+    func onServe() {
+        if matchIsOver || setIsOver { return }
+        saveCurrentState()
+        updateServiceCounts(isPlayerOne: numberOfServicePlayerOne > 0)
+    }
+
     func undoLastAction() {
         guard let lastState = matchStates.popLast() else { return }
 
@@ -236,87 +262,24 @@ class MatchViewModel: ObservableObject {
         matchIsOver = lastState.matchIsOver
         changeSide = lastState.changeSide
     }
-    
-    func saveCurrentState(isWarning: Bool) {
-        if !isWarning {
-            let currentState = MatchState(
-                pointsPlayerOne: pointsPlayerOne,
-                pointsPlayerTwo: pointsPlayerTwo,
-                setWinPlayerOne: setWinPlayerOne,
-                setWinPlayerTwo: setWinPlayerTwo,
-                numberOfServicePlayerOne: numberOfServicePlayerOne,
-                numberOfServicePlayerTwo: numberOfServicePlayerTwo,
-                isPlayerOneServe: isPlayerOneServe,
-                matchIsOver: matchIsOver,
-                changeSide: changeSide
-            )
-            matchStates.append(currentState)
-        } else {
-            let currentState = MatchState(
-                pointsPlayerOne: pointsPlayerOne,
-                pointsPlayerTwo: pointsPlayerTwo,
-                setWinPlayerOne: setWinPlayerOne,
-                setWinPlayerTwo: setWinPlayerTwo,
-                numberOfServicePlayerOne: numberOfServicePlayerOne,
-                numberOfServicePlayerTwo: numberOfServicePlayerTwo,
-                isPlayerOneServe: isPlayerOneServe,
-                matchIsOver: matchIsOver,
-                changeSide: changeSide,
-                warningMessage: nil
-            )
-            matchStates.append(currentState)
-        }
-    }
-    
-    func resetMatchData() {
-        pointsPlayerOne = 0
-        pointsPlayerTwo = 0
-        setWinPlayerOne = 0
-        setWinPlayerTwo = 0
-        numberOfServicePlayerOne = 0
-        numberOfServicePlayerTwo = 0
-        timeOutButtonIsDisabledPlayerOne = false
-        timeOutButtonIsDisabledPlayerTwo = false
-        matchIsOver = false
-        showCountdownPopup = false
-        countdownTime = 0
-    }
-    
-    func resetSet() {
-        if !setIsOver { return }
-        
-        matchResult.append(pointsPlayerOne)
-        matchResult.append(pointsPlayerTwo)
-        
-        pointsPlayerOne = 0
-        pointsPlayerTwo = 0
-        matchModel?.playerOneFirstServe.toggle()
-        self.numberOfServicePlayerOne = matchModel?.playerOneFirstServe ?? true ? 1 : 0
-        self.numberOfServicePlayerTwo = matchModel?.playerOneFirstServe ?? true ? 0 : 1
-        setIsOver.toggle()
-    }
-    
-    func dismissMatchResult() {
-        resetMatchData()
-    }
-    
+
     func showWarning(isPlayerOne: Bool) {
         if isPlayerOne {
-            saveCurrentState(isWarning: true)
+            saveCurrentState(warningMessage: nil)
             isPlayerOneWarning = true
-            warningShowName = matchModel?.playerOne ?? "Player One"
+            warningShowName = matchModel.playerOne
         } else {
-            saveCurrentState(isWarning: true)
+            saveCurrentState(warningMessage: nil)
             isPlayerOneWarning = false
-            warningShowName = matchModel?.playerTwo ?? "Player Two"
+            warningShowName = matchModel.playerTwo
         }
         showWarningPopup = true
     }
-    
+
     func dismissWarning() {
         showWarningPopup = false
     }
-    
+
     func onWarning(isPlayerOneWarning: Bool) {
         if selectedWarning == "Warning" {
             showWarningPopup = false
@@ -327,6 +290,11 @@ class MatchViewModel: ObservableObject {
         }
     }
     
+    func stopCountdown() {
+        self.showCountdownPopup = false
+        stopTimer()
+    }
+
     // MARK: - ViewModel Actions
     func onPlayerTap(player: String, coach: String) {
         playerNameToShow = player
@@ -364,40 +332,12 @@ class MatchViewModel: ObservableObject {
     func onDismissCountdown() {
         stopCountdown()
     }
-    
+
     func onMore5() {
         countdownTime += 5
     }
-    
+
     func onMore10() {
         countdownTime += 10
-    }
-    
-    private func updateMatchResult() {
-        guard let matchModel = matchModel,
-              let tournamentId = matchModel.tournamentId,
-              let matchId = matchModel.matchId,
-              let refereePassword = matchModel.refereePassword else {
-            alertMessageNetwork = "Missing required data for network match."
-            showAlertNetwork = true
-            return
-        }
-        
-        NetworkManager.shared.updateMatchResult(
-            tournamentId: tournamentId,
-            matchId: matchId,
-            results: matchResult,
-            refereePassword: refereePassword
-        ) { [weak self] error in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                if let error = error {
-                    self.alertMessageNetwork = "Failed to update match result: \(error)"
-                } else {
-                    self.alertMessageNetwork = "Match results updated successfully!"
-                }
-                self.showAlertNetwork = true
-            }
-        }
     }
 }

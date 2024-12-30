@@ -32,8 +32,6 @@ class NetworkManager {
         
         let url = "\(baseUrl)/matchs?tournament_id=eq.\(tournamentId)&match_id=eq.\(matchId)&apikey=\(apiKey)"
         
-        print(url)
-        
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(apiKey)",
             "apikey": apiKey,

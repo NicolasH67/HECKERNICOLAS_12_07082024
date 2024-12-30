@@ -97,7 +97,7 @@ struct WarningPopup: View {
             .shadow(color: .black.opacity(0.3), radius: 15, x: 0, y: 10)
             .padding(.horizontal, 20)
         }
-        .onChange(of: selectedOption) { newValue in
+        .onChange(of: selectedOption) { _, newValue in
             if newValue == "Penalty (Glasses)" {
                 reasonText = "Touching Glasses"
             } else {
