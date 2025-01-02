@@ -20,7 +20,7 @@ class LocalHomeViewModel: ObservableObject {
     @Published var changeSide = true
     @Published var firstServeSelectedPicker = 0
     @Published var isMatchModelReady = false
-    @Published var matchModel: MatchModel? // Stockage local du MatchModel
+    @Published var matchModel: MatchModel?
     
     private let bestOfOptions = ["Best of 1", "Best of 3", "Best of 5", "Team", "Custom"]
     
