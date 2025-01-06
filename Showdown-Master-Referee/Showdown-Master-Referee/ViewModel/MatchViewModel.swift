@@ -282,6 +282,7 @@ class MatchViewModel: ObservableObject {
 
     func onWarning(isPlayerOneWarning: Bool) {
         if selectedWarning == "Warning" {
+            saveCurrentState()
             showWarningPopup = false
             return
         } else if  selectedWarning == "Penalty" || selectedWarning == "Penalty (Glasses)" {
