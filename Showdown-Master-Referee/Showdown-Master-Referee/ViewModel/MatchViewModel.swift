@@ -37,6 +37,7 @@ class MatchViewModel: ObservableObject {
     @Published var coachShowAlert = false
     @Published var playerNameToShow: String = ""
     @Published var coachNameToShow: String = ""
+    var networkManager: NetworkManager
 
     // MARK: - Internal Properties
     var onQuitCallback: (() -> Void)?
@@ -44,8 +45,9 @@ class MatchViewModel: ObservableObject {
     var timer: Timer?
 
     // MARK: - Initializer
-    init(matchModel: MatchModel) {
+    init(matchModel: MatchModel, networkManager: NetworkManager) {
         self.matchModel = matchModel
+        self.networkManager = networkManager
         initializeServiceCounts()
     }
 
@@ -210,23 +212,25 @@ class MatchViewModel: ObservableObject {
             return
         }
 
-        NetworkManager.shared.updateMatchResult(
+        networkManager.updateMatchResult(
             tournamentId: tournamentId,
             matchId: matchId,
             results: matchResult,
             refereePassword: refereePassword
-        ) { [weak self] error in
+        ) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                if let error = error {
-                    self.alertMessageNetwork = "Failed to update match result: \(error)"
-                } else {
+                switch result {
+                case .success:
                     self.alertMessageNetwork = "Match results updated successfully!"
+                case .failure(let error):
+                    self.alertMessageNetwork = "Failed to update match result: \(error)"
                 }
                 self.showAlertNetwork = true
             }
         }
     }
+
     
     // MARK: - Public Methods
     

@@ -8,6 +8,32 @@
 
 /* Begin PBXBuildFile section */
 		706B51B32D06E3CD001B40ED /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 706B51B22D06E3CD001B40ED /* Alamofire */; };
+		70A9EB132D2E8A6200494719 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAF12D2E8A6200494719 /* Match.swift */; };
+		70A9EB142D2E8A6200494719 /* MatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAF22D2E8A6200494719 /* MatchModel.swift */; };
+		70A9EB152D2E8A6200494719 /* MatchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAF32D2E8A6200494719 /* MatchState.swift */; };
+		70A9EB162D2E8A6200494719 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAF42D2E8A6200494719 /* NetworkManager.swift */; };
+		70A9EB182D2E8A6200494719 /* BestOfView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAFA2D2E8A6200494719 /* BestOfView.swift */; };
+		70A9EB192D2E8A6200494719 /* CountdownPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAFB2D2E8A6200494719 /* CountdownPopup.swift */; };
+		70A9EB1A2D2E8A6200494719 /* FirstServeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAFC2D2E8A6200494719 /* FirstServeView.swift */; };
+		70A9EB1B2D2E8A6200494719 /* PlayerActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAFD2D2E8A6200494719 /* PlayerActionView.swift */; };
+		70A9EB1C2D2E8A6200494719 /* PlayerEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAFE2D2E8A6200494719 /* PlayerEntryView.swift */; };
+		70A9EB1D2D2E8A6200494719 /* ResultPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAFF2D2E8A6200494719 /* ResultPopup.swift */; };
+		70A9EB1E2D2E8A6200494719 /* ScoreBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB002D2E8A6200494719 /* ScoreBoxView.swift */; };
+		70A9EB1F2D2E8A6200494719 /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB012D2E8A6200494719 /* SectionHeader.swift */; };
+		70A9EB202D2E8A6200494719 /* StartGameButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB022D2E8A6200494719 /* StartGameButton.swift */; };
+		70A9EB212D2E8A6200494719 /* WarningPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB032D2E8A6200494719 /* WarningPopup.swift */; };
+		70A9EB222D2E8A6200494719 /* LocalHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB052D2E8A6200494719 /* LocalHomeView.swift */; };
+		70A9EB232D2E8A6200494719 /* MatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB062D2E8A6200494719 /* MatchView.swift */; };
+		70A9EB242D2E8A6200494719 /* NetworkConnexionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB072D2E8A6200494719 /* NetworkConnexionView.swift */; };
+		70A9EB252D2E8A6200494719 /* NetworkHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB082D2E8A6200494719 /* NetworkHomeView.swift */; };
+		70A9EB262D2E8A6200494719 /* LocalHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB0A2D2E8A6200494719 /* LocalHomeViewModel.swift */; };
+		70A9EB272D2E8A6200494719 /* MatchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB0B2D2E8A6200494719 /* MatchViewModel.swift */; };
+		70A9EB282D2E8A6200494719 /* NetworkConnexionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB0C2D2E8A6200494719 /* NetworkConnexionViewModel.swift */; };
+		70A9EB292D2E8A6200494719 /* NetworkHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB0D2D2E8A6200494719 /* NetworkHomeViewModel.swift */; };
+		70A9EB2A2D2E8A6200494719 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB102D2E8A6200494719 /* ContentView.swift */; };
+		70A9EB2B2D2E8A6200494719 /* Showdown_Master_RefereeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB112D2E8A6200494719 /* Showdown_Master_RefereeApp.swift */; };
+		70A9EB2C2D2E8A6200494719 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70A9EAF62D2E8A6200494719 /* Preview Assets.xcassets */; };
+		70A9EB2D2D2E8A6200494719 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70A9EB0F2D2E8A6200494719 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -22,6 +48,32 @@
 
 /* Begin PBXFileReference section */
 		707E53272D2040B4005E6B3F /* Showdown-Master-RefereeTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Showdown-Master-RefereeTest.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		70A9EAF12D2E8A6200494719 /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
+		70A9EAF22D2E8A6200494719 /* MatchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchModel.swift; sourceTree = "<group>"; };
+		70A9EAF32D2E8A6200494719 /* MatchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchState.swift; sourceTree = "<group>"; };
+		70A9EAF42D2E8A6200494719 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		70A9EAF62D2E8A6200494719 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		70A9EAFA2D2E8A6200494719 /* BestOfView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestOfView.swift; sourceTree = "<group>"; };
+		70A9EAFB2D2E8A6200494719 /* CountdownPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownPopup.swift; sourceTree = "<group>"; };
+		70A9EAFC2D2E8A6200494719 /* FirstServeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstServeView.swift; sourceTree = "<group>"; };
+		70A9EAFD2D2E8A6200494719 /* PlayerActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerActionView.swift; sourceTree = "<group>"; };
+		70A9EAFE2D2E8A6200494719 /* PlayerEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerEntryView.swift; sourceTree = "<group>"; };
+		70A9EAFF2D2E8A6200494719 /* ResultPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultPopup.swift; sourceTree = "<group>"; };
+		70A9EB002D2E8A6200494719 /* ScoreBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreBoxView.swift; sourceTree = "<group>"; };
+		70A9EB012D2E8A6200494719 /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
+		70A9EB022D2E8A6200494719 /* StartGameButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartGameButton.swift; sourceTree = "<group>"; };
+		70A9EB032D2E8A6200494719 /* WarningPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningPopup.swift; sourceTree = "<group>"; };
+		70A9EB052D2E8A6200494719 /* LocalHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalHomeView.swift; sourceTree = "<group>"; };
+		70A9EB062D2E8A6200494719 /* MatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchView.swift; sourceTree = "<group>"; };
+		70A9EB072D2E8A6200494719 /* NetworkConnexionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnexionView.swift; sourceTree = "<group>"; };
+		70A9EB082D2E8A6200494719 /* NetworkHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHomeView.swift; sourceTree = "<group>"; };
+		70A9EB0A2D2E8A6200494719 /* LocalHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalHomeViewModel.swift; sourceTree = "<group>"; };
+		70A9EB0B2D2E8A6200494719 /* MatchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchViewModel.swift; sourceTree = "<group>"; };
+		70A9EB0C2D2E8A6200494719 /* NetworkConnexionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnexionViewModel.swift; sourceTree = "<group>"; };
+		70A9EB0D2D2E8A6200494719 /* NetworkHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHomeViewModel.swift; sourceTree = "<group>"; };
+		70A9EB0F2D2E8A6200494719 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		70A9EB102D2E8A6200494719 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		70A9EB112D2E8A6200494719 /* Showdown_Master_RefereeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Showdown_Master_RefereeApp.swift; sourceTree = "<group>"; };
 		70AD616C2CB906180075BE80 /* Showdown-Master-Referee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Showdown-Master-Referee.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -29,11 +81,6 @@
 		707E53282D2040B4005E6B3F /* Showdown-Master-RefereeTest */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Showdown-Master-RefereeTest";
-			sourceTree = "<group>";
-		};
-		70AD616E2CB906180075BE80 /* Showdown-Master-Referee */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Showdown-Master-Referee";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -57,10 +104,83 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		70A9EAF52D2E8A6200494719 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				70A9EAF12D2E8A6200494719 /* Match.swift */,
+				70A9EAF22D2E8A6200494719 /* MatchModel.swift */,
+				70A9EAF32D2E8A6200494719 /* MatchState.swift */,
+				70A9EAF42D2E8A6200494719 /* NetworkManager.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		70A9EAF72D2E8A6200494719 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				70A9EAF62D2E8A6200494719 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		70A9EB042D2E8A6200494719 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				70A9EAFA2D2E8A6200494719 /* BestOfView.swift */,
+				70A9EAFB2D2E8A6200494719 /* CountdownPopup.swift */,
+				70A9EAFC2D2E8A6200494719 /* FirstServeView.swift */,
+				70A9EAFD2D2E8A6200494719 /* PlayerActionView.swift */,
+				70A9EAFE2D2E8A6200494719 /* PlayerEntryView.swift */,
+				70A9EAFF2D2E8A6200494719 /* ResultPopup.swift */,
+				70A9EB002D2E8A6200494719 /* ScoreBoxView.swift */,
+				70A9EB012D2E8A6200494719 /* SectionHeader.swift */,
+				70A9EB022D2E8A6200494719 /* StartGameButton.swift */,
+				70A9EB032D2E8A6200494719 /* WarningPopup.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		70A9EB092D2E8A6200494719 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				70A9EB042D2E8A6200494719 /* Components */,
+				70A9EB052D2E8A6200494719 /* LocalHomeView.swift */,
+				70A9EB062D2E8A6200494719 /* MatchView.swift */,
+				70A9EB072D2E8A6200494719 /* NetworkConnexionView.swift */,
+				70A9EB082D2E8A6200494719 /* NetworkHomeView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		70A9EB0E2D2E8A6200494719 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				70A9EB0A2D2E8A6200494719 /* LocalHomeViewModel.swift */,
+				70A9EB0B2D2E8A6200494719 /* MatchViewModel.swift */,
+				70A9EB0C2D2E8A6200494719 /* NetworkConnexionViewModel.swift */,
+				70A9EB0D2D2E8A6200494719 /* NetworkHomeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		70A9EB122D2E8A6200494719 /* Showdown-Master-Referee */ = {
+			isa = PBXGroup;
+			children = (
+				70A9EAF52D2E8A6200494719 /* Model */,
+				70A9EB092D2E8A6200494719 /* View */,
+				70A9EB0E2D2E8A6200494719 /* ViewModel */,
+				70A9EAF72D2E8A6200494719 /* Preview Content */,
+				70A9EB0F2D2E8A6200494719 /* Assets.xcassets */,
+				70A9EB102D2E8A6200494719 /* ContentView.swift */,
+				70A9EB112D2E8A6200494719 /* Showdown_Master_RefereeApp.swift */,
+			);
+			path = "Showdown-Master-Referee";
+			sourceTree = "<group>";
+		};
 		70AD61632CB906180075BE80 = {
 			isa = PBXGroup;
 			children = (
-				70AD616E2CB906180075BE80 /* Showdown-Master-Referee */,
+				70A9EB122D2E8A6200494719 /* Showdown-Master-Referee */,
 				707E53282D2040B4005E6B3F /* Showdown-Master-RefereeTest */,
 				70AD616D2CB906180075BE80 /* Products */,
 			);
@@ -112,9 +232,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				70AD616E2CB906180075BE80 /* Showdown-Master-Referee */,
 			);
 			name = "Showdown-Master-Referee";
 			packageProductDependencies = (
@@ -178,6 +295,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70A9EB2C2D2E8A6200494719 /* Preview Assets.xcassets in Resources */,
+				70A9EB2D2D2E8A6200494719 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,6 +314,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70A9EB132D2E8A6200494719 /* Match.swift in Sources */,
+				70A9EB142D2E8A6200494719 /* MatchModel.swift in Sources */,
+				70A9EB152D2E8A6200494719 /* MatchState.swift in Sources */,
+				70A9EB162D2E8A6200494719 /* NetworkManager.swift in Sources */,
+				70A9EB182D2E8A6200494719 /* BestOfView.swift in Sources */,
+				70A9EB192D2E8A6200494719 /* CountdownPopup.swift in Sources */,
+				70A9EB1A2D2E8A6200494719 /* FirstServeView.swift in Sources */,
+				70A9EB1B2D2E8A6200494719 /* PlayerActionView.swift in Sources */,
+				70A9EB1C2D2E8A6200494719 /* PlayerEntryView.swift in Sources */,
+				70A9EB1D2D2E8A6200494719 /* ResultPopup.swift in Sources */,
+				70A9EB1E2D2E8A6200494719 /* ScoreBoxView.swift in Sources */,
+				70A9EB1F2D2E8A6200494719 /* SectionHeader.swift in Sources */,
+				70A9EB202D2E8A6200494719 /* StartGameButton.swift in Sources */,
+				70A9EB212D2E8A6200494719 /* WarningPopup.swift in Sources */,
+				70A9EB222D2E8A6200494719 /* LocalHomeView.swift in Sources */,
+				70A9EB232D2E8A6200494719 /* MatchView.swift in Sources */,
+				70A9EB242D2E8A6200494719 /* NetworkConnexionView.swift in Sources */,
+				70A9EB252D2E8A6200494719 /* NetworkHomeView.swift in Sources */,
+				70A9EB262D2E8A6200494719 /* LocalHomeViewModel.swift in Sources */,
+				70A9EB272D2E8A6200494719 /* MatchViewModel.swift in Sources */,
+				70A9EB282D2E8A6200494719 /* NetworkConnexionViewModel.swift in Sources */,
+				70A9EB292D2E8A6200494719 /* NetworkHomeViewModel.swift in Sources */,
+				70A9EB2A2D2E8A6200494719 /* ContentView.swift in Sources */,
+				70A9EB2B2D2E8A6200494719 /* Showdown_Master_RefereeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

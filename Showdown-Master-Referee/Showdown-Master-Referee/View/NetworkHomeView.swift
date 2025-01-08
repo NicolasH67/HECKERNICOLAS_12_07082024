@@ -57,7 +57,7 @@ struct NetworkHomeView: View {
             .navigationBarTitleDisplayMode(.inline)
             .fullScreenCover(isPresented: $viewModel.isMatchModelReady) {
                 if let matchModel = viewModel.matchModel {
-                    MatchView(matchModel: matchModel)
+                    MatchView(matchModel: matchModel, networkManager: NetworkManager())
                 } else {
                     Text("Match model is not readu.")
                 }

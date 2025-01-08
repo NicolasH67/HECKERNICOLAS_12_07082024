@@ -9,9 +9,11 @@ import SwiftUI
 struct MatchView: View {
     @StateObject private var viewModel: MatchViewModel
     @Environment(\.dismiss) var dismiss
+    var networkManager: NetworkManager
 
-    init(matchModel: MatchModel) {
-        _viewModel = StateObject(wrappedValue: MatchViewModel(matchModel: matchModel))
+    init(matchModel: MatchModel, networkManager: NetworkManager) {
+        self.networkManager = networkManager // Initialize networkManager
+        _viewModel = StateObject(wrappedValue: MatchViewModel(matchModel: matchModel, networkManager: networkManager))
     }
 
     var body: some View {

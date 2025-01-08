@@ -19,30 +19,38 @@ class NetworkConnexionViewModel: ObservableObject {
     @Published var showPassword: Bool = false
     @Published var matchResult: [Int] = []
     @Published var showMatchResultPopup: Bool = false
+    var networkManager: NetworkManager
+    
+    init(networkManager: NetworkManager) {
+        self.networkManager = networkManager
+    }
 
     func togglePasswordVisibility() {
         showPassword.toggle()
     }
 
     func fetchMatch() {
-        NetworkManager.shared.fetchMatch(
+        networkManager.fetchMatch(
             tournamentId: tournamentId,
             matchId: matchId,
             refereePassword: password
-        ) { match, error in
-            if let error = error {
-                self.alertMessage = error
-                self.showAlert = true
-            } else if let match = match {
-                if let result = match.result, !result.isEmpty {
-                    self.playerOne = match.player_one
-                    self.playerTwo = match.player_two
-                    self.matchResult = match.result ?? []
-                    self.showMatchResultPopup = true
-                } else {
-                    self.playerOne = match.player_one
-                    self.playerTwo = match.player_two
-                    self.navigateToGame = true
+        ) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let match):
+                    if let result = match.result, !result.isEmpty {
+                        self.playerOne = match.player_one
+                        self.playerTwo = match.player_two
+                        self.matchResult = result
+                        self.showMatchResultPopup = true
+                    } else {
+                        self.playerOne = match.player_one
+                        self.playerTwo = match.player_two
+                        self.navigateToGame = true
+                    }
+                case .failure(let error):
+                    self.alertMessage = error.localizedDescription
+                    self.showAlert = true
                 }
             }
         }

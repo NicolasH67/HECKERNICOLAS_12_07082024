@@ -9,9 +9,11 @@ import SwiftUI
 
 struct NetworkConnexionView: View {
     @StateObject private var viewModel: NetworkConnexionViewModel
+    var networkManager: NetworkManager
 
-    init() {
-        _viewModel = StateObject(wrappedValue: NetworkConnexionViewModel())
+    init(networkManager: NetworkManager) {
+        self.networkManager = networkManager
+        _viewModel = StateObject(wrappedValue: NetworkConnexionViewModel(networkManager: networkManager))
     }
 
     var body: some View {
@@ -122,8 +124,4 @@ struct NetworkConnexionView: View {
             }
         }
     }
-}
-
-#Preview {
-    NetworkConnexionView()
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selection: Tab = .featured
+    private var networkManager: NetworkManager = NetworkManager()
     
     enum Tab {
         case featured
@@ -22,7 +23,7 @@ struct ContentView: View {
                     Label("Local", systemImage: "house")
                 }
                 .tag(Tab.featured)
-            NetworkConnexionView()
+            NetworkConnexionView(networkManager: networkManager)
                 .tabItem{
                     Label("Network", systemImage: "network")
                 }
