@@ -9,9 +9,10 @@ import SwiftUI
 
 struct LocalHomeView: View {
     @StateObject private var viewModel = LocalHomeViewModel()
+    @Binding var path: NavigationPath
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             ZStack {
                 Color(.red)
                     .opacity(0.3)
@@ -49,6 +50,11 @@ struct LocalHomeView: View {
                         
                         StartGameButton {
                             viewModel.startMatch()
+                            if let matchModel = viewModel.matchModel {
+                                path.append(matchModel)
+                            } else {
+                                print("Match model is not ready.")
+                            }
                         }
                     }
                     .padding()
@@ -56,17 +62,13 @@ struct LocalHomeView: View {
             }
             .navigationTitle("Setup Match")
             .navigationBarTitleDisplayMode(.inline)
-            .fullScreenCover(isPresented: $viewModel.isMatchModelReady) {
-                if let matchModel = viewModel.matchModel {
-                    MatchView(matchModel: matchModel, networkManager: NetworkManager())
-                } else {
-                    Text("Match model is not readu.")
-                }
+            .navigationDestination(for: MatchModel.self) { matchModel in
+                MatchView(
+                    matchModel: matchModel,
+                    networkManager: NetworkManager(),
+                    path: $path
+                )
             }
         }
     }
-}
-
-#Preview {
-    LocalHomeView()
 }

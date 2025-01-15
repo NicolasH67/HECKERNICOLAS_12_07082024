@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MatchModel: Codable {
+struct MatchModel: Codable, Hashable {
     let playerOne: String
     let playerTwo: String
     let coachPlayerOne: String
@@ -23,3 +23,4 @@ struct MatchModel: Codable {
     let tournamentId: String?
     let refereePassword: String?
 }
+

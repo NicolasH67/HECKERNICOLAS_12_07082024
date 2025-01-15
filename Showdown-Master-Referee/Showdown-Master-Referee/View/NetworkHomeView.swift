@@ -9,8 +9,15 @@ import SwiftUI
 
 struct NetworkHomeView: View {
     @StateObject private var viewModel: NetworkHomeViewModel
+    @Binding var path: NavigationPath
 
-    init(playerOneName: String, playerTwoName: String, matchId: String, tournamentId: String, refereePassword: String) {
+    init(
+        playerOneName: String,
+        playerTwoName: String,
+        matchId: String,
+        tournamentId: String,
+        refereePassword: String,
+        path: Binding<NavigationPath>) {
         _viewModel = StateObject(wrappedValue:
                                     NetworkHomeViewModel(
                                         playerOneName: playerOneName,
@@ -19,10 +26,11 @@ struct NetworkHomeView: View {
                                         tournamentId: tournamentId,
                                         refereePassword: refereePassword
                                     ))
+        self._path = path
     }
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             ZStack {
                 Color.red.opacity(0.3)
                     .ignoresSafeArea()
@@ -48,6 +56,13 @@ struct NetworkHomeView: View {
 
                         StartGameButton {
                             viewModel.startMatch()
+                            if viewModel.isMatchModelReady {
+                                if let matchModel = viewModel.matchModel {
+                                    path.append(matchModel)
+                                }
+                            } else {
+                                print("Match model is not ready.")
+                            }
                         }
                     }
                     .padding()
@@ -55,23 +70,13 @@ struct NetworkHomeView: View {
             }
             .navigationTitle("Setup Match")
             .navigationBarTitleDisplayMode(.inline)
-            .fullScreenCover(isPresented: $viewModel.isMatchModelReady) {
-                if let matchModel = viewModel.matchModel {
-                    MatchView(matchModel: matchModel, networkManager: NetworkManager())
-                } else {
-                    Text("Match model is not readu.")
-                }
+            .navigationDestination(for: MatchModel.self) { matchModel in
+                MatchView(
+                    matchModel: matchModel,
+                    networkManager: NetworkManager(),
+                    path: $path
+                )
             }
         }
     }
-}
-
-#Preview {
-    NetworkHomeView(
-        playerOneName: "Player 1",
-        playerTwoName: "Player 2",
-        matchId: "1",
-        tournamentId: "1",
-        refereePassword: "pass"
-    )
 }

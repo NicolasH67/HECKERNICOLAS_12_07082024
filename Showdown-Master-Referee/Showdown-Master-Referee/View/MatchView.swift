@@ -8,11 +8,12 @@ import SwiftUI
 
 struct MatchView: View {
     @StateObject private var viewModel: MatchViewModel
-    @Environment(\.dismiss) var dismiss
+    @Binding var path: NavigationPath
     var networkManager: NetworkManager
 
-    init(matchModel: MatchModel, networkManager: NetworkManager) {
-        self.networkManager = networkManager // Initialize networkManager
+    init(matchModel: MatchModel, networkManager: NetworkManager, path: Binding<NavigationPath>) {
+        self.networkManager = networkManager
+        self._path = path
         _viewModel = StateObject(wrappedValue: MatchViewModel(matchModel: matchModel, networkManager: networkManager))
     }
 
@@ -84,7 +85,6 @@ struct MatchView: View {
                     )
                 }
 
-                // Boutons d'action
                 VStack(spacing: 10) {
                     Button(action: viewModel.onCancelLastAction) {
                         Text("Cancel Last")
@@ -126,10 +126,12 @@ struct MatchView: View {
                 .padding(.horizontal, 30)
             }
         }
+        .navigationBarHidden(true)
+        .toolbar(.hidden, for: .tabBar)
         .onAppear {
             viewModel.initializeServiceCounts()
             viewModel.onQuitCallback = {
-                dismiss()
+                path.removeLast(path.count)
             }
         }
         .sheet(isPresented: $viewModel.showWarningPopup, onDismiss: viewModel.dismissWarning) {
@@ -161,15 +163,15 @@ struct MatchView: View {
                     )
                 }
         .alert("Match in Progress", isPresented: $viewModel.showAlert) {
-                    Button("Quit", role: .destructive) {
-                        dismiss()
-                    }
-                    Button("Cancel", role: .cancel) {
-                        viewModel.showAlert = false
-                    }
-                } message: {
-                    Text("Are you sure you want to leave? The match is not over yet.")
-                }
+            Button("Quit", role: .destructive) {
+                path.removeLast(path.count)
+            }
+            Button("Cancel", role: .cancel) {
+                viewModel.showAlert = false
+            }
+        } message: {
+            Text("Are you sure you want to leave? The match is not over yet.")
+        }
         .alert("Coach \(viewModel.playerNameToShow)", isPresented: $viewModel.coachShowAlert) {
             Button("Ok", role: .cancel) { viewModel.coachShowAlert = false }
         } message: {

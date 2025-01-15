@@ -9,15 +9,17 @@ import SwiftUI
 
 struct NetworkConnexionView: View {
     @StateObject private var viewModel: NetworkConnexionViewModel
+    @Binding var path: NavigationPath
     var networkManager: NetworkManager
 
-    init(networkManager: NetworkManager) {
+    init(networkManager: NetworkManager, path: Binding<NavigationPath>) {
         self.networkManager = networkManager
+        self._path = path
         _viewModel = StateObject(wrappedValue: NetworkConnexionViewModel(networkManager: networkManager))
     }
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             ZStack {
                 Color.red.opacity(0.3)
                     .ignoresSafeArea()
@@ -75,7 +77,10 @@ struct NetworkConnexionView: View {
 
                     Divider()
 
-                    Button(action: viewModel.fetchMatch) {
+                    Button(action: {
+                        viewModel.fetchMatch()
+                    }
+                    ) {
                         ZStack {
                             LinearGradient(
                                 colors: [Color("Deep Purple"), Color("Raspberry Pink")],
@@ -119,7 +124,8 @@ struct NetworkConnexionView: View {
                     playerTwoName: viewModel.playerTwo,
                     matchId: viewModel.matchId,
                     tournamentId: viewModel.tournamentId,
-                    refereePassword: viewModel.password
+                    refereePassword: viewModel.password,
+                    path: $path
                 )
             }
         }

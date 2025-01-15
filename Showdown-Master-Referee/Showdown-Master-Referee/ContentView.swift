@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selection: Tab = .featured
+    @State private var networkPath = NavigationPath()
+    @State private var localPath = NavigationPath()
     private var networkManager: NetworkManager = NetworkManager()
     
     enum Tab {
@@ -18,12 +20,12 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $selection) {
-            LocalHomeView()
+            LocalHomeView(path: $localPath)
                 .tabItem{
                     Label("Local", systemImage: "house")
                 }
                 .tag(Tab.featured)
-            NetworkConnexionView(networkManager: networkManager)
+            NetworkConnexionView(networkManager: networkManager, path: $networkPath)
                 .tabItem{
                     Label("Network", systemImage: "network")
                 }
