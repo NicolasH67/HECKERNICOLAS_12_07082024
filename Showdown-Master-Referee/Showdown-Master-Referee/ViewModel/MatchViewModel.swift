@@ -37,7 +37,7 @@ class MatchViewModel: ObservableObject {
     @Published var coachShowAlert = false
     @Published var playerNameToShow: String = ""
     @Published var coachNameToShow: String = ""
-    var networkManager: NetworkManager
+    var networkManager: NetworkManager?
 
     // MARK: - Internal Properties
     var onQuitCallback: (() -> Void)?
@@ -45,7 +45,7 @@ class MatchViewModel: ObservableObject {
     var timer: Timer?
 
     // MARK: - Initializer
-    init(matchModel: MatchModel, networkManager: NetworkManager) {
+    init(matchModel: MatchModel, networkManager: NetworkManager? = nil) {
         self.matchModel = matchModel
         self.networkManager = networkManager
         initializeServiceCounts()
@@ -211,8 +211,10 @@ class MatchViewModel: ObservableObject {
             showAlertNetwork = true
             return
         }
+        
+        guard let networkManagerUnwrapped = networkManager else { return }
 
-        networkManager.updateMatchResult(
+        networkManagerUnwrapped.updateMatchResult(
             tournamentId: tournamentId,
             matchId: matchId,
             results: matchResult,

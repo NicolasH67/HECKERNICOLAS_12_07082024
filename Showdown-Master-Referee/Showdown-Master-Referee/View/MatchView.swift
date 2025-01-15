@@ -9,9 +9,9 @@ import SwiftUI
 struct MatchView: View {
     @StateObject private var viewModel: MatchViewModel
     @Binding var path: NavigationPath
-    var networkManager: NetworkManager
+    var networkManager: NetworkManager?
 
-    init(matchModel: MatchModel, networkManager: NetworkManager, path: Binding<NavigationPath>) {
+    init(matchModel: MatchModel, networkManager: NetworkManager? = nil, path: Binding<NavigationPath>) {
         self.networkManager = networkManager
         self._path = path
         _viewModel = StateObject(wrappedValue: MatchViewModel(matchModel: matchModel, networkManager: networkManager))

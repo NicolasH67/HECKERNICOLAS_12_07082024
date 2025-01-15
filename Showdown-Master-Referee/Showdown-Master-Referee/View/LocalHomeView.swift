@@ -65,7 +65,6 @@ struct LocalHomeView: View {
             .navigationDestination(for: MatchModel.self) { matchModel in
                 MatchView(
                     matchModel: matchModel,
-                    networkManager: NetworkManager(),
                     path: $path
                 )
             }
