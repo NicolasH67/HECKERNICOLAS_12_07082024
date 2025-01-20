@@ -10,7 +10,8 @@ import Testing
 
 struct LocalHomeViewModelTest {
 
-    @Test func functionTest() {
+    @Test("When match is started, local match model is initialized and match details are set correctly")
+    func whenMatchIsStarted_thenLocalMatchModelIsInitializedAndMatchDetailsAreSetCorrectly() {
         let viewModel = LocalHomeViewModel()
         viewModel.playerOneName = "Player One"
         viewModel.playerTwoName = "Player Two"
@@ -34,5 +35,4 @@ struct LocalHomeViewModelTest {
         #expect(viewModel.matchModel?.playerOneFirstServe == true)
         #expect(viewModel.matchModel?.numberOfService == 2)
     }
-
 }

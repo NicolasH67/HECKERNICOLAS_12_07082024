@@ -24,7 +24,7 @@ class MatchViewModel: ObservableObject {
     @Published var setIsOver = false
     @Published var showCountdownPopup = false
     @Published var showWarningPopup = false
-    @Published var countdownTime = 0
+    @Published var countdownTime = 60
     @Published var showMatchResultPopup = false
     @Published var changeSide = false
     @Published var isPlayerOneServe = true
@@ -53,12 +53,12 @@ class MatchViewModel: ObservableObject {
 
     // MARK: - Private Methods
     private func startCountdown() {
-        countdownTime = 60
         self.showCountdownPopup = true
         startTimer()
     }
 
     private func stopTimer() {
+        countdownTime = 60
         timer?.invalidate()
         timer = nil
     }
@@ -226,9 +226,11 @@ class MatchViewModel: ObservableObject {
                 case .success:
                     self.alertMessageNetwork = "Match results updated successfully!"
                 case .failure(let error):
-                    self.alertMessageNetwork = "Failed to update match result: \(error)"
+                    if case let NetworkError.custom(errorMessage) = error {
+                        self.alertMessageNetwork = errorMessage
+                    }
+                    self.showAlert = true
                 }
-                self.showAlertNetwork = true
             }
         }
     }

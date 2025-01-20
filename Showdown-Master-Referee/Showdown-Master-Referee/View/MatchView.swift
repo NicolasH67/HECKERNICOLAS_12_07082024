@@ -84,43 +84,45 @@ struct MatchView: View {
                         matchIsOver: viewModel.matchIsOver
                     )
                 }
-
-                VStack(spacing: 10) {
-                    Button(action: viewModel.onCancelLastAction) {
-                        Text("Cancel Last")
-                            .fontWeight(.bold)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color("Deep Purple"))
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    Button(action: viewModel.onStartChrono) {
-                        Text("Start Chrono")
-                            .fontWeight(.bold)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color("Raspberry Pink"))
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    Button(action: viewModel.onEndOfSet) {
-                        Text("End of Set")
-                            .fontWeight(.bold)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color("Raspberry Pink"))
-                            .foregroundColor(Color.white)
-                            .cornerRadius(10)
-                    }
-                    Button(action: viewModel.onQuitMatch) {
-                        Text("Quit Match")
-                            .fontWeight(.bold)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color("Deep Purple"))
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
+                
+                ScrollView {
+                    VStack(spacing: 10) {
+                        Button(action: viewModel.onCancelLastAction) {
+                            Text("Cancel Last")
+                                .fontWeight(.bold)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color("Deep Purple"))
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        Button(action: viewModel.onStartChrono) {
+                            Text("Start Chrono")
+                                .fontWeight(.bold)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color("Raspberry Pink"))
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        Button(action: viewModel.onEndOfSet) {
+                            Text("End of Set")
+                                .fontWeight(.bold)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color("Raspberry Pink"))
+                                .foregroundColor(Color.white)
+                                .cornerRadius(10)
+                        }
+                        Button(action: viewModel.onQuitMatch) {
+                            Text("Quit Match")
+                                .fontWeight(.bold)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color("Deep Purple"))
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
                     }
                 }
                 .padding(.horizontal, 30)

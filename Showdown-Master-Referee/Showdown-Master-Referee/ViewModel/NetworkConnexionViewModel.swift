@@ -49,7 +49,9 @@ class NetworkConnexionViewModel: ObservableObject {
                         self.navigateToGame = true
                     }
                 case .failure(let error):
-                    self.alertMessage = error.localizedDescription
+                    if case let NetworkError.custom(errorMessage) = error {
+                        self.alertMessage = errorMessage
+                    }
                     self.showAlert = true
                 }
             }
