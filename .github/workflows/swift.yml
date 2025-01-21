@@ -38,17 +38,18 @@ jobs:
 
       - name: Build and test
         run: |
-          # Capture the first available iPhone simulator ID and OS version
-          AVAILABLE_SIMULATOR=$(xcrun simctl list devices available | grep -m 1 -o 'iPhone .* (' | awk -F'[()]' '{print $1}' | tr -d ' ')
-          AVAILABLE_OS=$(xcrun simctl list devices available | grep -m 1 -o 'iPhone .* (' | awk -F'[()]' '{print $2}')
-          
-          # Check if a valid simulator and OS version were found
+          # Capture the first available iPhone simulator's name, OS version, and UDID
+          AVAILABLE_SIMULATOR_INFO=$(xcrun simctl list devices available | grep -m 1 'iPhone')
+          AVAILABLE_SIMULATOR=$(echo $AVAILABLE_SIMULATOR_INFO | awk -F'[()]' '{print $1}' | xargs)
+          AVAILABLE_OS=$(echo $AVAILABLE_SIMULATOR_INFO | awk -F'[()]' '{print $2}' | xargs)
+
+          # Check if a valid simulator name and OS version were found
           if [ -z "$AVAILABLE_SIMULATOR" ] || [ -z "$AVAILABLE_OS" ]; then
             echo "No available iPhone simulator found. Exiting."
             exit 1
           fi
 
-          # Run the xcodebuild command with the found simulator and OS version
+          # Run the xcodebuild command with the found simulator name and OS version
           xcodebuild clean test \
           -workspace Showdown-Master-Referee.xcworkspace \
           -scheme Showdown-Master-Referee \
