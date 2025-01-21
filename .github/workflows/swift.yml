@@ -40,5 +40,5 @@ jobs:
           xcodebuild clean test \
             -workspace Showdown-Master-Referee.xcworkspace \
             -scheme Showdown-Master-Referee \
-            -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.2' \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.0' \
             -quiet
