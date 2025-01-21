@@ -42,7 +42,13 @@ class MockNetworkManager: NetworkManager {
         }
     }
 
-    func updateMatch(tournamentId: String, matchId: String, results: [Int], completion: @escaping (Result<Void, NetworkError>) -> Void) {
+    override func updateMatchResult(
+        tournamentId: String,
+        matchId: String,
+        results: [Int],
+        refereePassword: String,
+        completion: @escaping (Result<Void, NetworkError>) -> Void
+    ) {
         if let error = updateMatchResultError {
             completion(.failure(error))
         } else {

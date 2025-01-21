@@ -234,7 +234,6 @@ class MatchViewModel: ObservableObject {
             }
         }
     }
-
     
     // MARK: - Public Methods
     

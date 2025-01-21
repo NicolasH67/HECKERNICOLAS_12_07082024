@@ -86,7 +86,7 @@ struct NetworkConnexionViewModelTest {
 
         viewModel.fetchMatch()
         
-        try await Task.sleep(for: .seconds(1))
+        //try await Task.sleep(for: .seconds(0.1))
 
         #expect(viewModel.playerOne == "Player One")
         #expect(viewModel.playerTwo == "Player Two")
@@ -108,7 +108,7 @@ struct NetworkConnexionViewModelTest {
         
         viewModel.fetchMatch()
         
-        try await Task.sleep(for: .seconds(1))
+//        try await Task.sleep(for: .seconds(1))
         
         #expect(viewModel.alertMessage == "Error")
     }

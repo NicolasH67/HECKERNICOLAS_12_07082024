@@ -35,7 +35,7 @@ class NetworkConnexionViewModel: ObservableObject {
             matchId: matchId,
             refereePassword: password
         ) { result in
-            DispatchQueue.main.async {
+            //DispatchQueue.main.async {
                 switch result {
                 case .success(let match):
                     if let result = match.result, !result.isEmpty {
@@ -54,7 +54,7 @@ class NetworkConnexionViewModel: ObservableObject {
                     }
                     self.showAlert = true
                 }
-            }
+            //}
         }
     }
     

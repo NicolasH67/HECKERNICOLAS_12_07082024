@@ -573,25 +573,27 @@ struct MatchViewModelTest {
         #expect(mockNetworkManager.fetchMatchResult != nil)
     }
     
-//    @Test func whenGoalIsScored_updateMatchStateAndTriggerNetworkRequestError() async throws {
-//        let mockNetworkManager = MockNetworkManager(networkService: MockNetworkService())
-//        let viewModel = MatchViewModel(matchModel: match3, networkManager: mockNetworkManager)
-//
-//        viewModel.pointsPlayerOne = 10
-//        viewModel.pointsPlayerTwo = 8
-//        viewModel.setWinPlayerOne = 1
-//        viewModel.setWinPlayerTwo = 0
-//
-//        viewModel.onGoal(isPlayerOneScored: true)
-//        mockNetworkManager.fetchMatchResult = .failure(NetworkError.custom("error"))
-//        
-//        try await Task.sleep(for: .seconds(1))
-//
-//        #expect(viewModel.setWinPlayerOne == 2)
-//        #expect(viewModel.matchIsOver == true)
-//        #expect(viewModel.alertMessageNetwork == "error")
-//    }
-    
+    @Test
+    func whenGoalIsScored_updateMatchStateAndTriggerNetworkRequestError() async throws {
+        let mockNetworkManager = MockNetworkManager(networkService: MockNetworkService())
+        let viewModel = MatchViewModel(matchModel: match3, networkManager: mockNetworkManager)
+
+        viewModel.pointsPlayerOne = 10
+        viewModel.pointsPlayerTwo = 8
+        viewModel.setWinPlayerOne = 1
+        viewModel.setWinPlayerTwo = 0
+
+        mockNetworkManager.updateMatchResultError = .custom("error")
+
+        viewModel.onGoal(isPlayerOneScored: true)
+        
+        try await Task.sleep(for: .seconds(1))
+
+        #expect(viewModel.setWinPlayerOne == 2, "Le set gagné par le joueur un doit être mis à jour.")
+        #expect(viewModel.matchIsOver, "Le match doit être marqué comme terminé.")
+        #expect(viewModel.alertMessageNetwork == "error", "Le message d'alerte réseau doit correspondre à l'erreur simulée.")
+    }
+
     @Test("When countdown reaches zero, countdownTime should be reset")
     func whenCountdownReachesZero_countdownTimeShouldBeReset() {
         let viewModel = MatchViewModel(matchModel: match1)
