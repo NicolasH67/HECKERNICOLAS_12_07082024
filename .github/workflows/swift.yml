@@ -42,3 +42,5 @@ jobs:
           -scheme Showdown-Master-Referee \
           -destination 'platform=iOS Simulator,name=iPhone 15 Pro,OS=18.2' \
           -quiet
+        env:
+          MD_APPLE_SDK_ROOT: /Applications/Xcode_16.2.app
