@@ -54,8 +54,6 @@ struct NetworkConnexionViewModelTest {
         
         viewModel.fetchMatch()
         
-        try await Task.sleep(for: .milliseconds(100))
-        
         #expect(viewModel.playerOne == "Player One")
         #expect(viewModel.playerTwo == "Player Two")
         #expect(viewModel.matchResult == [11, 9])
@@ -85,8 +83,6 @@ struct NetworkConnexionViewModelTest {
         mockNetworkManager.fetchMatchResult = .success(match)
 
         viewModel.fetchMatch()
-        
-        //try await Task.sleep(for: .seconds(0.1))
 
         #expect(viewModel.playerOne == "Player One")
         #expect(viewModel.playerTwo == "Player Two")
@@ -107,8 +103,6 @@ struct NetworkConnexionViewModelTest {
         mockNetworkManager.fetchMatchResult = .failure(NetworkError.custom("Error"))
         
         viewModel.fetchMatch()
-        
-//        try await Task.sleep(for: .seconds(1))
         
         #expect(viewModel.alertMessage == "Error")
     }

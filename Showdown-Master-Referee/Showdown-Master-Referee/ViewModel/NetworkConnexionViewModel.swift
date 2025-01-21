@@ -35,26 +35,24 @@ class NetworkConnexionViewModel: ObservableObject {
             matchId: matchId,
             refereePassword: password
         ) { result in
-            //DispatchQueue.main.async {
-                switch result {
-                case .success(let match):
-                    if let result = match.result, !result.isEmpty {
-                        self.playerOne = match.player_one
-                        self.playerTwo = match.player_two
-                        self.matchResult = result
-                        self.showMatchResultPopup = true
-                    } else {
-                        self.playerOne = match.player_one
-                        self.playerTwo = match.player_two
-                        self.navigateToGame = true
-                    }
-                case .failure(let error):
-                    if case let NetworkError.custom(errorMessage) = error {
-                        self.alertMessage = errorMessage
-                    }
-                    self.showAlert = true
+            switch result {
+            case .success(let match):
+                if let result = match.result, !result.isEmpty {
+                    self.playerOne = match.player_one
+                    self.playerTwo = match.player_two
+                    self.matchResult = result
+                    self.showMatchResultPopup = true
+                } else {
+                    self.playerOne = match.player_one
+                    self.playerTwo = match.player_two
+                    self.navigateToGame = true
                 }
-            //}
+            case .failure(let error):
+                if case let NetworkError.custom(errorMessage) = error {
+                    self.alertMessage = errorMessage
+                }
+                self.showAlert = true
+            }
         }
     }
     

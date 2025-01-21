@@ -221,17 +221,15 @@ class MatchViewModel: ObservableObject {
             refereePassword: refereePassword
         ) { [weak self] result in
             guard let self = self else { return }
-            DispatchQueue.main.async {
-                switch result {
-                case .success:
-                    self.alertMessageNetwork = "Match results updated successfully!"
-                case .failure(let error):
-                    if case let NetworkError.custom(errorMessage) = error {
-                        self.alertMessageNetwork = errorMessage
-                    }
-                    self.showAlert = true
+            switch result {
+            case .success:
+                self.alertMessageNetwork = "Match results updated successfully!"
+            case .failure(let error):
+                if case let NetworkError.custom(errorMessage) = error {
+                    self.alertMessageNetwork = errorMessage
                 }
             }
+            self.showAlertNetwork = true
         }
     }
     

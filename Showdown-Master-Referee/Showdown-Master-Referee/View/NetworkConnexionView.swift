@@ -78,7 +78,11 @@ struct NetworkConnexionView: View {
                     Divider()
 
                     Button(action: {
-                        viewModel.fetchMatch()
+                        DispatchQueue.global(qos: .userInitiated).async {
+                            Task {
+                                await viewModel.fetchMatch()
+                            }
+                        }
                     }
                     ) {
                         ZStack {
