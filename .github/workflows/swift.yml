@@ -26,7 +26,7 @@ jobs:
       - name: Build and test
         run: |
           xcodebuild clean test \
-            -workspace YourWorkspace.xcworkspace \
+            -workspace Showdown-Master-Referee.xcworkspace \
             -scheme YourScheme \
             -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.4' \
             -quiet
