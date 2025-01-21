@@ -93,11 +93,6 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		70683FC12D3FD4D700317D7F /* .github */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = .github;
-			sourceTree = "<group>";
-		};
 		707E53282D2040B4005E6B3F /* Showdown-Master-RefereeTest */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Showdown-Master-RefereeTest";
@@ -201,7 +196,6 @@
 		70AD61632CB906180075BE80 = {
 			isa = PBXGroup;
 			children = (
-				70683FC12D3FD4D700317D7F /* .github */,
 				70A9EB122D2E8A6200494719 /* Showdown-Master-Referee */,
 				707E53282D2040B4005E6B3F /* Showdown-Master-RefereeTest */,
 				70AD616D2CB906180075BE80 /* Products */,
@@ -234,7 +228,6 @@
 				707E532C2D2040B4005E6B3F /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				70683FC12D3FD4D700317D7F /* .github */,
 				707E53282D2040B4005E6B3F /* Showdown-Master-RefereeTest */,
 				70CD69492D37D59000BA24EB /* Preview Content */,
 			);
