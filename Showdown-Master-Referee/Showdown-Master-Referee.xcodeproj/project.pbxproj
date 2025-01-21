@@ -6,33 +6,198 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		706B51B32D06E3CD001B40ED /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 706B51B22D06E3CD001B40ED /* Alamofire */; };
+		70A9EB132D2E8A6200494719 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAF12D2E8A6200494719 /* Match.swift */; };
+		70A9EB142D2E8A6200494719 /* MatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAF22D2E8A6200494719 /* MatchModel.swift */; };
+		70A9EB152D2E8A6200494719 /* MatchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAF32D2E8A6200494719 /* MatchState.swift */; };
+		70A9EB162D2E8A6200494719 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAF42D2E8A6200494719 /* NetworkManager.swift */; };
+		70A9EB182D2E8A6200494719 /* BestOfView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAFA2D2E8A6200494719 /* BestOfView.swift */; };
+		70A9EB192D2E8A6200494719 /* CountdownPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAFB2D2E8A6200494719 /* CountdownPopup.swift */; };
+		70A9EB1A2D2E8A6200494719 /* FirstServeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAFC2D2E8A6200494719 /* FirstServeView.swift */; };
+		70A9EB1B2D2E8A6200494719 /* PlayerActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAFD2D2E8A6200494719 /* PlayerActionView.swift */; };
+		70A9EB1C2D2E8A6200494719 /* PlayerEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAFE2D2E8A6200494719 /* PlayerEntryView.swift */; };
+		70A9EB1D2D2E8A6200494719 /* ResultPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAFF2D2E8A6200494719 /* ResultPopup.swift */; };
+		70A9EB1E2D2E8A6200494719 /* ScoreBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB002D2E8A6200494719 /* ScoreBoxView.swift */; };
+		70A9EB1F2D2E8A6200494719 /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB012D2E8A6200494719 /* SectionHeader.swift */; };
+		70A9EB202D2E8A6200494719 /* StartGameButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB022D2E8A6200494719 /* StartGameButton.swift */; };
+		70A9EB212D2E8A6200494719 /* WarningPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB032D2E8A6200494719 /* WarningPopup.swift */; };
+		70A9EB222D2E8A6200494719 /* LocalHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB052D2E8A6200494719 /* LocalHomeView.swift */; };
+		70A9EB232D2E8A6200494719 /* MatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB062D2E8A6200494719 /* MatchView.swift */; };
+		70A9EB242D2E8A6200494719 /* NetworkConnexionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB072D2E8A6200494719 /* NetworkConnexionView.swift */; };
+		70A9EB252D2E8A6200494719 /* NetworkHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB082D2E8A6200494719 /* NetworkHomeView.swift */; };
+		70A9EB262D2E8A6200494719 /* LocalHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB0A2D2E8A6200494719 /* LocalHomeViewModel.swift */; };
+		70A9EB272D2E8A6200494719 /* MatchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB0B2D2E8A6200494719 /* MatchViewModel.swift */; };
+		70A9EB282D2E8A6200494719 /* NetworkConnexionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB0C2D2E8A6200494719 /* NetworkConnexionViewModel.swift */; };
+		70A9EB292D2E8A6200494719 /* NetworkHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB0D2D2E8A6200494719 /* NetworkHomeViewModel.swift */; };
+		70A9EB2A2D2E8A6200494719 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB102D2E8A6200494719 /* ContentView.swift */; };
+		70A9EB2B2D2E8A6200494719 /* Showdown_Master_RefereeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EB112D2E8A6200494719 /* Showdown_Master_RefereeApp.swift */; };
+		70A9EB2D2D2E8A6200494719 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70A9EB0F2D2E8A6200494719 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		707E532B2D2040B4005E6B3F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 70AD61642CB906180075BE80 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 70AD616B2CB906180075BE80;
+			remoteInfo = "Showdown-Master-Referee";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		707E53272D2040B4005E6B3F /* Showdown-Master-RefereeTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Showdown-Master-RefereeTest.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		70A9EAF12D2E8A6200494719 /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
+		70A9EAF22D2E8A6200494719 /* MatchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchModel.swift; sourceTree = "<group>"; };
+		70A9EAF32D2E8A6200494719 /* MatchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchState.swift; sourceTree = "<group>"; };
+		70A9EAF42D2E8A6200494719 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		70A9EAFA2D2E8A6200494719 /* BestOfView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestOfView.swift; sourceTree = "<group>"; };
+		70A9EAFB2D2E8A6200494719 /* CountdownPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownPopup.swift; sourceTree = "<group>"; };
+		70A9EAFC2D2E8A6200494719 /* FirstServeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstServeView.swift; sourceTree = "<group>"; };
+		70A9EAFD2D2E8A6200494719 /* PlayerActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerActionView.swift; sourceTree = "<group>"; };
+		70A9EAFE2D2E8A6200494719 /* PlayerEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerEntryView.swift; sourceTree = "<group>"; };
+		70A9EAFF2D2E8A6200494719 /* ResultPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultPopup.swift; sourceTree = "<group>"; };
+		70A9EB002D2E8A6200494719 /* ScoreBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreBoxView.swift; sourceTree = "<group>"; };
+		70A9EB012D2E8A6200494719 /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
+		70A9EB022D2E8A6200494719 /* StartGameButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartGameButton.swift; sourceTree = "<group>"; };
+		70A9EB032D2E8A6200494719 /* WarningPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningPopup.swift; sourceTree = "<group>"; };
+		70A9EB052D2E8A6200494719 /* LocalHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalHomeView.swift; sourceTree = "<group>"; };
+		70A9EB062D2E8A6200494719 /* MatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchView.swift; sourceTree = "<group>"; };
+		70A9EB072D2E8A6200494719 /* NetworkConnexionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnexionView.swift; sourceTree = "<group>"; };
+		70A9EB082D2E8A6200494719 /* NetworkHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHomeView.swift; sourceTree = "<group>"; };
+		70A9EB0A2D2E8A6200494719 /* LocalHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalHomeViewModel.swift; sourceTree = "<group>"; };
+		70A9EB0B2D2E8A6200494719 /* MatchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchViewModel.swift; sourceTree = "<group>"; };
+		70A9EB0C2D2E8A6200494719 /* NetworkConnexionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnexionViewModel.swift; sourceTree = "<group>"; };
+		70A9EB0D2D2E8A6200494719 /* NetworkHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHomeViewModel.swift; sourceTree = "<group>"; };
+		70A9EB0F2D2E8A6200494719 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		70A9EB102D2E8A6200494719 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		70A9EB112D2E8A6200494719 /* Showdown_Master_RefereeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Showdown_Master_RefereeApp.swift; sourceTree = "<group>"; };
 		70AD616C2CB906180075BE80 /* Showdown-Master-Referee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Showdown-Master-Referee.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		70CD694B2D37D59000BA24EB /* Exceptions for "Preview Content" folder in "Showdown-Master-Referee" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Preview Assets.xcassets",
+			);
+			target = 70AD616B2CB906180075BE80 /* Showdown-Master-Referee */;
+		};
+		70CD694C2D37D59000BA24EB /* Exceptions for "Preview Content" folder in "Showdown-Master-RefereeTest" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Preview Assets.xcassets",
+			);
+			target = 707E53262D2040B4005E6B3F /* Showdown-Master-RefereeTest */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		70AD616E2CB906180075BE80 /* Showdown-Master-Referee */ = {
+		707E53282D2040B4005E6B3F /* Showdown-Master-RefereeTest */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Showdown-Master-Referee";
+			path = "Showdown-Master-RefereeTest";
+			sourceTree = "<group>";
+		};
+		70CD69492D37D59000BA24EB /* Preview Content */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				70CD694B2D37D59000BA24EB /* Exceptions for "Preview Content" folder in "Showdown-Master-Referee" target */,
+				70CD694C2D37D59000BA24EB /* Exceptions for "Preview Content" folder in "Showdown-Master-RefereeTest" target */,
+			);
+			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		70AD61692CB906180075BE80 /* Frameworks */ = {
+		707E53242D2040B4005E6B3F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		70AD61692CB906180075BE80 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				706B51B32D06E3CD001B40ED /* Alamofire in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		70A9EAF52D2E8A6200494719 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				70A9EAF12D2E8A6200494719 /* Match.swift */,
+				70A9EAF22D2E8A6200494719 /* MatchModel.swift */,
+				70A9EAF32D2E8A6200494719 /* MatchState.swift */,
+				70A9EAF42D2E8A6200494719 /* NetworkManager.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		70A9EB042D2E8A6200494719 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				70A9EAFA2D2E8A6200494719 /* BestOfView.swift */,
+				70A9EAFB2D2E8A6200494719 /* CountdownPopup.swift */,
+				70A9EAFC2D2E8A6200494719 /* FirstServeView.swift */,
+				70A9EAFD2D2E8A6200494719 /* PlayerActionView.swift */,
+				70A9EAFE2D2E8A6200494719 /* PlayerEntryView.swift */,
+				70A9EAFF2D2E8A6200494719 /* ResultPopup.swift */,
+				70A9EB002D2E8A6200494719 /* ScoreBoxView.swift */,
+				70A9EB012D2E8A6200494719 /* SectionHeader.swift */,
+				70A9EB022D2E8A6200494719 /* StartGameButton.swift */,
+				70A9EB032D2E8A6200494719 /* WarningPopup.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		70A9EB092D2E8A6200494719 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				70A9EB042D2E8A6200494719 /* Components */,
+				70A9EB052D2E8A6200494719 /* LocalHomeView.swift */,
+				70A9EB062D2E8A6200494719 /* MatchView.swift */,
+				70A9EB072D2E8A6200494719 /* NetworkConnexionView.swift */,
+				70A9EB082D2E8A6200494719 /* NetworkHomeView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		70A9EB0E2D2E8A6200494719 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				70A9EB0A2D2E8A6200494719 /* LocalHomeViewModel.swift */,
+				70A9EB0B2D2E8A6200494719 /* MatchViewModel.swift */,
+				70A9EB0C2D2E8A6200494719 /* NetworkConnexionViewModel.swift */,
+				70A9EB0D2D2E8A6200494719 /* NetworkHomeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		70A9EB122D2E8A6200494719 /* Showdown-Master-Referee */ = {
+			isa = PBXGroup;
+			children = (
+				70A9EAF52D2E8A6200494719 /* Model */,
+				70A9EB092D2E8A6200494719 /* View */,
+				70A9EB0E2D2E8A6200494719 /* ViewModel */,
+				70CD69492D37D59000BA24EB /* Preview Content */,
+				70A9EB0F2D2E8A6200494719 /* Assets.xcassets */,
+				70A9EB102D2E8A6200494719 /* ContentView.swift */,
+				70A9EB112D2E8A6200494719 /* Showdown_Master_RefereeApp.swift */,
+			);
+			path = "Showdown-Master-Referee";
+			sourceTree = "<group>";
+		};
 		70AD61632CB906180075BE80 = {
 			isa = PBXGroup;
 			children = (
-				70AD616E2CB906180075BE80 /* Showdown-Master-Referee */,
+				70A9EB122D2E8A6200494719 /* Showdown-Master-Referee */,
+				707E53282D2040B4005E6B3F /* Showdown-Master-RefereeTest */,
 				70AD616D2CB906180075BE80 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				70AD616C2CB906180075BE80 /* Showdown-Master-Referee.app */,
+				707E53272D2040B4005E6B3F /* Showdown-Master-RefereeTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +214,30 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		707E53262D2040B4005E6B3F /* Showdown-Master-RefereeTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 707E532D2D2040B4005E6B3F /* Build configuration list for PBXNativeTarget "Showdown-Master-RefereeTest" */;
+			buildPhases = (
+				707E53232D2040B4005E6B3F /* Sources */,
+				707E53242D2040B4005E6B3F /* Frameworks */,
+				707E53252D2040B4005E6B3F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				707E532C2D2040B4005E6B3F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				707E53282D2040B4005E6B3F /* Showdown-Master-RefereeTest */,
+				70CD69492D37D59000BA24EB /* Preview Content */,
+			);
+			name = "Showdown-Master-RefereeTest";
+			packageProductDependencies = (
+			);
+			productName = "Showdown-Master-RefereeTest";
+			productReference = 707E53272D2040B4005E6B3F /* Showdown-Master-RefereeTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		70AD616B2CB906180075BE80 /* Showdown-Master-Referee */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 70AD617A2CB906190075BE80 /* Build configuration list for PBXNativeTarget "Showdown-Master-Referee" */;
@@ -60,11 +250,9 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				70AD616E2CB906180075BE80 /* Showdown-Master-Referee */,
-			);
 			name = "Showdown-Master-Referee";
 			packageProductDependencies = (
+				706B51B22D06E3CD001B40ED /* Alamofire */,
 			);
 			productName = "Showdown-Master-Referee";
 			productReference = 70AD616C2CB906180075BE80 /* Showdown-Master-Referee.app */;
@@ -77,9 +265,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1600;
+				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
+					707E53262D2040B4005E6B3F = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 70AD616B2CB906180075BE80;
+					};
 					70AD616B2CB906180075BE80 = {
 						CreatedOnToolsVersion = 16.0;
 					};
@@ -94,37 +286,134 @@
 			);
 			mainGroup = 70AD61632CB906180075BE80;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				706B51B12D06E3CD001B40ED /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 70AD616D2CB906180075BE80 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				70AD616B2CB906180075BE80 /* Showdown-Master-Referee */,
+				707E53262D2040B4005E6B3F /* Showdown-Master-RefereeTest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		70AD616A2CB906180075BE80 /* Resources */ = {
+		707E53252D2040B4005E6B3F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		70AD616A2CB906180075BE80 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70A9EB2D2D2E8A6200494719 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		70AD61682CB906180075BE80 /* Sources */ = {
+		707E53232D2040B4005E6B3F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		70AD61682CB906180075BE80 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70A9EB132D2E8A6200494719 /* Match.swift in Sources */,
+				70A9EB142D2E8A6200494719 /* MatchModel.swift in Sources */,
+				70A9EB152D2E8A6200494719 /* MatchState.swift in Sources */,
+				70A9EB162D2E8A6200494719 /* NetworkManager.swift in Sources */,
+				70A9EB182D2E8A6200494719 /* BestOfView.swift in Sources */,
+				70A9EB192D2E8A6200494719 /* CountdownPopup.swift in Sources */,
+				70A9EB1A2D2E8A6200494719 /* FirstServeView.swift in Sources */,
+				70A9EB1B2D2E8A6200494719 /* PlayerActionView.swift in Sources */,
+				70A9EB1C2D2E8A6200494719 /* PlayerEntryView.swift in Sources */,
+				70A9EB1D2D2E8A6200494719 /* ResultPopup.swift in Sources */,
+				70A9EB1E2D2E8A6200494719 /* ScoreBoxView.swift in Sources */,
+				70A9EB1F2D2E8A6200494719 /* SectionHeader.swift in Sources */,
+				70A9EB202D2E8A6200494719 /* StartGameButton.swift in Sources */,
+				70A9EB212D2E8A6200494719 /* WarningPopup.swift in Sources */,
+				70A9EB222D2E8A6200494719 /* LocalHomeView.swift in Sources */,
+				70A9EB232D2E8A6200494719 /* MatchView.swift in Sources */,
+				70A9EB242D2E8A6200494719 /* NetworkConnexionView.swift in Sources */,
+				70A9EB252D2E8A6200494719 /* NetworkHomeView.swift in Sources */,
+				70A9EB262D2E8A6200494719 /* LocalHomeViewModel.swift in Sources */,
+				70A9EB272D2E8A6200494719 /* MatchViewModel.swift in Sources */,
+				70A9EB282D2E8A6200494719 /* NetworkConnexionViewModel.swift in Sources */,
+				70A9EB292D2E8A6200494719 /* NetworkHomeViewModel.swift in Sources */,
+				70A9EB2A2D2E8A6200494719 /* ContentView.swift in Sources */,
+				70A9EB2B2D2E8A6200494719 /* Showdown_Master_RefereeApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		707E532C2D2040B4005E6B3F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 70AD616B2CB906180075BE80 /* Showdown-Master-Referee */;
+			targetProxy = 707E532B2D2040B4005E6B3F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		707E532E2D2040B4005E6B3F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S29RUQ396F;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "HECKERNICOLAS.Showdown-Master-RefereeTest";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Showdown-Master-Referee.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Showdown-Master-Referee";
+			};
+			name = Debug;
+		};
+		707E532F2D2040B4005E6B3F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S29RUQ396F;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "HECKERNICOLAS.Showdown-Master-RefereeTest";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Showdown-Master-Referee.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Showdown-Master-Referee";
+			};
+			name = Release;
+		};
 		70AD61782CB906190075BE80 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -258,8 +547,10 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -267,9 +558,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "HECKERNICOLAS.Showdown-Master-Referee";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -287,8 +582,10 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -296,15 +593,28 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "HECKERNICOLAS.Showdown-Master-Referee";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		707E532D2D2040B4005E6B3F /* Build configuration list for PBXNativeTarget "Showdown-Master-RefereeTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				707E532E2D2040B4005E6B3F /* Debug */,
+				707E532F2D2040B4005E6B3F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		70AD61672CB906180075BE80 /* Build configuration list for PBXProject "Showdown-Master-Referee" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -324,6 +634,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		706B51B12D06E3CD001B40ED /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		706B51B22D06E3CD001B40ED /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 706B51B12D06E3CD001B40ED /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 70AD61642CB906180075BE80 /* Project object */;
 }

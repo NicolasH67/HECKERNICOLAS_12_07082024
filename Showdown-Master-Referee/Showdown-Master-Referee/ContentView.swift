@@ -8,14 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var selection: Tab = .featured
+    @State private var networkPath = NavigationPath()
+    @State private var localPath = NavigationPath()
+    private var networkManager: NetworkManager = NetworkManager()
+    
+    enum Tab {
+        case featured
+        case list
+    }
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        TabView(selection: $selection) {
+            LocalHomeView(path: $localPath)
+                .tabItem{
+                    Label("Local", systemImage: "house")
+                }
+                .tag(Tab.featured)
+            NetworkConnexionView(networkManager: networkManager, path: $networkPath)
+                .tabItem{
+                    Label("Network", systemImage: "network")
+                }
+                .tag(Tab.list)
         }
-        .padding()
     }
 }
 
