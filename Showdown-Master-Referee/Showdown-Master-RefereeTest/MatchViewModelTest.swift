@@ -537,9 +537,10 @@ struct MatchViewModelTest {
     @Test("When a penalty is selected, points should be updated for the penalty")
     func whenWarningWithSelectedPenaltyForPlayerTwo_updatesPointsForPenalty() {
         let viewModel = MatchViewModel(matchModel: match1)
-        
         viewModel.selectedWarning = "Penalty"
+        
         viewModel.onWarning(isPlayerOneWarning: false)
+        
         #expect(viewModel.pointsPlayerOne == 2)
         #expect(viewModel.pointsPlayerTwo == 0)
     }
@@ -548,12 +549,15 @@ struct MatchViewModelTest {
     func whenWarningForPlayerTwoWithPenaltyGlasses_updatesPointsForPenaltyGlasses() {
         let viewModel = MatchViewModel(matchModel: match1)
         viewModel.selectedWarning = "Penalty (Glasses)"
+        
         viewModel.onWarning(isPlayerOneWarning: false)
+        
         #expect(viewModel.pointsPlayerOne == 2)
         #expect(viewModel.pointsPlayerTwo == 0)
     }
     
-    @Test func whenGoalIsScored_updateMatchStateAndTriggerNetworkRequest() async throws {
+    @Test("When a goal is scored, the match state should be updated and a network request should be triggered")
+    func whenGoalIsScored_updateMatchStateAndTriggerNetworkRequest() async throws {
         let mockNetworkManager = MockNetworkManager(networkService: MockNetworkService())
         let viewModel = MatchViewModel(matchModel: match3, networkManager: mockNetworkManager)
 
@@ -565,15 +569,13 @@ struct MatchViewModelTest {
         mockNetworkManager.fetchMatchResult = .success(Match(id: 1, player_one: "Player One", player_two: "Player Two", referee_password: "Password", match_id: 1, tournament_id: 1, result: [11,8]))
 
         viewModel.onGoal(isPlayerOneScored: true)
-        
-        try await Task.sleep(for: .seconds(1))
 
         #expect(viewModel.setWinPlayerOne == 2)
         #expect(viewModel.matchIsOver == true)
         #expect(mockNetworkManager.fetchMatchResult != nil)
     }
     
-    @Test
+    @Test("When a goal is scored, the match state should be updated and a network request error should be logged")
     func whenGoalIsScored_updateMatchStateAndTriggerNetworkRequestError() async throws {
         let mockNetworkManager = MockNetworkManager(networkService: MockNetworkService())
         let viewModel = MatchViewModel(matchModel: match3, networkManager: mockNetworkManager)
@@ -586,8 +588,6 @@ struct MatchViewModelTest {
         mockNetworkManager.updateMatchResultError = .custom("error")
 
         viewModel.onGoal(isPlayerOneScored: true)
-        
-        try await Task.sleep(for: .seconds(1))
 
         #expect(viewModel.setWinPlayerOne == 2, "Le set gagné par le joueur un doit être mis à jour.")
         #expect(viewModel.matchIsOver, "Le match doit être marqué comme terminé.")
