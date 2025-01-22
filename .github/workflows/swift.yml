@@ -1,4 +1,4 @@
-name: iOS Build and Test
+name: iOS CI
 
 on:
   push:
@@ -9,36 +9,29 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-test:
     runs-on: macos-latest
 
     steps:
+      # Vérifiez le dépôt
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Cache CocoaPods
-        uses: actions/cache@v3
-        with:
-          path: Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
-
+      # Configure Xcode (optionnel, mais recommandé pour clarifier)
       - name: Set up Xcode
-        uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: '16.2.0'
+        run: sudo xcode-select -switch /Applications/Xcode_16.2.app
 
-      - name: Install dependencies
-        run: pod install
+      # Installer les dépendances si vous utilisez SPM
+      - name: Resolve Dependencies
+        run: xcodebuild -resolvePackageDependencies
 
-      - name: List available simulators
-        id: list-simulators
-        run: xcrun simctl list devices available
+      # Nettoyer le projet
+      - name: Clean build
+        run: xcodebuild clean -scheme Showdown-Master-Referee
 
+      # Construire et tester
       - name: Build and test
         run: |
-          xcodebuild clean test \
-          -scheme "Showdown-Master-Referee" \
-          -destination 'platform=iOS Simulator,OS=18.2,name=iPhone 16 Pro'
-          -quiet
+          xcodebuild test \
+            -scheme Showdown-Master-Referee \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0'
