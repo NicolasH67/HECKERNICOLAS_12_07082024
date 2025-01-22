@@ -40,5 +40,5 @@ jobs:
         run: |
           xcodebuild clean test \
           -scheme "Showdown-Master-Referee" \
-          -destination 'platform=iOS Simulator,OS=17.0,name=iPhone 14'
+          -destination 'platform=iOS Simulator,OS=18.2,name=iPhone 16 Pro'
           -quiet
