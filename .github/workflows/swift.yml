@@ -21,7 +21,7 @@ jobs:
       - name: Set up Swift
         uses: swift-actions/setup-swift@65540b95f51493d65f5e59e97dcef9629ddf11bf
         with:
-          swift-version: "5.7"
+          swift-version: "6.0.3"
 
       # Affiche la version de Swift utilisée
       - name: Show Swift version
