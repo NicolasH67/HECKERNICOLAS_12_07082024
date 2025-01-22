@@ -1,4 +1,4 @@
-name: iOS CI
+name: Swift CI
 
 on:
   push:
@@ -13,25 +13,24 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      # Vérifiez le dépôt
+      # Vérifiez le code source
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # Configure Xcode (optionnel, mais recommandé pour clarifier)
-      - name: Set up Xcode
-        run: sudo xcode-select -switch /Applications/Xcode_16.2.app
+      # Configure la version de Swift
+      - name: Set up Swift
+        uses: swift-actions/setup-swift@65540b95f51493d65f5e59e97dcef9629ddf11bf
+        with:
+          swift-version: "5.7"
 
-      # Installer les dépendances si vous utilisez SPM
-      - name: Resolve Dependencies
-        run: xcodebuild -resolvePackageDependencies
+      # Affiche la version de Swift utilisée
+      - name: Show Swift version
+        run: swift --version
 
-      # Nettoyer le projet
-      - name: Clean build
-        run: xcodebuild clean -scheme Showdown-Master-Referee
+      # Construisez le package
+      - name: Build package
+        run: swift build
 
-      # Construire et tester
-      - name: Build and test
-        run: |
-          xcodebuild test \
-            -scheme Showdown-Master-Referee \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0'
+      # Exécutez les tests
+      - name: Run tests
+        run: swift test
