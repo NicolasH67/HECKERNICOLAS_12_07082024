@@ -7,6 +7,19 @@
 
 import SwiftUI
 
+/// A custom view that displays the results of a match in a popup format.
+/// This view highlights the players' scores and provides an option to dismiss the popup.
+///
+/// - Parameters:
+///   - `playerOneName`: A `String` representing the name of the first player.
+///   - `playerTwoName`: A `String` representing the name of the second player.
+///   - `matchResults`: An array of integers representing the scores for both players. The scores alternate between players, with even indices representing player one's scores and odd indices representing player two's scores.
+///   - `onDismiss`: A closure executed when the "Close" button is pressed.
+///
+/// The layout includes:
+/// - Player names and their corresponding scores.
+/// - An optional footnote for users in case of scoring errors.
+/// - A dismiss button styled with a gradient background.
 struct MatchResultPopup: View {
     var playerOneName: String
     var playerTwoName: String

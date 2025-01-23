@@ -7,6 +7,16 @@
 
 import SwiftUI
 
+/// A reusable view for entering player and coach information.
+///
+/// This view provides text fields for inputting the player's name and their coach's name, with the ability
+/// to toggle editability based on the `isEditable` parameter.
+///
+/// - Parameters:
+///   - `playerTitle`: A `String` used to label the player (e.g., "Player One", "Player Two").
+///   - `name`: A `Binding` to the player's name, allowing real-time updates.
+///   - `coachName`: A `Binding` to the player's coach's name, allowing real-time updates.
+///   - `isEditable`: A `Bool` that determines if the text fields can be edited.
 struct PlayerEntryView: View {
     let playerTitle: String
     @Binding var name: String

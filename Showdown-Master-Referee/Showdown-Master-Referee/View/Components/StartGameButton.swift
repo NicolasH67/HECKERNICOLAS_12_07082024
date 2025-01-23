@@ -7,9 +7,19 @@
 
 import SwiftUI
 
+/// A custom button used to start the game. It displays a gradient background with a play icon
+/// and a label indicating "Start Game". The button has an action closure that is triggered
+/// when the button is tapped.
+///
+/// The button uses a `ZStack` to layer the background gradient, a `HStack` for the icon and text,
+/// and applies a shadow for a raised effect. The gradient consists of two colors, "Deep Purple"
+/// and "Raspberry Pink", which are visually appealing and aligned with the app's theme. The
+/// button’s shadow gives it a floating effect, making it visually prominent.
+///
+/// This view requires an `action` closure parameter, which is invoked when the button is pressed.
 struct StartGameButton: View {
     let action: () -> Void
-
+    
     var body: some View {
         Button(action: action) {
             ZStack {

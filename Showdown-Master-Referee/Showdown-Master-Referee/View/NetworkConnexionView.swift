@@ -7,17 +7,20 @@
 
 import SwiftUI
 
+/// View for managing the connection to the network for setting up a match with tournament and match ID input.
 struct NetworkConnexionView: View {
     @StateObject private var viewModel: NetworkConnexionViewModel
     @Binding var path: NavigationPath
     var networkManager: NetworkManager
 
+    /// Initializes the `NetworkConnexionView` with network manager and navigation path.
     init(networkManager: NetworkManager, path: Binding<NavigationPath>) {
         self.networkManager = networkManager
         self._path = path
         _viewModel = StateObject(wrappedValue: NetworkConnexionViewModel(networkManager: networkManager))
     }
 
+    /// Body of the view that includes inputs for Tournament ID, Match ID, and Password along with connection button.
     var body: some View {
         NavigationStack(path: $path) {
             ZStack {

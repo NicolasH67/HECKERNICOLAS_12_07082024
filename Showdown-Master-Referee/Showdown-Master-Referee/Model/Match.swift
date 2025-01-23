@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Modèle représentant un match extrait de la base de données ou d'un backend, utilisé pour la gestion des données des matchs en cours.
 struct Match: Decodable {
     let id: Int
     let player_one: String

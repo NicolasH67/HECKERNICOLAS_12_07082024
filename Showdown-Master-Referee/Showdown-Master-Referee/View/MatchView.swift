@@ -6,17 +6,20 @@
 
 import SwiftUI
 
+/// View for displaying and controlling the match state, including scores, actions, and match progression.
 struct MatchView: View {
     @StateObject private var viewModel: MatchViewModel
     @Binding var path: NavigationPath
     var networkManager: NetworkManager?
 
+    /// Initializes the `MatchView` with a match model, optional network manager, and navigation path.
     init(matchModel: MatchModel, networkManager: NetworkManager? = nil, path: Binding<NavigationPath>) {
         self.networkManager = networkManager
         self._path = path
         _viewModel = StateObject(wrappedValue: MatchViewModel(matchModel: matchModel, networkManager: networkManager))
     }
 
+    /// Body of the view that displays players, score boxes, actions, and match buttons.
     var body: some View {
         ZStack {
             Color(.red)

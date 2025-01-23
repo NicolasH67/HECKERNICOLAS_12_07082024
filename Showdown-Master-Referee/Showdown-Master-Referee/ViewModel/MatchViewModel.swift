@@ -9,7 +9,9 @@ import Foundation
 import SwiftUI
 
 class MatchViewModel: ObservableObject {
+    
     // MARK: - Published Properties
+    
     @Published var matchModel: MatchModel
     @Published var matchStates: [MatchState] = []
     @Published var pointsPlayerOne = 0
@@ -39,12 +41,14 @@ class MatchViewModel: ObservableObject {
     @Published var coachNameToShow: String = ""
     var networkManager: NetworkManager?
 
-    // MARK: - Internal Properties
+    // MARK: - Properties
+    
     var onQuitCallback: (() -> Void)?
     var matchResult: [Int] = []
     var timer: Timer?
 
     // MARK: - Initializer
+    
     init(matchModel: MatchModel, networkManager: NetworkManager? = nil) {
         self.matchModel = matchModel
         self.networkManager = networkManager
@@ -52,17 +56,21 @@ class MatchViewModel: ObservableObject {
     }
 
     // MARK: - Private Methods
+    
+    /// Starts the countdown by displaying the countdown popup and initializing the timer.
     private func startCountdown() {
         self.showCountdownPopup = true
         startTimer()
     }
 
+    /// Stops the timer and resets the countdown time.
     private func stopTimer() {
         countdownTime = 60
         timer?.invalidate()
         timer = nil
     }
 
+    /// Starts a timer that updates the countdown time every second.
     private func startTimer() {
         guard timer == nil else { return }
 
@@ -78,6 +86,7 @@ class MatchViewModel: ObservableObject {
         }
     }
 
+    /// Updates the score of the players based on who scored and the points added.
     private func updateScore(isPlayerOne: Bool, points: Int) {
         if isPlayerOne {
             pointsPlayerOne += points
@@ -86,12 +95,14 @@ class MatchViewModel: ObservableObject {
         }
     }
 
+    /// Checks if a set is over based on the points scored and the required margin.
     private func isSetOver() -> Bool {
         let maxPoints = matchModel.numberOfPoints
         let pointsDifference = abs(pointsPlayerOne - pointsPlayerTwo)
         return (pointsPlayerOne >= maxPoints || pointsPlayerTwo >= maxPoints) && pointsDifference >= 2
     }
 
+    /// Updates the set state based on the scores and checks if the match is over.
     private func updateSetState() {
         if pointsPlayerOne > pointsPlayerTwo {
             setWinPlayerOne += 1
@@ -115,6 +126,7 @@ class MatchViewModel: ObservableObject {
         }
     }
 
+    /// Handles the side change based on the total points scored and the match conditions.
     private func handleChangeSide(totalPoints: Int) {
         let maxPoints = matchModel.numberOfPoints
         if changeSide == false && totalPoints >= ((maxPoints / 2) + 1) {
@@ -123,6 +135,7 @@ class MatchViewModel: ObservableObject {
         }
     }
 
+    /// Checks the set-end condition and updates the match state accordingly.
     private func checkSetEndCondition(isPlayerOneScored: Bool) {
         if (setWinPlayerOne + setWinPlayerTwo + 1) == matchModel.numberOfSet {
             let totalPoints = isPlayerOneScored ? pointsPlayerOne : pointsPlayerTwo
@@ -134,6 +147,7 @@ class MatchViewModel: ObservableObject {
         }
     }
 
+    /// Updates the match state by saving the current state and checking the set-end condition.
     private func updateMatchState(isPlayerOne: Bool, points: Int) {
         if matchIsOver || setIsOver { return }
         saveCurrentState()
@@ -141,6 +155,7 @@ class MatchViewModel: ObservableObject {
         checkSetEndCondition(isPlayerOneScored: isPlayerOne)
     }
 
+    /// Updates the service count for each player based on the number of services.
     private func updateServiceCounts(isPlayerOne: Bool) {
         if isPlayerOne {
             if numberOfServicePlayerOne == matchModel.numberOfService {
@@ -159,6 +174,7 @@ class MatchViewModel: ObservableObject {
         }
     }
 
+    /// Saves the current match state to track progress.
     private func saveCurrentState(warningMessage: String? = nil) {
         let currentState = MatchState(
             pointsPlayerOne: pointsPlayerOne,
@@ -175,6 +191,7 @@ class MatchViewModel: ObservableObject {
         matchStates.append(currentState)
     }
 
+    /// Resets all match-related data to prepare for a new match.
     private func resetMatchData() {
         pointsPlayerOne = 0
         pointsPlayerTwo = 0
@@ -189,6 +206,7 @@ class MatchViewModel: ObservableObject {
         countdownTime = 0
     }
 
+    /// Resets the set data and updates the match result for the previous set.
     private func resetSet() {
         if !setIsOver { return }
 
@@ -203,6 +221,7 @@ class MatchViewModel: ObservableObject {
         setIsOver.toggle()
     }
 
+    /// Updates the match result on the network with the current match data.
     private func updateMatchResult() {
         guard let tournamentId = matchModel.tournamentId,
               let matchId = matchModel.matchId,
@@ -235,25 +254,30 @@ class MatchViewModel: ObservableObject {
     
     // MARK: - Public Methods
     
+    /// Initializes the service counts for both players based on who serves first.
     func initializeServiceCounts() {
         self.numberOfServicePlayerOne = matchModel.playerOneFirstServe ? 1 : 0
         self.numberOfServicePlayerTwo = matchModel.playerOneFirstServe ? 0 : 1
     }
     
+    /// Updates the match state when a goal is scored by a player.
     func onGoal(isPlayerOneScored: Bool) {
         updateMatchState(isPlayerOne: isPlayerOneScored, points: 2)
     }
 
+    /// Updates the match state when a fault occurs, adjusting points accordingly.
     func onFault(isPlayerOneFault: Bool) {
         updateMatchState(isPlayerOne: !isPlayerOneFault, points: 1)
     }
 
+    /// Updates the service count for the player serving.
     func onServe() {
         if matchIsOver || setIsOver { return }
         saveCurrentState()
         updateServiceCounts(isPlayerOne: numberOfServicePlayerOne > 0)
     }
 
+    /// Undoes the last action by restoring the previous match state.
     func undoLastAction() {
         guard let lastState = matchStates.popLast() else { return }
 
@@ -268,6 +292,7 @@ class MatchViewModel: ObservableObject {
         changeSide = lastState.changeSide
     }
 
+    /// Displays a warning popup for the player, depending on which player triggered it.
     func showWarning(isPlayerOne: Bool) {
         if isPlayerOne {
             saveCurrentState(warningMessage: nil)
@@ -281,10 +306,12 @@ class MatchViewModel: ObservableObject {
         showWarningPopup = true
     }
 
+    /// Dismisses the warning popup.
     func dismissWarning() {
         showWarningPopup = false
     }
 
+    /// Handles the warning or penalty action based on the selected warning type.
     func onWarning(isPlayerOneWarning: Bool) {
         if selectedWarning == "Warning" {
             saveCurrentState()
@@ -296,31 +323,38 @@ class MatchViewModel: ObservableObject {
         }
     }
     
+    /// Stops the countdown and hides the countdown popup.
     func stopCountdown() {
         self.showCountdownPopup = false
         stopTimer()
     }
 
     // MARK: - ViewModel Actions
+    
+    /// Displays the coach alert and shows the selected player and coach names.
     func onPlayerTap(player: String, coach: String) {
         playerNameToShow = player
         coachNameToShow = coach
         coachShowAlert = true
     }
 
+    /// Undoes the last two actions by calling `undoLastAction` twice.
     func onCancelLastAction() {
         undoLastAction()
         undoLastAction()
     }
 
+    /// Starts the countdown timer when the chrono is started.
     func onStartChrono() {
         startCountdown()
     }
 
+    /// Resets the current set when the set ends.
     func onEndOfSet() {
         resetSet()
     }
 
+    /// Handles quitting the match, prompting an alert if the match is not over.
     func onQuitMatch() {
         if matchIsOver {
             if let onQuit = onQuitCallback {
@@ -331,18 +365,22 @@ class MatchViewModel: ObservableObject {
         }
     }
 
+    /// Confirms the match quit action and resets match data.
     func onConfirmQuit() {
         resetMatchData()
     }
 
+    /// Dismisses the countdown popup and stops the timer.
     func onDismissCountdown() {
         stopCountdown()
     }
 
+    /// Adds 5 seconds to the countdown time.
     func onMore5() {
         countdownTime += 5
     }
 
+    /// Adds 10 seconds to the countdown time.
     func onMore10() {
         countdownTime += 10
     }

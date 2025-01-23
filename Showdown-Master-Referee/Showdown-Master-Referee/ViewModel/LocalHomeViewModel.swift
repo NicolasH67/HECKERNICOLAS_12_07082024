@@ -9,6 +9,9 @@ import SwiftUI
 import Foundation
 
 class LocalHomeViewModel: ObservableObject {
+    
+    // MARK: - Published Properties
+    
     @Published var playerOneName = ""
     @Published var playerTwoName = ""
     @Published var coachPlayerOneName = ""
@@ -22,8 +25,13 @@ class LocalHomeViewModel: ObservableObject {
     @Published var isMatchModelReady = false
     @Published var matchModel: MatchModel?
     
+    // MARK: - Private Properties
+    
     private let bestOfOptions = ["Best of 1", "Best of 3", "Best of 5", "Team", "Custom"]
     
+    // MARK: - Methods
+    
+    /// Initializes and starts a match with provided details, setting up player, coach, and match parameters.
     func startMatch() {
         let playerOneServeChoice = (firstServeSelectedPicker == 0)
         

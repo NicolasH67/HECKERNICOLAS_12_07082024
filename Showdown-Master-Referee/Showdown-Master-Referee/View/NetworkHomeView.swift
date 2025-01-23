@@ -7,10 +7,12 @@
 
 import SwiftUI
 
+/// View displaying the home screen for setting up a network match with players and coaches.
 struct NetworkHomeView: View {
     @StateObject private var viewModel: NetworkHomeViewModel
     @Binding var path: NavigationPath
 
+    /// Initializes the `NetworkHomeView` with player names, match details, and navigation path.
     init(
         playerOneName: String,
         playerTwoName: String,
@@ -29,6 +31,7 @@ struct NetworkHomeView: View {
         self._path = path
     }
 
+    /// Body of the view that includes the layout of players, coaches, and match settings sections.
     var body: some View {
         NavigationStack(path: $path) {
             ZStack {

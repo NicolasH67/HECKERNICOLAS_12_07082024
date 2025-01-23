@@ -7,6 +7,21 @@
 
 import SwiftUI
 
+/// A view representing a player's action panel in a match.
+///
+/// This view provides controls for various player actions during a match, including serving, scoring a goal, committing a fault, starting a timeout, issuing a warning, and initializing the first serve. It also visually displays the current service status.
+///
+/// - Parameters:
+///   - `totalService`: The total number of services allowed.
+///   - `currentService`: The number of services completed so far.
+///   - `onGoal`: A closure triggered when the "Goal" button is pressed.
+///   - `onFault`: A closure triggered when the "Fault" button is pressed.
+///   - `onServe`: A closure triggered when a serve action occurs.
+///   - `startCountdown`: A closure triggered when the "TO" (Timeout) button is pressed.
+///   - `showWarning`: A closure triggered when the "P/W" (Penalty/Warning) button is pressed.
+///   - `initializeFirstServe`: A closure triggered to initialize the first serve state.
+///   - `timeOutButtonIsDisabled`: A `Binding` controlling whether the timeout button is enabled or disabled.
+///   - `matchIsOver`: A `State` indicating whether the match has concluded.
 struct PlayerActionView: View {
     var totalService: Int
     var currentService: Int

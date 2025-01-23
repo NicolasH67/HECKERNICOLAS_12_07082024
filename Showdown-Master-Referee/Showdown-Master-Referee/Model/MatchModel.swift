@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Modèle représentant un match de tennis, utilisé pour la gestion des données et la communication avec le backend.
 struct MatchModel: Codable, Hashable {
     let playerOne: String
     let playerTwo: String

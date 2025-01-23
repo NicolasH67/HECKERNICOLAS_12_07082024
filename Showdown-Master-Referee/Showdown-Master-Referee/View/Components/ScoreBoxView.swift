@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+/// A reusable view component for displaying a score with a title and value.
+/// This component is designed to adapt to different screen sizes by dynamically
+/// adjusting its font size and dimensions.
+///
+/// - Parameters:
+///   - `title`: A `String` representing the title of the score (e.g., "Score 1").
+///   - `value`: An `Int` representing the numeric value of the score.
 struct ScoreBoxView: View {
     var title: String
     var value: Int
@@ -47,12 +54,13 @@ struct ScoreBoxView: View {
         return min(screenWidth * 0.25, 40)
     }
 
-    // Hauteur fixe
     private func dynamicHeight() -> CGFloat {
         return 40
     }
 }
 
+/// A container view demonstrating how to use multiple `ScoreBoxView` components
+/// in a horizontal arrangement.
 struct ScoreBoxContainerView: View {
     var body: some View {
         HStack(spacing: 20) {

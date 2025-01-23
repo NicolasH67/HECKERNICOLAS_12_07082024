@@ -7,6 +7,26 @@
 
 import SwiftUI
 
+
+/// A view for configuring match parameters based on a "Best Of" format.
+///
+/// This view allows users to select a predefined "Best Of" format or customize the match settings such as:
+/// - Number of sets
+/// - Points per set
+/// - Number of services
+/// - Whether players change sides during the match.
+///
+/// - Parameters:
+///   - `bestOfSelectedPicker`: A `Binding` representing the selected index in the "Best Of" picker.
+///   - `numberOfSetInt`: A `Binding` representing the number of sets for the match.
+///   - `pointsPerSetInt`: A `Binding` representing the number of points required to win a set.
+///   - `numberOfServiceInt`: A `Binding` representing the number of services per player per turn.
+///   - `changeSide`: A `Binding` controlling whether players switch sides during the match.
+///
+/// - Features:
+///   - The picker provides predefined formats for "Best Of" (e.g., Best of 1, 3, 5).
+///   - A "Custom" option enables users to manually adjust match settings.
+///   - Dynamic UI behavior disables counters and toggles unless the "Custom" option is selected.
 struct BestOfView: View {
     @Binding var bestOfSelectedPicker: Int
     @Binding var numberOfSetInt: Int

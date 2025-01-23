@@ -8,12 +8,33 @@
 import Foundation
 import Alamofire
 
+/// Protocol defining the network service operations.
+/// These operations provide methods to fetch and update data from the network.
 protocol NetworkService {
+    /// Fetches data from a URL and decodes it into a specified type.
+    /// - Parameters:
+    ///   - url: The URL to fetch the data from.
+    ///   - headers: The HTTP headers to include in the request.
+    ///   - completion: A closure that will be called when the request completes, with the result being either success with the decoded data, or failure with an error.
     func fetch<T: Decodable>(from url: String, headers: HTTPHeaders, completion: @escaping (Result<T, Error>) -> Void)
+
+    /// Updates data at the specified URL with the given parameters.
+    /// - Parameters:
+    ///   - url: The URL to send the update request to.
+    ///   - parameters: The parameters to send with the request.
+    ///   - headers: The HTTP headers to include in the request.
+    ///   - completion: A closure that will be called when the request completes, indicating success or failure.
     func update(url: String, parameters: [String: Any], headers: HTTPHeaders, completion: @escaping (Result<Void, Error>) -> Void)
 }
 
+/// A network service implementation using Alamofire for performing HTTP requests.
 class AlamofireNetworkService: NetworkService {
+    /// Fetches data from a URL and decodes it into a specified type.
+    ///
+    /// - Parameters:
+    ///   - url: The URL to fetch the data from.
+    ///   - headers: The HTTP headers to include in the request.
+    ///   - completion: A closure that will be called when the request completes, with the result being either success with the decoded data, or failure with an error.
     func fetch<T: Decodable>(from url: String, headers: HTTPHeaders, completion: @escaping (Result<T, Error>) -> Void) {
         AF.request(url, headers: headers).responseDecodable(of: T.self) { response in
             switch response.result {
@@ -25,6 +46,13 @@ class AlamofireNetworkService: NetworkService {
         }
     }
 
+    /// Updates data at the specified URL with the given parameters.
+    ///
+    /// - Parameters:
+    ///   - url: The URL to send the update request to.
+    ///   - parameters: The parameters to send with the request.
+    ///   - headers: The HTTP headers to include in the request.
+    ///   - completion: A closure that will be called when the request completes, indicating success or failure.
     func update(url: String, parameters: [String: Any], headers: HTTPHeaders, completion: @escaping (Result<Void, Error>) -> Void) {
         AF.request(url, method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: headers).response { response in
             switch response.result {
@@ -41,19 +69,30 @@ class AlamofireNetworkService: NetworkService {
     }
 }
 
+/// Enum representing custom network errors for the `NetworkManager`.
 enum NetworkError: Error {
     case custom(String)
 }
 
+/// Manager responsible for handling network requests related to matches, using a `NetworkService` for network operations.
+/// - Provides functionality to fetch match details and update match results.
 class NetworkManager {
     private let networkService: NetworkService
     private let baseUrl = "https://wpjudvkeaiohzmijckyl.supabase.co/rest/v1"
-    private let apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwanVkdmtlYWlvaHptaWpja3lsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzIyODE3NzYsImV4cCI6MjA0Nzg1Nzc3Nn0.y7CBBrm8jNydpgEE2L6m6KRu1ilCq_I0O5HmjHBwRIM"
+    private let apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 
+    /// Initializes the `NetworkManager` with a custom `NetworkService` (default is `AlamofireNetworkService`).
+    /// - Parameter networkService: The network service used for network operations.
     init(networkService: NetworkService = AlamofireNetworkService()) {
         self.networkService = networkService
     }
 
+    /// Fetches match details based on the provided tournament and match IDs, and referee password.
+    /// - Parameters:
+    ///   - tournamentId: The ID of the tournament.
+    ///   - matchId: The ID of the match.
+    ///   - refereePassword: The referee's password to validate access.
+    ///   - completion: A closure that returns either the fetched match or an error.
     func fetchMatch(tournamentId: String, matchId: String, refereePassword: String, completion: @escaping (Result<Match, NetworkError>) -> Void) {
         guard !tournamentId.isEmpty else {
             completion(.failure(.custom("Tournament ID cannot be empty.")))
@@ -97,6 +136,13 @@ class NetworkManager {
         }
     }
 
+    /// Updates the result of a match based on the provided tournament and match IDs, results, and referee password.
+    /// - Parameters:
+    ///   - tournamentId: The ID of the tournament.
+    ///   - matchId: The ID of the match.
+    ///   - results: The results of the match.
+    ///   - refereePassword: The referee's password to validate the request.
+    ///   - completion: A closure that returns either success or an error.
     func updateMatchResult(tournamentId: String, matchId: String, results: [Int], refereePassword: String, completion: @escaping (Result<Void, NetworkError>) -> Void) {
         guard !tournamentId.isEmpty else {
             completion(.failure(.custom("Tournament ID cannot be empty.")))

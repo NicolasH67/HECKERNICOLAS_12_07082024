@@ -7,10 +7,12 @@
 
 import SwiftUI
 
+/// View for setting up a local match with player details, coaches, and match settings.
 struct LocalHomeView: View {
     @StateObject private var viewModel = LocalHomeViewModel()
     @Binding var path: NavigationPath
     
+    /// Body of the view displaying players, coaches, match settings, and a button to start the match.
     var body: some View {
         NavigationStack(path: $path) {
             ZStack {

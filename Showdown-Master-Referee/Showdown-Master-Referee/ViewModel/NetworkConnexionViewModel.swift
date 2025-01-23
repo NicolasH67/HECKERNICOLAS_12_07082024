@@ -8,6 +8,9 @@
 import SwiftUI
 
 class NetworkConnexionViewModel: ObservableObject {
+    
+    // MARK: - Published Properties
+    
     @Published var tournamentId: String = ""
     @Published var matchId: String = ""
     @Published var password: String = ""
@@ -19,16 +22,25 @@ class NetworkConnexionViewModel: ObservableObject {
     @Published var showPassword: Bool = false
     @Published var matchResult: [Int] = []
     @Published var showMatchResultPopup: Bool = false
+    
+    // MARK: - Properties
+    
     var networkManager: NetworkManager
+    
+    // MARK: - Initializer
     
     init(networkManager: NetworkManager) {
         self.networkManager = networkManager
     }
+    
+    // MARK: - Methods
 
+    /// Toggles the visibility of the password by changing the `showPassword` state.
     func togglePasswordVisibility() {
         showPassword.toggle()
     }
 
+    /// Fetches match details from the network and handles success or failure response.
     func fetchMatch() {
         networkManager.fetchMatch(
             tournamentId: tournamentId,
@@ -56,6 +68,7 @@ class NetworkConnexionViewModel: ObservableObject {
         }
     }
     
+    /// Dismisses the match result popup by setting `showMatchResultPopup` to false.
     func dismissMatchResult() {
         showMatchResultPopup = false
     }

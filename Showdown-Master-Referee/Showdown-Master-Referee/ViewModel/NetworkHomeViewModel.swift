@@ -8,6 +8,9 @@
 import SwiftUI
 
 class NetworkHomeViewModel: ObservableObject {
+    
+    // MARK: - Published Properties
+    
     @Published var coachPlayerOneName = ""
     @Published var coachPlayerTwoName = ""
     @Published var bestOfSelectedPicker = 0
@@ -18,14 +21,20 @@ class NetworkHomeViewModel: ObservableObject {
     @Published var firstServeSelectedPicker = 0
     @Published var isMatchModelReady = false
     @Published var matchModel: MatchModel?
+    
+    // MARK: - Properties
 
     var playerOneName: String
     var playerTwoName: String
     var matchId: String
     var tournamentId: String
     var refereePassword: String
+    
+    // MARK: - Private Properties
 
     private let bestOfOptions = ["Best of 1", "Best of 3", "Best of 5", "Team", "Custom"]
+    
+    // MARK: - Initializer
 
     init( playerOneName: String, playerTwoName: String, matchId: String, tournamentId: String, refereePassword: String) {
         self.playerOneName = playerOneName
@@ -34,7 +43,10 @@ class NetworkHomeViewModel: ObservableObject {
         self.tournamentId = tournamentId
         self.refereePassword = refereePassword
     }
+    
+    //MARK: - Methods
 
+    /// Initializes and starts a match with provided details, setting up player, coach, and match parameters.
     func startMatch() {
         let playerOneServeChoice = (firstServeSelectedPicker == 0)
 

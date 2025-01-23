@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Structure représentant l'état d'un match.
 struct MatchState {
     var pointsPlayerOne: Int
     let pointsPlayerTwo: Int

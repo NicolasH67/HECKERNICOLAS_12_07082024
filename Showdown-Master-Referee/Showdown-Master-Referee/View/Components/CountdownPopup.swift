@@ -7,6 +7,28 @@
 
 import SwiftUI
 
+/// A popup view displaying the countdown timer and match details.
+///
+/// This view provides functionalities such as:
+/// - Displaying the remaining countdown time.
+/// - Showing stats for two players, including scores, sets, and services.
+/// - Allowing the user to add more time to the countdown or dismiss the popup.
+///
+/// - Parameters:
+///   - `countdownTime`: A `Binding` to the remaining countdown time in seconds.
+///   - `playerOneName`: The name of Player 1.
+///   - `playerTwoName`: The name of Player 2.
+///   - `coachPlayerOneName`: The name of the coach for Player 1.
+///   - `coachPlayerTwoName`: The name of the coach for Player 2.
+///   - `playerOneScore`: The score of Player 1.
+///   - `playerTwoScore`: The score of Player 2.
+///   - `playerOneSets`: The number of sets won by Player 1.
+///   - `playerTwoSets`: The number of sets won by Player 2.
+///   - `playerOneService`: The number of services performed by Player 1.
+///   - `playerTwoService`: The number of services performed by Player 2.
+///   - `onDismiss`: A closure executed when the popup is dismissed.
+///   - `onMore5`: A closure executed when 5 seconds are added to the countdown.
+///   - `onMore10`: A closure executed when 10 seconds are added to the countdown.
 struct CountdownPopup: View {
     @Binding var countdownTime: Int
     var playerOneName: String

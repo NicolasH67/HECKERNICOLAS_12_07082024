@@ -6,6 +6,19 @@
 
 import SwiftUI
 
+/// Popup view for issuing a warning, penalty, or penalty related to glasses for a player.
+///
+/// This view allows the user to:
+/// - Select a warning or penalty option.
+/// - Enter a reason for the action.
+/// - Confirm or cancel the operation.
+///
+/// - Parameters:
+///   - `selectedOption`: A `Binding` to the currently selected option (e.g., "Warning", "Penalty").
+///   - `reasonText`: A `String` to capture the reason for the selected option (auto-populated for "Penalty (Glasses)").
+///   - `playerName`: A `String` representing the name of the player receiving the warning or penalty.
+///   - `onWarning`: A closure triggered when the user confirms the action.
+///   - `onDismiss`: A closure triggered when the user cancels the popup.
 struct WarningPopup: View {
     @Binding var selectedOption: String?
     @State private var reasonText: String = ""
@@ -13,6 +26,7 @@ struct WarningPopup: View {
     var onWarning: () -> Void
     var onDismiss: () -> Void
 
+    /// Body of the popup displaying a warning message, options to select, and a reason text field.
     var body: some View {
         ZStack {
             Color.red.opacity(0.3)
