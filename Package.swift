@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "Showdown-Master-Referee",
     platforms: [
-        .iOS(.v16)
+        .iOS(.v17)
     ],
     products: [
         .library(
@@ -18,11 +18,13 @@ let package = Package(
     targets: [
         .target(
             name: "Showdown-Master-Referee",
-            dependencies: ["Alamofire"]
+            dependencies: ["Alamofire"],
+            path: "App/SourceFiles"
         ),
         .testTarget(
             name: "Showdown-Master-RefereeTest",
-            dependencies: ["Showdown-Master-Referee"]
+            dependencies: ["Showdown-Master-Referee"],
+            path: "App/Tests"
         ),
     ]
 )
