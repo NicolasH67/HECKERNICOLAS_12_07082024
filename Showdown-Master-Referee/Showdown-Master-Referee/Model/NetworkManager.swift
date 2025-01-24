@@ -79,6 +79,7 @@ enum NetworkError: Error {
 /// - Provides functionality to fetch match details and update match results.
 class NetworkManager {
     private let networkService: NetworkService
+    private let config = Config()
 
     /// Initializes the `NetworkManager` with a custom `NetworkService` (default is `AlamofireNetworkService`).
     /// - Parameter networkService: The network service used for network operations.
@@ -108,10 +109,10 @@ class NetworkManager {
             return
         }
 
-        let url = "\(Config.baseUrl)/matchs?tournament_id=eq.\(tournamentId)&match_id=eq.\(matchId)&apikey=\(Config.apiKey)"
+        let url = "\(config.baseUrl)/matchs?tournament_id=eq.\(tournamentId)&match_id=eq.\(matchId)&apikey=\(config.apiKey)"
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(Config.apiKey)",
-            "apikey": Config.apiKey,
+            "Authorization": "Bearer \(config.apiKey)",
+            "apikey": config.apiKey,
             "Content-Type": "application/json"
         ]
 
@@ -163,10 +164,10 @@ class NetworkManager {
             return
         }
 
-        let url = "\(Config.baseUrl)/matchs?match_id=eq.\(matchId)&tournament_id=eq.\(tournamentId)"
+        let url = "\(config.baseUrl)/matchs?match_id=eq.\(matchId)&tournament_id=eq.\(tournamentId)"
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(Config.apiKey)",
-            "apikey": Config.apiKey,
+            "Authorization": "Bearer \(config.apiKey)",
+            "apikey": config.apiKey,
             "Content-Type": "application/json"
         ]
         let parameters: [String: Any] = [
