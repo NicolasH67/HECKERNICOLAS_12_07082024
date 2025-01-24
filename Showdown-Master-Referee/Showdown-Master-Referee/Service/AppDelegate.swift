@@ -8,7 +8,11 @@
 import UIKit
 import FirebaseCore
 
+/// AppDelegate class conforms to the UIApplicationDelegate protocol, allowing it to handle application lifecycle events.
 class AppDelegate: NSObject, UIApplicationDelegate {
+    
+    /// This method is called when the application has finished launching.
+    /// It initializes Firebase and sets up a global tap gesture to dismiss the keyboard.
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         FirebaseApp.configure()
 
