@@ -13,6 +13,9 @@
 		704398F82D42A4A4000EF458 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 704398F72D42A4A4000EF458 /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		704398FA2D42A4A4000EF458 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 704398F92D42A4A4000EF458 /* FirebaseAppCheck */; };
 		704398FC2D42A4A4000EF458 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 704398FB2D42A4A4000EF458 /* FirebaseAppDistribution-Beta */; };
+		704399082D43DEA5000EF458 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704399042D43DEA5000EF458 /* AppDelegate.swift */; };
+		704399092D43DEA5000EF458 /* DismissKeyboards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704399052D43DEA5000EF458 /* DismissKeyboards.swift */; };
+		7043990A2D43DEA5000EF458 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704399062D43DEA5000EF458 /* SceneDelegate.swift */; };
 		706B51B32D06E3CD001B40ED /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 706B51B22D06E3CD001B40ED /* Alamofire */; };
 		70A9EB132D2E8A6200494719 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAF12D2E8A6200494719 /* Match.swift */; };
 		70A9EB142D2E8A6200494719 /* MatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9EAF22D2E8A6200494719 /* MatchModel.swift */; };
@@ -53,6 +56,9 @@
 
 /* Begin PBXFileReference section */
 		704398F02D42A476000EF458 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		704399042D43DEA5000EF458 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		704399052D43DEA5000EF458 /* DismissKeyboards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissKeyboards.swift; sourceTree = "<group>"; };
+		704399062D43DEA5000EF458 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		707E53272D2040B4005E6B3F /* Showdown-Master-RefereeTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Showdown-Master-RefereeTest.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		70A9EAF12D2E8A6200494719 /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
 		70A9EAF22D2E8A6200494719 /* MatchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchModel.swift; sourceTree = "<group>"; };
@@ -140,6 +146,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		704399072D43DEA5000EF458 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				704399042D43DEA5000EF458 /* AppDelegate.swift */,
+				704399052D43DEA5000EF458 /* DismissKeyboards.swift */,
+				704399062D43DEA5000EF458 /* SceneDelegate.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		70A9EAF52D2E8A6200494719 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -198,6 +214,7 @@
 				70A9EB092D2E8A6200494719 /* View */,
 				70A9EB0E2D2E8A6200494719 /* ViewModel */,
 				70CD69492D37D59000BA24EB /* Preview Content */,
+				704399072D43DEA5000EF458 /* Service */,
 				70A9EB0F2D2E8A6200494719 /* Assets.xcassets */,
 				704398F02D42A476000EF458 /* GoogleService-Info.plist */,
 				70A9EB102D2E8A6200494719 /* ContentView.swift */,
@@ -367,6 +384,9 @@
 				70A9EB222D2E8A6200494719 /* LocalHomeView.swift in Sources */,
 				70A9EB232D2E8A6200494719 /* MatchView.swift in Sources */,
 				70A9EB242D2E8A6200494719 /* NetworkConnexionView.swift in Sources */,
+				704399082D43DEA5000EF458 /* AppDelegate.swift in Sources */,
+				704399092D43DEA5000EF458 /* DismissKeyboards.swift in Sources */,
+				7043990A2D43DEA5000EF458 /* SceneDelegate.swift in Sources */,
 				70A9EB252D2E8A6200494719 /* NetworkHomeView.swift in Sources */,
 				70A9EB262D2E8A6200494719 /* LocalHomeViewModel.swift in Sources */,
 				70A9EB272D2E8A6200494719 /* MatchViewModel.swift in Sources */,
