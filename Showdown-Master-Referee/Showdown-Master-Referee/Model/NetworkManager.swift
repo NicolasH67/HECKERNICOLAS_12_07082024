@@ -36,6 +36,7 @@ class AlamofireNetworkService: NetworkService {
     ///   - headers: The HTTP headers to include in the request.
     ///   - completion: A closure that will be called when the request completes, with the result being either success with the decoded data, or failure with an error.
     func fetch<T: Decodable>(from url: String, headers: HTTPHeaders, completion: @escaping (Result<T, Error>) -> Void) {
+        print(url)
         AF.request(url, headers: headers).responseDecodable(of: T.self) { response in
             switch response.result {
             case .success(let data):
@@ -78,8 +79,6 @@ enum NetworkError: Error {
 /// - Provides functionality to fetch match details and update match results.
 class NetworkManager {
     private let networkService: NetworkService
-    private let baseUrl = "https://wpjudvkeaiohzmijckyl.supabase.co/rest/v1"
-    private let apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 
     /// Initializes the `NetworkManager` with a custom `NetworkService` (default is `AlamofireNetworkService`).
     /// - Parameter networkService: The network service used for network operations.
@@ -109,10 +108,10 @@ class NetworkManager {
             return
         }
 
-        let url = "\(baseUrl)/matchs?tournament_id=eq.\(tournamentId)&match_id=eq.\(matchId)&apikey=\(apiKey)"
+        let url = "\(Config.baseUrl)/matchs?tournament_id=eq.\(tournamentId)&match_id=eq.\(matchId)&apikey=\(Config.apiKey)"
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(apiKey)",
-            "apikey": apiKey,
+            "Authorization": "Bearer \(Config.apiKey)",
+            "apikey": Config.apiKey,
             "Content-Type": "application/json"
         ]
 
@@ -164,10 +163,10 @@ class NetworkManager {
             return
         }
 
-        let url = "\(baseUrl)/matchs?match_id=eq.\(matchId)&tournament_id=eq.\(tournamentId)"
+        let url = "\(Config.baseUrl)/matchs?match_id=eq.\(matchId)&tournament_id=eq.\(tournamentId)"
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(apiKey)",
-            "apikey": apiKey,
+            "Authorization": "Bearer \(Config.apiKey)",
+            "apikey": Config.apiKey,
             "Content-Type": "application/json"
         ]
         let parameters: [String: Any] = [
