@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAnalytics
 
 /// A custom button used to start the game. It displays a gradient background with a play icon
 /// and a label indicating "Start Game". The button has an action closure that is triggered
@@ -21,7 +22,13 @@ struct StartGameButton: View {
     let action: () -> Void
     
     var body: some View {
-        Button(action: action) {
+        Button(action: {
+            Analytics.logEvent(
+                "start_game_button_clicked",
+                parameters: ["timestamp": Date().timeIntervalSince1970]
+            )
+            action()
+        }) {
             ZStack {
                 LinearGradient(
                     colors: [Color("Deep Purple"), Color("Raspberry Pink")],
