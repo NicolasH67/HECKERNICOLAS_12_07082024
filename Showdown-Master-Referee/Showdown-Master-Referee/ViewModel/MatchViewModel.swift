@@ -226,10 +226,10 @@ class MatchViewModel: ObservableObject {
         guard let tournamentId = matchModel.tournamentId,
               let matchId = matchModel.matchId,
               let refereePassword = matchModel.refereePassword else {
-            alertMessageNetwork = "Missing required data for network match."
-            showAlertNetwork = true
-            return
-        }
+                alertMessageNetwork = "Missing required data for network match."
+                showAlertNetwork = true
+                return
+            }
         
         guard let networkManagerUnwrapped = networkManager else { return }
 
