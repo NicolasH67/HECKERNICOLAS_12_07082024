@@ -59,6 +59,8 @@ class MatchViewModel: ObservableObject {
     
     /// Starts the countdown by displaying the countdown popup and initializing the timer.
     private func startCountdown() {
+        saveCurrentState()
+        saveCurrentState()
         self.showCountdownPopup = true
         startTimer()
     }
@@ -186,7 +188,9 @@ class MatchViewModel: ObservableObject {
             isPlayerOneServe: isPlayerOneServe,
             matchIsOver: matchIsOver,
             changeSide: changeSide,
-            warningMessage: warningMessage
+            warningMessage: warningMessage,
+            timeOutPlayerOne: timeOutButtonIsDisabledPlayerOne,
+            timeOutPlayerTwo: timeOutButtonIsDisabledPlayerTwo
         )
         matchStates.append(currentState)
     }
@@ -290,6 +294,8 @@ class MatchViewModel: ObservableObject {
         isPlayerOneServe = lastState.isPlayerOneServe
         matchIsOver = lastState.matchIsOver
         changeSide = lastState.changeSide
+        timeOutButtonIsDisabledPlayerOne = lastState.timeOutPlayerOne
+        timeOutButtonIsDisabledPlayerTwo = lastState.timeOutPlayerTwo
     }
 
     /// Displays a warning popup for the player, depending on which player triggered it.

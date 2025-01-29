@@ -13,10 +13,12 @@ struct MatchState {
     let pointsPlayerTwo: Int
     let setWinPlayerOne: Int
     let setWinPlayerTwo: Int
-    var numberOfServicePlayerOne: Int
-    var numberOfServicePlayerTwo: Int
+    let numberOfServicePlayerOne: Int
+    let numberOfServicePlayerTwo: Int
     let isPlayerOneServe: Bool
     let matchIsOver: Bool
     let changeSide: Bool
-    var warningMessage: String?
+    let warningMessage: String?
+    let timeOutPlayerOne: Bool
+    let timeOutPlayerTwo: Bool
 }
