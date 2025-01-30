@@ -50,13 +50,11 @@ struct BestOfView: View {
             .pickerStyle(.segmented)
             .padding()
 
-            // Compteurs pour les sets, points par set et services
             VStack(spacing: 0) {
                 counterView(title: "Number of Sets", value: $numberOfSetInt, step: 2, isDisabled: bestOfSelectedPicker != 4)
                 counterView(title: "Points per Set", value: $pointsPerSetInt, step: 2, isDisabled: bestOfSelectedPicker != 4)
                 counterView(title: "Number of Service", value: $numberOfServiceInt, step: 1, isDisabled: bestOfSelectedPicker != 4)
 
-                // Toggle pour changer de côté
                 HStack {
                     Text("Change Side")
                         .font(.headline)
