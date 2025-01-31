@@ -150,23 +150,23 @@ struct MatchView: View {
             )
         }
         .sheet(isPresented: $viewModel.showCountdownPopup, onDismiss: viewModel.stopCountdown) {
-                    CountdownPopup(
-                        countdownTime: $viewModel.countdownTime,
-                        playerOneName: viewModel.matchModel.playerOne,
-                        playerTwoName: viewModel.matchModel.playerTwo,
-                        coachPlayerOneName: viewModel.matchModel.coachPlayerOne,
-                        coachPlayerTwoName: viewModel.matchModel.coachPlayerTwo,
-                        playerOneScore: viewModel.pointsPlayerOne,
-                        playerTwoScore: viewModel.pointsPlayerTwo,
-                        playerOneSets: viewModel.setWinPlayerOne,
-                        playerTwoSets: viewModel.setWinPlayerTwo,
-                        playerOneService: viewModel.numberOfServicePlayerOne,
-                        playerTwoService: viewModel.numberOfServicePlayerTwo,
-                        onDismiss: viewModel.stopCountdown,
-                        onMore5: viewModel.onMore5,
-                        onMore10: viewModel.onMore10
-                    )
-                }
+            CountdownPopup(
+                countdownTime: $viewModel.countdownTime,
+                playerOneName: viewModel.matchModel.playerOne,
+                playerTwoName: viewModel.matchModel.playerTwo,
+                coachPlayerOneName: viewModel.matchModel.coachPlayerOne,
+                coachPlayerTwoName: viewModel.matchModel.coachPlayerTwo,
+                playerOneScore: viewModel.pointsPlayerOne,
+                playerTwoScore: viewModel.pointsPlayerTwo,
+                playerOneSets: viewModel.setWinPlayerOne,
+                playerTwoSets: viewModel.setWinPlayerTwo,
+                playerOneService: viewModel.numberOfServicePlayerOne,
+                playerTwoService: viewModel.numberOfServicePlayerTwo,
+                onDismiss: viewModel.stopCountdown,
+                onMore5: viewModel.onMore5,
+                onMore10: viewModel.onMore10
+            )
+        }
         .alert("Match in Progress", isPresented: $viewModel.showAlert) {
             Button("Quit", role: .destructive) {
                 path.removeLast(path.count)
