@@ -131,8 +131,8 @@ class MatchViewModel: ObservableObject {
     /// Handles the side change based on the total points scored and the match conditions.
     private func handleChangeSide(totalPoints: Int) {
         let maxPoints = matchModel.numberOfPoints
-        if changeSide == false && totalPoints >= ((maxPoints / 2) + 1) {
-            changeSide = true
+        if changeSide == true && totalPoints >= ((maxPoints / 2) + 1) {
+            changeSide = false
             startCountdown()
         }
     }
@@ -260,6 +260,7 @@ class MatchViewModel: ObservableObject {
     
     /// Initializes the service counts for both players based on who serves first.
     func initializeServiceCounts() {
+        changeSide = matchModel.changeSide
         self.numberOfServicePlayerOne = matchModel.playerOneFirstServe ? 1 : 0
         self.numberOfServicePlayerTwo = matchModel.playerOneFirstServe ? 0 : 1
     }

@@ -61,6 +61,23 @@ struct MatchViewModelTest {
         refereePassword: "referee"
     )
     
+    let match4 = MatchModel(
+        playerOne: "Player One",
+        playerTwo: "Player Two",
+        coachPlayerOne: "Coach One",
+        coachPlayerTwo: "Coach Two",
+        numberOfService: 2,
+        numberOfPoints: 11,
+        numberOfSet: 1,
+        bestOf: "Best of 1",
+        playerOneFirstServe: false,
+        changeSide: false,
+        isNetworkMatch: false,
+        matchId: nil,
+        tournamentId: nil,
+        refereePassword: nil
+    )
+    
     @Test("When Player One scores a goal, their points are updated correctly")
     func whenPlayerOneScoresGoal_thenPointsAreUpdatedCorrectly() {
         let viewModel = MatchViewModel(matchModel: match1)
@@ -342,7 +359,7 @@ struct MatchViewModelTest {
         
         viewModel.onGoal(isPlayerOneScored: true)
         
-        #expect(viewModel.changeSide == true)
+        #expect(viewModel.changeSide == false)
     }
     
     @Test("When match is over, onServe does not change service count")
@@ -638,5 +655,18 @@ struct MatchViewModelTest {
         viewModel.onQuitMatch()
         
         #expect(isQuitCalled)
+    }
+    
+    @Test("When player one scores, changeSide should remain false if conditions are not met")
+    func whenPlayerOneScores_changeSideShouldRemainFalseIfConditionsNotMet() {
+        let viewModel = MatchViewModel(matchModel: match4)
+        
+        viewModel.pointsPlayerOne = 4
+        viewModel.pointsPlayerTwo = 0
+        
+        viewModel.onGoal(isPlayerOneScored: true)
+        
+        let expectedChangeSide = false
+        #expect(viewModel.changeSide == expectedChangeSide)
     }
 }
