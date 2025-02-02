@@ -31,7 +31,7 @@ struct PlayerActionView: View {
     var startCountdown: () -> Void
     var showWarning: () -> Void
     var initializeFirstServe : () -> Void
-    let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+    let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
     @Binding var timeOutButtonIsDisabled: Bool
     @State var matchIsOver: Bool
     
@@ -39,6 +39,7 @@ struct PlayerActionView: View {
         VStack(spacing: 10) {
             HStack(spacing: 2) {
                 Button(action: {
+                    impactFeedback.impactOccurred()
                     showWarning()
                 }) {
                     Text("P/W")
@@ -50,6 +51,7 @@ struct PlayerActionView: View {
                 }
                 
                 Button(action: {
+                    impactFeedback.impactOccurred()
                     startCountdown()
                     timeOutButtonIsDisabled = true
                 }) {

@@ -11,6 +11,7 @@ struct MatchView: View {
     @StateObject private var viewModel: MatchViewModel
     @Binding var path: NavigationPath
     var networkManager: NetworkManager?
+    let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
 
     /// Initializes the `MatchView` with a match model, optional network manager, and navigation path.
     init(matchModel: MatchModel, networkManager: NetworkManager? = nil, path: Binding<NavigationPath>) {
@@ -90,7 +91,10 @@ struct MatchView: View {
                 
                 ScrollView {
                     VStack(spacing: 10) {
-                        Button(action: viewModel.onCancelLastAction) {
+                        Button(action: {
+                            impactFeedback.impactOccurred()
+                            viewModel.onCancelLastAction()
+                        }) {
                             Text("Cancel Last")
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity)
@@ -99,7 +103,10 @@ struct MatchView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
-                        Button(action: viewModel.onStartChrono) {
+                        Button(action: {
+                            impactFeedback.impactOccurred()
+                            viewModel.onStartChrono()
+                        }) {
                             Text("Start Chrono")
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity)
@@ -108,7 +115,10 @@ struct MatchView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
-                        Button(action: viewModel.onEndOfSet) {
+                        Button(action: {
+                            impactFeedback.impactOccurred()
+                            viewModel.onEndOfSet()
+                        }) {
                             Text("End of Set")
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity)
@@ -117,7 +127,10 @@ struct MatchView: View {
                                 .foregroundColor(Color.white)
                                 .cornerRadius(10)
                         }
-                        Button(action: viewModel.onQuitMatch) {
+                        Button(action: {
+                            impactFeedback.impactOccurred()
+                            viewModel.onQuitMatch()
+                        }) {
                             Text("Quit Match")
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity)
