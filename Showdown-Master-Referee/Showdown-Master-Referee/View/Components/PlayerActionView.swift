@@ -31,6 +31,7 @@ struct PlayerActionView: View {
     var startCountdown: () -> Void
     var showWarning: () -> Void
     var initializeFirstServe : () -> Void
+    let impactFeedback = UIImpactFeedbackGenerator(style: .light)
     @Binding var timeOutButtonIsDisabled: Bool
     @State var matchIsOver: Bool
     
@@ -79,6 +80,7 @@ struct PlayerActionView: View {
             }
             
             Button(action: {
+                impactFeedback.impactOccurred()
                 onServe()
                 onGoal()
             }) {
@@ -93,6 +95,7 @@ struct PlayerActionView: View {
             .disabled(matchIsOver)
             
             Button(action: {
+                impactFeedback.impactOccurred()
                 onServe()
                 onFault()
             }) {
